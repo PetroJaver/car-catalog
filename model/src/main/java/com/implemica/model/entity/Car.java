@@ -19,6 +19,9 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "image_name",nullable = false)
+    private String imageName;
+
     @Column(nullable = false, length = 20)
     private String brand;
 
