@@ -74,7 +74,7 @@ public class CarServiceImpl implements CarService{
         Car car = new Car();
 
         SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("dd-mm-yyyy");
+        format.applyPattern("yyyy");
 
         car.setBrand(carDto.getBrand());
         car.setBodyType(carDto.getBodyType());

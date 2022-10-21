@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.List;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class Controller {
 
@@ -43,7 +44,7 @@ public class Controller {
     }
 
     @GetMapping(value = "/cars")
-    public ResponseEntity<List<Car>> read() throws IOException{
+    public ResponseEntity<List<Car>> read(){
         final List<Car> cars = carService.findAll();
 
         return cars != null &&  !cars.isEmpty()
@@ -52,13 +53,14 @@ public class Controller {
     }
 
     @GetMapping(value = "/cars/{id}")
-    public ResponseEntity<Car> read(@PathVariable(name = "id") long id) throws IOException {
+    public ResponseEntity<Car> read(@PathVariable(name = "id") long id){
         final Car car = carService.findCarById(id);
 
         return car != null
                 ? new ResponseEntity<>(car, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
     @PutMapping(value = "/cars/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") int id, @ModelAttribute() CarDto carDto) throws IOException,ParseException{
@@ -82,6 +84,7 @@ public class Controller {
             value = "/car/image/{id}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
+
     public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") long id) throws IOException {
         String imageName = imagesPath + "/" + carService.findCarById(id).getImageName();
 
