@@ -1,0 +1,24 @@
+<div class = "container-fluid" style="padding: 2% 8%">
+  <div class="container text-center w-100 mb-4" style="font-family: 'Luckiest Guy', cursive;">
+    <h1>catalog</h1>
+  </div>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="col"  *ngFor="let car of cars$ | async">
+      <div class="card h-100 rounded-4 text-bg-dark box-shadow ">
+        <div class="p-3 text-center card-img-top" style="width: 100%; display: block;">
+          <img style="max-width: 100%;" [src]="'http://localhost:8080/car/image/' + car.id">
+        </div>
+        <div class="card-body">
+          <p class="card-text"><span>{{car.brand}}</span></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
