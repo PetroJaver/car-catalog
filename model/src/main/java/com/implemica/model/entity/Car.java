@@ -19,19 +19,21 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "image_name",nullable = false)
+    @Column(name = "image_name", nullable = false)
     private String imageName;
 
     @Column(nullable = false, length = 20)
     private String brand;
+
+    @Column(nullable = false, length = 40)
+    private String model;
 
     @Column(name = "body_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private CarsBodyType bodyType;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private java.util.Date year;
+    private Integer year;
 
     @Column(name = "transmission_type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,6 +44,9 @@ public class Car {
 
     @Column(length = 10000, nullable = false)
     private String description;
+
+    @Column(name = "short_description", nullable = false)
+    private String shortDescription;
 
     @ElementCollection
     @Column(name = "options_list", nullable = false)

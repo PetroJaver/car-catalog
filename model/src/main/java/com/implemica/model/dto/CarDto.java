@@ -13,13 +13,17 @@ public class CarDto {
 
     private String brand;
 
+    private String model;
+
     private CarsBodyType bodyType;
 
-    private String year;
+    private Integer year;
 
     private CarTransmissionType transmissionType;
 
     private double engineSize;
+
+    private String shortDescription;
 
     private String description;
 

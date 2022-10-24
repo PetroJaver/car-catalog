@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,10 +34,10 @@ public class CarServiceImpl implements CarService{
             deleteImage(imageName);
 
             carRepository.deleteById(id);
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     @Override
@@ -55,7 +54,7 @@ public class CarServiceImpl implements CarService{
 
 
     @Override
-    public boolean update(CarDto carDto, long id) throws IOException,ParseException{
+    public boolean update(CarDto carDto, long id) throws IOException{
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
             deleteImage(imageName);
@@ -70,20 +69,19 @@ public class CarServiceImpl implements CarService{
         return false;
     }
 
-    private Car getCarFromCarDto(CarDto carDto, String imageName) throws ParseException{
+    private Car getCarFromCarDto(CarDto carDto, String imageName){
         Car car = new Car();
-
-        SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("yyyy");
 
         car.setBrand(carDto.getBrand());
         car.setBodyType(carDto.getBodyType());
-        car.setYear(format.parse(carDto.getYear()));
+        car.setYear(carDto.getYear());
         car.setTransmissionType(carDto.getTransmissionType());
         car.setEngineSize(carDto.getEngineSize());
         car.setDescription(carDto.getDescription());
         car.setOptionsList(carDto.getOptionsList());
         car.setImageName(imageName);
+        car.setShortDescription(carDto.getShortDescription());
+        car.setModel(carDto.getModel());
 
         return car;
     }
