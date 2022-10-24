@@ -1,0 +1,12 @@
+<div class="container-fluid" style="padding: 2% 8%">
+  <div class="container text-center w-100 mb-4" style="font-family: 'Luckiest Guy', cursive;">
+    <h1>Details</h1>
+  </div>
+
+  <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5">
+    <div class="p-3 text-center img-top" style=" display: block;">
+      <img style="max-width: 100%;" [src]="'http://localhost:8080/car/image/' + car.id"  [routerLink]="['details', car.id]">
+    </div>
+
+  </div>
+</div>

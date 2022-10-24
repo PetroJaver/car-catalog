@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #00FEFE;
+  box-shadow: 0 0 0 0.25rem rgb(0 254 254/50%);
+}
+
+.btn-success.focus, .btn-success:focus {
+  box-shadow: 0 0 0 0.2rem rgba(58, 209, 110, 0.6);
+}
+
+.form-control.is-valid:focus, .was-validated .form-control:valid:focus {
+  border-color: #0EEA28;
+  box-shadow: 0 0 0 0.25rem rgb(14 234 40 / 60%);
+}
+
+.form-control.is-valid, .was-validated .form-control:valid {
+  border-color: #0EEA28;
+}
+
+
+.form-control.is-invalid:focus, .was-validated .form-control:invalid:focus {
+  border-color: #E30A04;
+  box-shadow: 0 0 0 0.25rem rgb(227 10 47 / 60%);
+}
+
+.form-control.is-invalid, .was-invalidated .form-control:invalid {
+  border-color: #E30A04;
+}
+
+.form-select.is-valid:focus, .was-validated .form-select:valid:focus {
+  border-color: #0EEA28;
+  box-shadow: 0 0 0 0.25rem rgb(14 234 40 / 60%);
+}
+
+.form-select.is-valid, .was-validated .form-select:valid {
+  border-color: #0EEA28;
+}
+
+
+.form-select.is-invalid:focus, .was-validated .form-select:invalid:focus {
+  border-color: #E30A04;
+  box-shadow: 0 0 0 0.25rem rgb(227 10 47 / 60%);
+}
+
+.form-select.is-invalid, .was-invalidated .form-select:invalid {
+  border-color: #E30A04;
+}
+
+.form-select:focus {
+  border-color: #00FEFE;
+  box-shadow: 0 0 0 0.25rem rgb(0 254 254/50%);
+}
+

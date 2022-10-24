@@ -1,11 +1,11 @@
-<div style="min-height: 100vh;display: flex;flex-direction: column">
-  <div style="flex: 1">
+<div style="min-height: 100vh;display: flex;flex-direction: column;width:100%">
+  <div style="flex: 1;width:100%">
     <!-- NAVBAR-->
-    <nav class="navbar navbar-expand-lg py-1 navbar-dark bg-dark shadow-sm">
-      <div class="container pl-1">
-        <a href="#" class="navbar-brand">
+    <nav class="navbar navbar-expand-lg py-1 navbar-dark text-bg-dark shadow-sm">
+      <div class="container-fluid pl-1">
+        <a class="navbar-brand">
           <!-- Logo Image -->
-          <img src="../assets/logo.png" he alt="" class="d-inline-block align-middle mr-5">
+          <img src="../assets/logo.png" routerLink="/" class="d-inline-block align-middle mr-5">
           <!-- Logo Text -->
           <span class="text-uppercase font-weight-bold">Car-catalog</span>
         </a>
@@ -14,14 +14,14 @@
 
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="#" class="nav-link" >Add car<span class="sr-only">(current)</span></a></li>
+            <li class="nav-item"><a routerLink="add" class="nav-link" >Add car<span class="sr-only">(current)</span></a></li>
             <li class="nav-item" ><a href="#" class="nav-link">Log in</a></li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <app-album-car></app-album-car>
+    <router-outlet></router-outlet>
 
   </div>
 

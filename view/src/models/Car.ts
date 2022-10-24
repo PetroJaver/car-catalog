@@ -4,9 +4,9 @@ export class  Car{
   imageName:string;
   brand:string;
   bodyType:string;
-  year:string;
+  year:number;
   transmissionType:string;
   engineSize:number;
   description:string;
-  optionalList:string[];
+  optionsList:string[];
 }
