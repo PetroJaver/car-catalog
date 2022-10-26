@@ -1,21 +1,22 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import { AlbumCarComponent } from './album-car/album-car.component';
-import { CarDetailsComponent } from './car-details/car-details.component';
+import {AlbumCarComponent} from './album-car/album-car.component';
+import {CarDetailsComponent} from './car-details/car-details.component';
 import {RouterModule} from "@angular/router";
-import { AddCarComponent } from './add-car/add-car.component';
+import {AddCarComponent} from './add-car/add-car.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-
+import {EditCarComponent} from './edit-car/edit-car.component';
 
 const routes = [
-  {path: '',component: AlbumCarComponent},
-  {path: 'details/:id',component: CarDetailsComponent},
-  {path: 'add',component: AddCarComponent}
+  {path: '', component: AlbumCarComponent},
+  {path: 'details/:id', component: CarDetailsComponent},
+  {path: 'add', component: AddCarComponent},
+  {path: 'edit/:id', component: EditCarComponent}
 ]
 
 @NgModule({
@@ -23,7 +24,8 @@ const routes = [
     AppComponent,
     AlbumCarComponent,
     CarDetailsComponent,
-    AddCarComponent
+    AddCarComponent,
+    EditCarComponent
   ],
   imports: [
     BrowserModule,
@@ -33,9 +35,9 @@ const routes = [
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({closeButton:true})
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule{}

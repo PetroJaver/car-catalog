@@ -1,0 +1,295 @@
+<!--<div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5">
+  <form class="row g-3" [formGroup]="carForm" (ngSubmit)="onSubmit()">
+    <div class="col-5">
+      <input type="text" class="form-control" id="inputbrand"
+             [ngClass]="{'is-valid':brand?.valid,'is-invalid':brand?.invalid&&brand?.dirty}" formControlName="brand"
+             placeholder="Brand">
+      <div class="invalid-feedback">
+        <span>Brand should be: </span>
+        <span *ngIf="brand?.errors?.['required']">fill</span>
+        <span *ngIf="brand?.errors?.['minlength']">min length 2</span>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <input type="text" class="form-control" id="inputModel"
+             [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}" formControlName="model"
+             placeholder="Model">
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        Looks bad!
+      </div>
+    </div>
+
+    <div class="col-2">
+      <input type="number" step="0.1" class="form-control" id="inputEngine"
+             [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
+             placeholder="Engine size" formControlName="engineSize">
+    </div>
+
+    <div class="col-4">
+      <input type="number" class="form-control" id="inputYear"
+             [ngClass]="{'is-valid':year?.valid,'is-invalid':year?.invalid&&year?.dirty}" formControlName="year"
+             placeholder="Year">
+    </div>
+
+    <div class="col-2">
+      <select class="form-select" aria-label=".form-select-lg example"
+              [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
+              formControlName="bodyType">
+        <option selected value="">Select body type</option>
+        <option *ngFor="let bodyType of bodyTypes | keyvalue" value="{{bodyType.key}}">{{bodyType.value}}</option>
+      </select>
+    </div>
+
+    <div class="col-2">
+      <select class="form-select" aria-label=".form-select example"
+              [ngClass]="{'is-valid':transmissionType?.valid,'is-invalid':transmissionType?.invalid&&transmissionType?.dirty}"
+              formControlName="transmissionType">
+        <option selected value="">Select transmission type</option>
+        <option *ngFor="let transmissionType of transmissionTypes | keyvalue"
+                [value]="transmissionType.key">{{transmissionType.value}}</option>
+      </select>
+    </div>
+
+    <div class="col-4">
+      <input class="form-control" type="file" id="image" multiple=""
+             [ngClass]="{'is-valid':file?.valid,'is-invalid':file?.invalid&&file?.dirty}" formControlName="file"
+             (change)="uploadFile($event)" placeholder="Image">
+    </div>
+
+    <div class="col-12">
+      <label for="description" class="form-label">Description:</label>
+      <textarea class="form-control" id="description" rows="3"
+                [ngClass]="{'is-valid':description?.valid,'is-invalid':description?.invalid&&description?.dirty}"
+                formControlName="description"></textarea>
+    </div>
+
+    <div class="col-12">
+      <label for="shortDescription" class="form-label">Short description:</label>
+      <textarea class="form-control" id="shortDescription" rows="3"
+                [ngClass]="{'is-valid':shortDescription?.valid,'is-invalid':shortDescription?.invalid&&shortDescription?.dirty}"
+                formControlName="shortDescription"></textarea>
+    </div>
+
+    <div formArrayName="optionalList">
+      <h5>Options:</h5>
+
+      <div *ngFor="let option of optionalList.controls; let i=index">
+        &lt;!&ndash; The repeated alias template &ndash;&gt;
+        <div class="d-flex justify-content-between mb-3">
+          <input class="form-control d-inline col-8" id="option-{{ i }}" type="text"
+                 [ngClass]="{'is-valid':optionalList.at(i)?.valid,'is-invalid':optionalList.at(i)?.invalid&&optionalList.at(i)?.dirty}"
+                 [formControlName]="i" placeholder="Option">
+          <button type="button" class="btn btn-danger col-2 d-inline" (click)="removeOption(i)">Drop option</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-success" (click)="addOption()">Add option</button>
+    </div>
+    <div class="d-flex justify-content-between w-100">
+      <button type="submit" class="btn btn-success col-5" [disabled]="!carForm.valid">Add car</button>
+      <button type="reset" class="btn btn-danger col-5">Reset</button>
+    </div>
+
+  </form>
+</div>-->
+
+<div class="container-fluid" style="padding: 2% 8%">
+  <div class="container text-center w-100 mb-4" style="font-family: 'Luckiest Guy', cursive;">
+    <h1>Edit Car</h1>
+  </div>
+  <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5">
+    <form class="row g-3" [formGroup]="carForm" (ngSubmit)="onSubmit()">
+      <div class="p-3 text-center img-top" style=" display: block;">
+        <img style="max-width: 100%; " [src]="pathImage">
+      </div>
+      <div class="col-12">
+        <input class="form-control" type="file" id="image" multiple=""
+               [ngClass]="{'is-valid':file?.valid,'is-invalid':file?.invalid&&file?.dirty}" formControlName="file"
+               (change)="uploadFile($event)" placeholder="Image">
+      </div>
+
+      <hr class="mb-0">
+
+      <div class="d-flex justify-content-between w-100">
+        <div class="col-5">
+          <div class="mb-3 row">
+            <label for="brand" class="col-sm-3 form-label fs-4 fw-semibold">Brand</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="brand"
+                     [ngClass]="{'is-valid':brand?.valid,'is-invalid':brand?.invalid&&brand?.dirty}"
+                     formControlName="brand"
+                     placeholder="Brand">
+              <div class="invalid-feedback">
+                <span>Brand should be: </span>
+                <span *ngIf="brand?.errors?.['required']">fill</span>
+                <span *ngIf="brand?.errors?.['minlength']">min length 2</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="mb-3 row">
+            <label for="model" class="col-sm-3 form-label fs-4 fw-semibold">Model</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="model"
+                     [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
+                     formControlName="model"
+                     placeholder="Model">
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+              <div class="invalid-feedback">
+                Looks bad!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0">
+
+      <div class="col-12">
+        <div class="row col-6">
+          <label for="bodyType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Body type</p></label>
+          <div class="col-sm-5">
+            <select class="form-select" [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
+                    formControlName="bodyType" id="bodyType">
+              <option selected value="">Select body type</option>
+              <option *ngFor="let bodyType of bodyTypes | keyvalue" value="{{bodyType.key}}">{{bodyType.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0 w-50">
+      <div class="col-12">
+        <div class="row col-6">
+          <label for="transmissionType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Transmission type</p></label>
+          <div class="col-sm-6">
+            <select class="form-select" aria-label=".form-select example"
+                    [ngClass]="{'is-valid':transmissionType?.valid,'is-invalid':transmissionType?.invalid&&transmissionType?.dirty}"
+                    formControlName="transmissionType" id="transmissionType">
+              <option selected value="">Select transmission type</option>
+              <option *ngFor="let transmissionType of transmissionTypes | keyvalue"
+                      [value]="transmissionType.key">{{transmissionType.value}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0 w-50">
+
+      <div class="col-12">
+        <div class="row col-6">
+          <label for="engine" class="col-sm-4 form-label fs-4 fw-semibold"><p>Engine size</p></label>
+          <div class="col-4">
+            <input type="number" step="0.1" class="form-control" id="engine"
+                   [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
+                   placeholder="Engine size" formControlName="engineSize">
+          </div>
+        </div>
+      </div>
+
+      <hr class="m-0 w-50">
+
+      <div class="col-12">
+        <div class="row col-6">
+          <label for="engine" class="col-sm-2 form-label fs-4 fw-semibold"><p>Year</p></label>
+          <div class="col-4">
+            <input type="number" class="form-control" id="year" [class.is-valid]="year?.valid" [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year"
+                   placeholder="Year">
+          </div>
+        </div>
+      </div>
+
+      <hr class="m-0 w-50">
+
+      <div class="col-12">
+        <label for="shortDescription" class="form-label fs-4 fw-semibold">Short description:</label>
+        <textarea class="form-control" id="shortDescription" rows="3"
+                  [class.is-valid]="shortDescription?.valid" [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
+                  formControlName="shortDescription"></textarea>
+      </div>
+
+      <hr class="mb-0">
+
+      <div class="col-12">
+        <label for="description" class="form-label fs-4 fw-semibold">Description:</label>
+        <textarea class="form-control" id="description" rows="3"
+                  [class.is-valid]="description?.valid" [class.is-invalid]="description?.invalid&&description?.dirty"
+                  formControlName="description"></textarea>
+      </div>
+
+      <hr class="mb-0">
+
+      <div formArrayName="optionalList">
+        <h4>Optional list:</h4>
+
+        <div *ngFor="let option of optionalList.controls; let i=index">
+          <!-- The repeated alias template -->
+          <div class="d-flex justify-content-between mb-3">
+            <input class="form-control d-inline col-8" id="option-{{ i }}" type="text"
+                   [class.is-valid]="optionalList.at(i)?.valid" [class.is-invalid]="optionalList.at(i).invalid&&optionalList.at(i).dirty"
+                   [formControlName]="i" placeholder="Option">
+            <button type="button" class="btn btn-danger col-2 d-inline" (click)="removeOption(i)">Drop option</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-success" (click)="addOption()">Add option</button>
+      </div>
+
+      <hr class="mb-0">
+
+      <div class="d-flex justify-content-between w-100">
+        <button type="submit" class="btn btn-success col-5" [disabled]="!carForm.valid">Edit car</button>
+        <button type="button" class="btn btn-danger col-5" (click)="onReset()">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!--    <div class="d-flex justify-content-center">
+      <h1>{{car.brand}} {{car.model}}</h1>
+    </div>
+    <hr>
+    <h4>Body type:<span class="text-secondary"> {{car.bodyType|lowercase}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Transmission type: <span class="text-secondary">{{car.transmissionType|lowercase}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Engine size: <span class="text-secondary">{{car.engineSize|number}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Year: <span class="text-secondary">{{car.year}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Description:</h4>
+    <div style="word-wrap: break-word;">
+      <p class="text-secondary" style="font-size: 24px">{{car.description}}</p>
+    </div>
+    <hr>
+    <h4>Optional list:</h4>
+    <ul>
+      <li *ngFor="let option of car.optionsList"><h5 class="text-secondary">{{option}}</h5></li>
+    </ul>
+    <hr class="mb-3">
+    <div class="container d-flex justify-content-end">
+      <div>
+        <button type="button" class="btn btn-danger mr-3" data-bs-toggle="modal" data-bs-target="#modal">Delete</button>
+        <button type="button" class="btn btn-warning" [routerLink]="['/edit', car.id]">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-6" id="staticBackdropLabel">Are you sure you want to delete the car?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="d-flex justify-content-center modal-footer border-0">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>-->

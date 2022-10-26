@@ -64,7 +64,7 @@ public class Controller {
 
 
     @PutMapping(value = "/cars/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @ModelAttribute() CarDto carDto) throws IOException,ParseException{
+    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @ModelAttribute() CarDto carDto) throws IOException{
         final boolean updated = carService.update(carDto, id);
 
         return updated
@@ -82,11 +82,11 @@ public class Controller {
     }
 
     @GetMapping(
-            value = "/car/image/{id}",
+            value = "/car/image/{id}/{anyStr}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
 
-    public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") long id) throws IOException {
+    public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") Long id) throws IOException {
         String imageName = imagesPath + "/" + carService.findCarById(id).getImageName();
 
         return Files.readAllBytes(Paths.get(imageName));

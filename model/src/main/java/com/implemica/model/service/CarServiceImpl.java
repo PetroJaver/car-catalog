@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CarServiceImpl implements CarService{
+public class CarServiceImpl implements CarService {
     @Autowired
     CarRepository carRepository;
     @Value("${upload.path}")
@@ -24,12 +24,12 @@ public class CarServiceImpl implements CarService{
     public void saveCar(CarDto carDto) throws IOException, ParseException {
         MultipartFile file = carDto.getFile();
         String imageName = saveImage(file);
-        carRepository.save(getCarFromCarDto(carDto,imageName));
+        carRepository.save(getCarFromCarDto(carDto, imageName));
     }
 
     @Override
     public boolean deleteCarById(Long id) {
-        if(carRepository.existsById(id)){
+        if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
             deleteImage(imageName);
 
@@ -41,26 +41,26 @@ public class CarServiceImpl implements CarService{
     }
 
     @Override
-    public Car findCarById(Long id){
+    public Car findCarById(Long id) {
 
         return carRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public List<Car> findAll(){
+    public List<Car> findAll() {
 
         return (List<Car>) carRepository.findAll();
     }
 
 
     @Override
-    public boolean update(CarDto carDto, long id) throws IOException{
+    public boolean update(CarDto carDto, Long id) throws IOException {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
             deleteImage(imageName);
             String newImageName = saveImage(carDto.getFile());
 
-            Car car = getCarFromCarDto(carDto,newImageName);
+            Car car = getCarFromCarDto(carDto, newImageName);
             car.setId(id);
 
             carRepository.save(car);
@@ -69,7 +69,7 @@ public class CarServiceImpl implements CarService{
         return false;
     }
 
-    private Car getCarFromCarDto(CarDto carDto, String imageName){
+    private Car getCarFromCarDto(CarDto carDto, String imageName) {
         Car car = new Car();
 
         car.setBrand(carDto.getBrand());
@@ -86,24 +86,24 @@ public class CarServiceImpl implements CarService{
         return car;
     }
 
-    private String saveImage(MultipartFile file) throws IOException{
+    private String saveImage(MultipartFile file) throws IOException {
 
         File uploadDir = new File(imagesPath);
 
-        if(!uploadDir.exists()){
+        if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
 
         String imageName = UUID.randomUUID().toString();
         imageName += "." + file.getOriginalFilename();
-        file.transferTo(new File(imagesPath+"/"+imageName));
+        file.transferTo(new File(imagesPath + "/" + imageName));
 
 
         return imageName;
     }
 
-    private boolean deleteImage(String imageName){
-        File file = new File(imagesPath+"/"+imageName);
+    private boolean deleteImage(String imageName) {
+        File file = new File(imagesPath + "/" + imageName);
 
         file.delete();
 

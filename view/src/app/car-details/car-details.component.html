@@ -3,10 +3,52 @@
     <h1>Details</h1>
   </div>
 
-  <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5">
+  <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5 shadow-lg">
     <div class="p-3 text-center img-top" style=" display: block;">
-      <img style="max-width: 100%;" [src]="'http://localhost:8080/car/image/' + car.id"  [routerLink]="['details', car.id]">
+      <img style="max-width: 100%;" [src]="'http://localhost:8080/car/image/'+car.id+'/' + car.imageName">
     </div>
+    <div class="d-flex justify-content-center">
+      <h1>{{car.brand}} {{car.model}}</h1>
+    </div>
+    <hr>
+    <h4>Body type:<span class="text-secondary"> {{car.bodyType|lowercase}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Transmission type: <span class="text-secondary">{{car.transmissionType|lowercase}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Engine size: <span class="text-secondary">{{car.engineSize|number}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Year: <span class="text-secondary">{{car.year}}</span></h4>
+    <hr style="width: 30%">
+    <h4>Description:</h4>
+    <div style="word-wrap: break-word;">
+    <p class="text-secondary" style="font-size: 24px">{{car.description}}</p>
+    </div>
+    <hr>
+    <h4>Optional list:</h4>
+    <ul>
+      <li *ngFor="let option of car.optionsList"><h5 class="text-secondary">{{option}}</h5></li>
+    </ul>
+    <hr class="mb-3">
+    <div class="container d-flex justify-content-end">
+      <div>
+        <button type="button" class="btn btn-danger mr-3"   data-bs-toggle="modal" data-bs-target="#modal">Delete</button>
+        <button type="button" class="btn btn-warning" [routerLink]="['/edit', car.id]">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-6" id="staticBackdropLabel">Are you sure you want to delete the car?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="d-flex justify-content-center modal-footer border-0">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" (click)="delete(car.id)">Delete</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -15,6 +15,8 @@ export class AddCarComponent implements OnInit {
 
   bodyTypes = BodyType;
 
+  pathImage:string = "../../assets/add-image.png";
+
   transmissionTypes = TransmissionType;
 
   car = this.fb.group(
@@ -91,9 +93,6 @@ export class AddCarComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.car.value);
-
     const data:FormData = new FormData();
 
     // @ts-ignore
@@ -117,15 +116,16 @@ export class AddCarComponent implements OnInit {
     // @ts-ignore
     data.append('optionsList',this.car.get('optionalList')?.value)
 
-    this.carService.add(data).subscribe(()=>this.toast.success("Car successful add!","Success",{progressBar:true,timeOut:3000,progressAnimation: 'increasing'}))
+    this.carService.add(data).subscribe(()=>{this.toast.success("Car successful add!","Success",{progressBar:true,timeOut:5000,progressAnimation: 'increasing'});
+    this.router.navigate(['/'])})
 
-    this.router.navigate(['/'])
+
   }
 
   ngOnInit(): void {
   }
 
-  uploadFile(event:any){
+/*  uploadFile(event:any){
     // @ts-ignore
     const image = (event.target as HTMLInputElement)?.files[0];
 
@@ -138,6 +138,31 @@ export class AddCarComponent implements OnInit {
 
     this.car.get('file')?.updateValueAndValidity();
 
+  }*/
+
+  uploadFile(event:any){
+    let filetype = event.target.files[0].type;
+    if(filetype.match(/image\/png/)){
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event:any)=>{
+        this.pathImage = event.target.result;
+      }
+
+      // @ts-ignore
+      const image = (event.target as HTMLInputElement)?.files[0];
+
+      this.car.patchValue({
+        // @ts-ignore
+        file: image
+      });
+
+      this.car.get('file')?.updateValueAndValidity();
+    }else {
+      this.car.reset({file:''})
+      window.alert("Please select correct image format")
+      this.pathImage = "../../assets/add-image.png";
+    }
   }
 
 }

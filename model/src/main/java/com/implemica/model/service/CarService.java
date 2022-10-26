@@ -16,5 +16,5 @@ public interface CarService {
 
     List<Car> findAll();
 
-    boolean update(CarDto car, long id) throws ParseException,IOException;
+    boolean update(CarDto car, Long id) throws ParseException,IOException;
 }

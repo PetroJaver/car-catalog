@@ -22,8 +22,13 @@ export class CarService{
   }
 
   add(data:FormData):Observable<void>{
+
     return this.http.post<void>('http://localhost:8080/addCar',data);
   }
 
+  update(data:FormData,id:number):Observable<void>{
+    console.log(id)
+    return this.http.put<void>('http://localhost:8080/cars/'+id,data);
+  }
 
 }

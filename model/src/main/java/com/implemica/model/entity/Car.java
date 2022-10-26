@@ -17,7 +17,7 @@ import java.util.List;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "image_name", nullable = false)
     private String imageName;
