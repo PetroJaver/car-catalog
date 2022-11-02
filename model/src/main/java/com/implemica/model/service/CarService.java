@@ -1,6 +1,6 @@
 package com.implemica.model.service;
 
-import com.implemica.model.dto.CarDto;
+import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface CarService {
-    void saveCar(CarDto car) throws IOException, ParseException;
+    void saveCar(CarDTO car) throws IOException, ParseException;
 
     boolean deleteCarById(Long id);
 
@@ -16,5 +16,5 @@ public interface CarService {
 
     List<Car> findAll();
 
-    boolean update(CarDto car, Long id) throws ParseException,IOException;
+    boolean update(CarDTO car, Long id) throws ParseException,IOException;
 }

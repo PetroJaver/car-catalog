@@ -6,7 +6,7 @@
     <div class="col" *ngFor="let car of cars">
       <div class="card h-100 rounded-4 text-bg-dark box-shadow ">
         <div class="hover-zoom p-3 text-center card-img-top" style="width: 100%; display: block;">
-          <img style="max-width: 100%;" [src]="'http://localhost:8080/car/image/'+car.id+'/' + car.imageName"
+          <img style="max-width: 100%;" [src]="'http://localhost:8080/cars/images/'+car.id+'/' + car.imageName"
                [routerLink]="['details', car.id]">
         </div>
         <div class="card-title text-center">
@@ -38,7 +38,11 @@
       </div>
     </div>
   </div>
+
+  <app-login></app-login>
 </div>
+
+
 
 
 

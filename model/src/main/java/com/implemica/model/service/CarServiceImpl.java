@@ -1,6 +1,6 @@
 package com.implemica.model.service;
 
-import com.implemica.model.dto.CarDto;
+import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import com.implemica.model.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CarServiceImpl implements CarService {
     @Value("${upload.path}")
     private String imagesPath;
 
-    public void saveCar(CarDto carDto) throws IOException, ParseException {
+    public void saveCar(CarDTO carDto) throws IOException, ParseException {
         MultipartFile file = carDto.getFile();
         String imageName = saveImage(file);
         carRepository.save(getCarFromCarDto(carDto, imageName));
@@ -54,7 +54,7 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public boolean update(CarDto carDto, Long id) throws IOException {
+    public boolean update(CarDTO carDto, Long id) throws IOException {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
             deleteImage(imageName);
@@ -69,7 +69,7 @@ public class CarServiceImpl implements CarService {
         return false;
     }
 
-    private Car getCarFromCarDto(CarDto carDto, String imageName) {
+    private Car getCarFromCarDto(CarDTO carDto, String imageName) {
         Car car = new Car();
 
         car.setBrand(carDto.getBrand());

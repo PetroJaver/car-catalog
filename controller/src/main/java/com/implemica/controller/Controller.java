@@ -1,6 +1,6 @@
 package com.implemica.controller;
 
-import com.implemica.model.dto.CarDto;
+import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import com.implemica.model.service.CarServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,10 +17,8 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.List;
 
-
-@CrossOrigin(origins = "http://localhost:4200")
-
-@RestController
+@RequestMapping("/")
+@RestController()
 public class Controller {
 
     @Autowired
@@ -28,9 +27,9 @@ public class Controller {
     @Value("${upload.path}")
     private String imagesPath;
 
-
-    @PostMapping(value = "/addCar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> addCar(@ModelAttribute() CarDto carDto) {
+    @PostMapping(value = "cars", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasAuthority('cars:create')")
+    public ResponseEntity<?> addCar(@ModelAttribute() CarDTO carDto) {
         if(carDto.getFile().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -44,7 +43,7 @@ public class Controller {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/cars")
+    @GetMapping(value = "cars")
     public ResponseEntity<List<Car>> read(){
         final List<Car> cars = carService.findAll();
 
@@ -53,7 +52,7 @@ public class Controller {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/cars/{id}")
+    @GetMapping(value = "cars/{id}")
     public ResponseEntity<Car> read(@PathVariable(name = "id") long id){
         final Car car = carService.findCarById(id);
 
@@ -63,8 +62,11 @@ public class Controller {
     }
 
 
-    @PutMapping(value = "/cars/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @ModelAttribute() CarDto carDto) throws IOException{
+    @PutMapping(value = "cars/{id}")
+    @PreAuthorize("hasAuthority('cars:update')")
+
+
+    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @ModelAttribute() CarDTO carDto) throws IOException{
         final boolean updated = carService.update(carDto, id);
 
         return updated
@@ -72,7 +74,8 @@ public class Controller {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/cars/{id}")
+    @DeleteMapping(value = "cars/{id}")
+    @PreAuthorize("hasAuthority('cars:delete')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
         final boolean deleted = carService.deleteCarById(id);
 
@@ -82,7 +85,7 @@ public class Controller {
     }
 
     @GetMapping(
-            value = "/car/image/{id}/{anyStr}",
+            value = "cars/images/{id}/{anyStr}",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
 

@@ -1,14 +1,14 @@
 package com.implemica.model.dto;
 
-import com.implemica.model.entity.enums.CarTransmissionType;
-import com.implemica.model.entity.enums.CarsBodyType;
+import com.implemica.model.enums.CarTransmissionType;
+import com.implemica.model.enums.CarsBodyType;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
-public class CarDto {
+public class CarDTO {
     private MultipartFile file;
 
     private String brand;

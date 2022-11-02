@@ -11,12 +11,14 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {EditCarComponent} from './edit-car/edit-car.component';
+import { LoginComponent } from './login/login.component';
 
 const routes = [
   {path: '', component: AlbumCarComponent},
   {path: 'details/:id', component: CarDetailsComponent},
   {path: 'add', component: AddCarComponent},
-  {path: 'edit/:id', component: EditCarComponent}
+  {path: 'edit/:id', component: EditCarComponent},
+  {path: 'login', component: LoginComponent}
 ]
 
 @NgModule({
@@ -25,8 +27,10 @@ const routes = [
     AlbumCarComponent,
     CarDetailsComponent,
     AddCarComponent,
-    EditCarComponent
+    EditCarComponent,
+    LoginComponent
   ],
+
   imports: [
     BrowserModule,
     HttpClientModule,

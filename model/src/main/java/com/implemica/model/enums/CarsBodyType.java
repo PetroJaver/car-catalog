@@ -1,4 +1,4 @@
-package com.implemica.model.entity.enums;
+package com.implemica.model.enums;
 
 public enum CarsBodyType {
     HATCHBACK,

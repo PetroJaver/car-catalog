@@ -1,7 +1,7 @@
 package com.implemica.model.entity;
 
-import com.implemica.model.entity.enums.CarTransmissionType;
-import com.implemica.model.entity.enums.CarsBodyType;
+import com.implemica.model.enums.CarTransmissionType;
+import com.implemica.model.enums.CarsBodyType;
 import lombok.*;
 
 import javax.persistence.*;

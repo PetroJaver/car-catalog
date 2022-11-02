@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {delay, Observable, Subscription} from "rxjs";
 import {Car} from "../models/Car";
+import {Observable} from "rxjs";
 @Injectable({
   providedIn: "root"
 })
@@ -23,7 +23,7 @@ export class CarService{
 
   add(data:FormData):Observable<void>{
 
-    return this.http.post<void>('http://localhost:8080/addCar',data);
+    return this.http.post<void>('http://localhost:8080/cars',data);
   }
 
   update(data:FormData,id:number):Observable<void>{

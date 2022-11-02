@@ -19,7 +19,7 @@ export class EditCarComponent implements OnInit {
 
   id: number;
 
-  pathPart: string = 'http://localhost:8080/car/image/';
+  pathPart: string = 'http://localhost:8080/cars/images/';
 
   pathImage: string;
 
