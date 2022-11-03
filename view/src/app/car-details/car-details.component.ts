@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {CarService} from "../../service/car.service";
+import {CarService} from "../shared/service/car.service";
 import {Observable} from "rxjs";
-import {Car} from "../../models/Car";
+import {Car} from "../shared/models/Car";
 import {ToastrService} from "ngx-toastr";
+import {AuthService} from "../shared/service/auth.service";
 
 @Component({
   selector: 'app-car-details',
@@ -16,7 +17,7 @@ export class CarDetailsComponent {
 
   id: number;
 
-  constructor(private activateRoute: ActivatedRoute, private carService: CarService, private toast: ToastrService, private router: Router) {
+  constructor(public auth:AuthService,private activateRoute: ActivatedRoute, private carService: CarService, private toast: ToastrService, private router: Router) {
 
     this.id = activateRoute.snapshot.params['id'];
   }

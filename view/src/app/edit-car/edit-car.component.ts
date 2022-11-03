@@ -2,11 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {BodyType} from "../add-car/BodyType";
 import {TransmissionType} from "../add-car/TransmissionType";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
-import {CarService} from "../../service/car.service";
+import {CarService} from "../shared/service/car.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {Car} from "../../models/Car";
-import {delay} from "rxjs";
+import {Car} from "../shared/models/Car";
 
 @Component({
   selector: 'app-edit-car',
@@ -196,7 +195,7 @@ export class EditCarComponent implements OnInit {
 
       this.carForm.get('file')?.updateValueAndValidity();
     } else {
-      this.carForm.reset({file: ''})
+      this.carForm.patchValue({file: ''})
       window.alert("Please select correct image format")
       this.pathImage = this.pathPart + this.car.id+'/'+this.car.imageName;
     }

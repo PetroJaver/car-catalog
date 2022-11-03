@@ -8,8 +8,9 @@
         <img style="max-width: 100%; " [src]="pathImage">
       </div>
       <div class="col-12">
-        <input class="form-control" type="file" id="image" multiple="" [class.is-valid]="file?.valid" [class.is-invalid]="file?.invalid&&file?.dirty"
-               (change)="uploadFile($event)" placeholder="Image">
+        <input class="form-control" type="file" id="image" [class.is-valid]="file?.valid"
+               [class.is-invalid]="file?.invalid&&file?.dirty"
+               (change)="uploadFile($event)">
       </div>
 
       <hr class="mb-0">
@@ -54,11 +55,11 @@
 
       <div class="col-12">
         <div class="row col-6">
-          <label for="bodyType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Body type</p></label>
+          <label for="bodyType" class="col-sm-3 form-label fs-4 fw-semibold"><p>Body</p></label>
           <div class="col-sm-5">
             <select class="form-select" [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
                     formControlName="bodyType" id="bodyType">
-              <option selected value="">Select body type</option>
+              <option selected value="">Select body</option>
               <option *ngFor="let bodyType of bodyTypes | keyvalue" value="{{bodyType.key}}">{{bodyType.value}}</option>
             </select>
           </div>
@@ -67,12 +68,12 @@
       <hr class="m-0 w-50">
       <div class="col-12">
         <div class="row col-6">
-          <label for="transmissionType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Transmission type</p></label>
+          <label for="transmissionType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Transmission</p></label>
           <div class="col-sm-6">
             <select class="form-select" aria-label=".form-select example"
                     [ngClass]="{'is-valid':transmissionType?.valid,'is-invalid':transmissionType?.invalid&&transmissionType?.dirty}"
                     formControlName="transmissionType" id="transmissionType">
-              <option selected value="">Select transmission type</option>
+              <option selected value="">Select transmission</option>
               <option *ngFor="let transmissionType of transmissionTypes | keyvalue"
                       [value]="transmissionType.key">{{transmissionType.value}}</option>
             </select>
@@ -83,8 +84,8 @@
 
       <div class="col-12">
         <div class="row col-6">
-          <label for="engine" class="col-sm-4 form-label fs-4 fw-semibold"><p>Engine size</p></label>
-          <div class="col-4">
+          <label for="engine" class="col-sm-5 form-label fs-4 fw-semibold"><p>Engine size</p></label>
+          <div class="col-5">
             <input type="number" step="0.1" class="form-control" id="engine"
                    [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
                    placeholder="Engine size" formControlName="engineSize">

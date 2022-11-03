@@ -11,9 +11,9 @@
       <h1>{{car.brand}} {{car.model}}</h1>
     </div>
     <hr>
-    <h4>Body type:<span class="text-secondary"> {{car.bodyType|lowercase}}</span></h4>
+    <h4>Body:<span class="text-secondary"> {{car.bodyType|lowercase}}</span></h4>
     <hr style="width: 30%">
-    <h4>Transmission type: <span class="text-secondary">{{car.transmissionType|lowercase}}</span></h4>
+    <h4>Transmission: <span class="text-secondary">{{car.transmissionType|lowercase}}</span></h4>
     <hr style="width: 30%">
     <h4>Engine size: <span class="text-secondary">{{car.engineSize|number}}</span></h4>
     <hr style="width: 30%">
@@ -28,8 +28,8 @@
     <ul>
       <li *ngFor="let option of car.optionsList"><h5 class="text-secondary">{{option}}</h5></li>
     </ul>
-    <hr class="mb-3">
-    <div class="container d-flex justify-content-end">
+    <hr  *ngIf="auth.isAuthenticated()" class="mb-3">
+    <div  *ngIf="auth.isAuthenticated()" class="container d-flex justify-content-end">
       <div>
         <button type="button" class="btn btn-danger mr-3"   data-bs-toggle="modal" data-bs-target="#modal">Delete</button>
         <button type="button" class="btn btn-warning" [routerLink]="['/edit', car.id]">Edit</button>

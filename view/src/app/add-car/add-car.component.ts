@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BodyType} from "./BodyType";
 import {TransmissionType} from "./TransmissionType";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
-import {CarService} from "../../service/car.service";
+import {CarService} from "../shared/service/car.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 
@@ -125,21 +125,6 @@ export class AddCarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-/*  uploadFile(event:any){
-    // @ts-ignore
-    const image = (event.target as HTMLInputElement)?.files[0];
-
-
-
-    this.car.patchValue({
-      // @ts-ignore
-      file: image
-    });
-
-    this.car.get('file')?.updateValueAndValidity();
-
-  }*/
-
   uploadFile(event:any){
     let filetype = event.target.files[0].type;
     if(filetype.match(/image\/png/)){
@@ -159,7 +144,7 @@ export class AddCarComponent implements OnInit {
 
       this.car.get('file')?.updateValueAndValidity();
     }else {
-      this.car.reset({file:''})
+      this.car.patchValue({file:''})
       window.alert("Please select correct image format")
       this.pathImage = "../../assets/add-image.png";
     }
