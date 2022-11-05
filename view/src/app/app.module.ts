@@ -11,14 +11,15 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {EditCarComponent} from './edit-car/edit-car.component';
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
+import {AuthGuard} from "./shared/classes/auth.guard";
 
 const routes = [
   {path: '', component: AlbumCarComponent},
   {path: 'details/:id', component: CarDetailsComponent},
-  {path: 'add', component: AddCarComponent},
-  {path: 'edit/:id', component: EditCarComponent},
+  {path: 'add', component: AddCarComponent, canActivate: [AuthGuard]},
+  {path: 'edit/:id', component: EditCarComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent}
 ]
 
@@ -40,13 +41,14 @@ const routes = [
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({closeButton:true})
+    ToastrModule.forRoot({closeButton: true})
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     multi: true,
-    useClass:TokenInterceptor
+    useClass: TokenInterceptor
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule{}
+export class AppModule {
+}

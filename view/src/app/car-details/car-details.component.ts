@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CarService} from "../shared/service/car.service";
-import {Observable} from "rxjs";
 import {Car} from "../shared/models/Car";
 import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/service/auth.service";
@@ -32,8 +31,7 @@ export class CarDetailsComponent {
   }
 
   ngOnInit(): void {
-    this.carService.get(this.id).subscribe((data) =>{ this.car = data;
-    console.log(this.car)})
+    this.carService.get(this.id).subscribe((data) => this.car = data)
   }
 
 }

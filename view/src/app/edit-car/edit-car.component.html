@@ -4,30 +4,43 @@
   </div>
   <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5">
     <form class="row g-3" [formGroup]="carForm" (ngSubmit)="onSubmit()">
+      <!--image-->
       <div class="p-3 text-center img-top" style=" display: block;">
         <img style="max-width: 100%; " [src]="pathImage">
       </div>
-      <div class="col-12">
-        <input class="form-control" type="file" id="image" [class.is-valid]="file?.valid"
-               [class.is-invalid]="file?.invalid&&file?.dirty"
-               (change)="uploadFile($event)">
+      <!--image input-->
+      <div class="row col-12">
+        <div class="col-1 ps-4">
+          <label for="image" class="form-label fs-4 fw-semibold required">Files</label>
+        </div>
+        <div class="col-11">
+          <input class="form-control ms-3" type="file" id="image"
+                 [ngClass]="{'is-valid':file?.valid,'is-invalid':file?.invalid&&file?.dirty}" formControlName="file"
+                 (change)="uploadFile($event)">
+          <div class="valid-feedback ms-3">
+            Looks good!
+          </div>
+          <div class="invalid-feedback ms-3">
+            Looks bad!
+          </div>
+        </div>
       </div>
-
       <hr class="mb-0">
-
+      <!--Brand and model-->
       <div class="d-flex justify-content-between w-100">
         <div class="col-5">
           <div class="mb-3 row">
-            <label for="brand" class="col-sm-3 form-label fs-4 fw-semibold">Brand</label>
+            <label for="brand" class="col-sm-3 form-label fs-4 fw-semibold required">Brand</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="brand"
                      [ngClass]="{'is-valid':brand?.valid,'is-invalid':brand?.invalid&&brand?.dirty}"
                      formControlName="brand"
-                     placeholder="Brand">
+                     placeholder="Enter brand">
+              <div class="valid-feedback">
+                Looks good!
+              </div>
               <div class="invalid-feedback">
-                <span>Brand should be: </span>
-                <span *ngIf="brand?.errors?.['required']">fill</span>
-                <span *ngIf="brand?.errors?.['minlength']">min length 2</span>
+                Looks bad!
               </div>
             </div>
 
@@ -35,12 +48,12 @@
         </div>
         <div class="col-5">
           <div class="mb-3 row">
-            <label for="model" class="col-sm-3 form-label fs-4 fw-semibold">Model</label>
+            <label for="model" class="col-sm-3 form-label fs-4 fw-semibold required">Model</label>
             <div class="col-sm-9">
               <input type="text" class="form-control" id="model"
                      [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
                      formControlName="model"
-                     placeholder="Model">
+                     placeholder="Enter model">
               <div class="valid-feedback">
                 Looks good!
               </div>
@@ -52,24 +65,32 @@
         </div>
       </div>
       <hr class="m-0">
-
+      <!--Body-->
       <div class="col-12">
         <div class="row col-6">
-          <label for="bodyType" class="col-sm-3 form-label fs-4 fw-semibold"><p>Body</p></label>
-          <div class="col-sm-5">
-            <select class="form-select" [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
+          <label for="bodyType" class="col-sm-3 form-label fs-4 fw-semibold required">Body</label>
+          <div class="col-sm-6 mb-3">
+            <select class="form-select"
+                    [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
                     formControlName="bodyType" id="bodyType">
               <option selected value="">Select body</option>
               <option *ngFor="let bodyType of bodyTypes | keyvalue" value="{{bodyType.key}}">{{bodyType.value}}</option>
             </select>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Looks bad!
+            </div>
           </div>
         </div>
       </div>
       <hr class="m-0 w-50">
+      <!--transmission-->
       <div class="col-12">
         <div class="row col-6">
-          <label for="transmissionType" class="col-sm-5 form-label fs-4 fw-semibold"><p>Transmission</p></label>
-          <div class="col-sm-6">
+          <label for="transmissionType" class="col-sm-5 form-label fs-4 fw-semibold required">Transmission</label>
+          <div class="col-sm-7 mb-3">
             <select class="form-select" aria-label=".form-select example"
                     [ngClass]="{'is-valid':transmissionType?.valid,'is-invalid':transmissionType?.invalid&&transmissionType?.dirty}"
                     formControlName="transmissionType" id="transmissionType">
@@ -77,54 +98,82 @@
               <option *ngFor="let transmissionType of transmissionTypes | keyvalue"
                       [value]="transmissionType.key">{{transmissionType.value}}</option>
             </select>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Looks bad!
+            </div>
           </div>
         </div>
       </div>
       <hr class="m-0 w-50">
-
+      <!--engine size-->
       <div class="col-12">
         <div class="row col-6">
-          <label for="engine" class="col-sm-5 form-label fs-4 fw-semibold"><p>Engine size</p></label>
-          <div class="col-5">
-            <input type="number" step="0.1" class="form-control" id="engine"
+          <label for="engine" class="col-sm-5 form-label fs-4 fw-semibold required">Engine size</label>
+          <div class="col-6 mb-3">
+            <input type="number" step="0.1" class="form-control " id="engine" min="0.1" max="10"
                    [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
                    placeholder="Engine size" formControlName="engineSize">
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Looks bad!
+            </div>
           </div>
         </div>
       </div>
-
       <hr class="m-0 w-50">
-
+      <!--year-->
       <div class="col-12">
         <div class="row col-6">
-          <label for="engine" class="col-sm-2 form-label fs-4 fw-semibold"><p>Year</p></label>
-          <div class="col-4">
-            <input type="number" class="form-control" id="year" [class.is-valid]="year?.valid" [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year"
+          <label for="engine" class="col-sm-2 form-label fs-4 fw-semibold required">Year</label>
+          <div class="col-4 mb-3">
+            <input type="number" class="form-control" min="1880" max="2100" id="year" [class.is-valid]="year?.valid"
+                   [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year"
                    placeholder="Year">
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Looks bad!
+            </div>
           </div>
         </div>
       </div>
-
       <hr class="m-0 w-50">
-
+      <!--short description-->
       <div class="col-12">
-        <label for="shortDescription" class="form-label fs-4 fw-semibold">Short description:</label>
-        <textarea class="form-control" id="shortDescription" rows="3"
-                  [class.is-valid]="shortDescription?.valid" [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
-                  formControlName="shortDescription"></textarea>
+        <label for="shortDescription" class="form-label fs-4 fw-semibold required">Short description:</label>
+        <textarea class="form-control" id="shortDescription" rows="3" maxlength="150"
+                  [class.is-valid]="shortDescription?.valid"
+                  [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
+                  formControlName="shortDescription" placeholder="Short description"></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Looks bad!
+        </div>
       </div>
-
       <hr class="mb-0">
-
+      <!--description-->
       <div class="col-12">
-        <label for="description" class="form-label fs-4 fw-semibold">Description:</label>
-        <textarea class="form-control" id="description" rows="3"
+        <label for="description" class="form-label fs-4 fw-semibold required">Description:</label>
+        <textarea class="form-control" id="description" rows="3" maxlength="5000"
                   [class.is-valid]="description?.valid" [class.is-invalid]="description?.invalid&&description?.dirty"
-                  formControlName="description"></textarea>
+                  formControlName="description" placeholder="Description"></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Looks bad!
+        </div>
       </div>
-
       <hr class="mb-0">
-
+      <!--options list-->
       <div formArrayName="optionalList">
         <h4>Optional list:</h4>
 
@@ -132,7 +181,8 @@
           <!-- The repeated alias template -->
           <div class="d-flex justify-content-between mb-3">
             <input class="form-control d-inline col-8" id="option-{{ i }}" type="text"
-                   [class.is-valid]="optionalList.at(i)?.valid" [class.is-invalid]="optionalList.at(i).invalid&&optionalList.at(i).dirty"
+                   [class.is-valid]="optionalList.at(i)?.valid"
+                   [class.is-invalid]="optionalList.at(i).invalid&&optionalList.at(i).dirty"
                    [formControlName]="i" placeholder="Option">
             <button type="button" class="btn btn-danger col-2 d-inline" (click)="removeOption(i)">Drop option</button>
           </div>
@@ -140,9 +190,8 @@
 
         <button type="button" class="btn btn-success" (click)="addOption()">Add option</button>
       </div>
-
       <hr class="mb-0">
-
+      <!--buttons-->
       <div class="d-flex justify-content-between w-100">
         <button type="submit" class="btn btn-success col-5" [disabled]="!carForm.valid">Edit car</button>
         <button type="button" class="btn btn-danger col-5" (click)="onReset()">Reset</button>

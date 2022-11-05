@@ -1,5 +1,6 @@
 package com.implemica.security;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) servletResponse).sendError(e.getHttpStatus().value());
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.I_AM_A_TEAPOT);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

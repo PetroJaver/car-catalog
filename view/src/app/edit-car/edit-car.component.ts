@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {BodyType} from "../add-car/BodyType";
 import {TransmissionType} from "../add-car/TransmissionType";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CarService} from "../shared/service/car.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Car} from "../shared/models/Car";
+import {AuthService} from "../shared/service/auth.service";
 
 @Component({
   selector: 'app-edit-car',
@@ -98,7 +99,7 @@ export class EditCarComponent implements OnInit {
   }
 
 
-  constructor(private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService) {
+  constructor(private auth:AuthService,private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService) {
     this.id = activateRoute.snapshot.params['id'];
 
   }
@@ -200,6 +201,4 @@ export class EditCarComponent implements OnInit {
       this.pathImage = this.pathPart + this.car.id+'/'+this.car.imageName;
     }
   }
-
-  /*"../../assets/add-image.png"*/
 }

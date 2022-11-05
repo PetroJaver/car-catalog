@@ -1,6 +1,6 @@
 <div class="container-fluid" style="padding: 2% 8%">
-    <div class="text-center">
-      <div class="container-md text-bg-dark rounded-5 col-4 p-4">
+  <div class="text-center">
+    <div class="container-md text-bg-dark rounded-5 col-4 p-4">
       <div class="form-signin w-100">
         <form [formGroup]="user" (ngSubmit)="onSubmit()">
           <img class="mb-4" src="../../assets/logo.png" alt="" width="100">
@@ -9,7 +9,8 @@
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4">Email address:</label>
             <div class="input-group mb-3">
-              <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon2" id = "username" formControlName="email"
+              <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon2"
+                     id="username" formControlName="email"
                      [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid">
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/at-solid.svg" width="16"></span>
             </div>
@@ -18,7 +19,8 @@
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4">Password:</label>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" id = "password" formControlName="password"
+              <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
+                     id="password" formControlName="password"
                      [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
             </div>
@@ -31,6 +33,6 @@
         </form>
       </div>
     </div>
-</div>
+  </div>
 </div>
 

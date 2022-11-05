@@ -49,7 +49,7 @@ public class Controller {
 
         return cars != null &&  !cars.isEmpty()
                 ? new ResponseEntity<>(cars, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value = "cars/{id}")

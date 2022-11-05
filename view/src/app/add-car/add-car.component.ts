@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {BodyType} from "./BodyType";
 import {TransmissionType} from "./TransmissionType";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {CarService} from "../shared/service/car.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {AuthService} from "../shared/service/auth.service";
 
 @Component({
   selector: 'app-add-car',
@@ -15,109 +16,126 @@ export class AddCarComponent implements OnInit {
 
   bodyTypes = BodyType;
 
-  pathImage:string = "../../assets/add-image.png";
+  pathImage: string = "../../assets/add-image.png";
 
   transmissionTypes = TransmissionType;
 
   car = this.fb.group(
     {
-      file:['',[Validators.required]],
-      brand:['',[Validators.required,Validators.pattern('[^0-9]*'),Validators.minLength(2),Validators.maxLength(20)]],
-      model:['',[Validators.required,Validators.minLength(2),Validators.maxLength(40)]],
-      bodyType:['',[Validators.required]],
-      year:[null,[Validators.max(2100),Validators.min(1880),Validators.required]],
-      transmissionType:['',[Validators.required]],
-      engineSize:[null,[Validators.max(10),Validators.min(0.1),Validators.required]],
-      description:['',[Validators.required,Validators.minLength(50),Validators.maxLength(10000)]],
-      shortDescription:['',[Validators.required,Validators.minLength(25),Validators.maxLength(150)]],
-      optionalList: this.fb.array([
-        this.fb.control('',[Validators.required,Validators.minLength(3),Validators.maxLength(30)])])
-
-
+      file: ['', [Validators.required]],
+      brand: ['', [Validators.required, Validators.pattern('[a-zA-Z]*'), Validators.minLength(2), Validators.maxLength(20)]],
+      model: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
+      bodyType: ['', [Validators.required]],
+      year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
+      transmissionType: ['', [Validators.required]],
+      engineSize: [null, [Validators.max(10), Validators.min(0.1), Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(50), Validators.maxLength(5000)]],
+      shortDescription: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(150)]],
+      optionalList: this.fb.array([this.fb.control('', [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(3), Validators.maxLength(30)])])
     }
   )
+
+  @ViewChildren('listInputOptional') listInputOptional: QueryList<ElementRef>;
 
   get optionalList() {
     return this.car.get('optionalList') as FormArray;
   }
 
-  get brand(){
+  get brand() {
     return this.car.get('brand')
   }
 
-  get model(){
+  get model() {
     return this.car.get('model')
   }
 
-  get bodyType(){
+  get bodyType() {
     return this.car.get('bodyType')
   }
 
-  get year(){
+  get year() {
     return this.car.get('year')
   }
 
-  get transmissionType(){
+  get transmissionType() {
     return this.car.get('transmissionType')
   }
 
-  get engineSize(){
+  get engineSize() {
     return this.car.get('engineSize')
   }
 
-  get description(){
+  get description() {
     return this.car.get('description')
   }
 
-  get shortDescription(){
+  get shortDescription() {
     return this.car.get('shortDescription')
   }
 
-  get file(){
+  get file() {
     return this.car.get('file')
   }
 
 
-  addOption(){
-    this.optionalList.push(this.fb.control('',[Validators.required,Validators.minLength(3),Validators.maxLength(30)]));
+  addOption(index: number) {
+    if (this.optionalList.valid) {
+      const control = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
+      this.optionalList.push(control);
+
+      this.listInputOptional.changes.subscribe(() => {
+        if (this.listInputOptional.length)
+          this.listInputOptional.last.nativeElement.focus()
+      })
+    } else {
+      for (let i = this.optionalList.length - 1; i > -1; i--) {
+        if (this.optionalList.at(i).invalid) {
+          this.listInputOptional.get(i)?.nativeElement.focus()
+        }
+      }
+    }
   }
 
-  removeOption(i:number){
+  removeOption(i: number) {
     this.optionalList.removeAt(i);
   }
 
-
-
-  constructor(private fb:FormBuilder,private carService:CarService,private router:Router,private toast: ToastrService) {
+  constructor(private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService, private auth: AuthService) {
 
   }
 
   onSubmit() {
-    const data:FormData = new FormData();
+    const data: FormData = new FormData();
 
     // @ts-ignore
-    data.append('file',this.car.get('file')?.value)
+    data.append('file', this.car.get('file')?.value)
     // @ts-ignore
-    data.append('brand',this.car.get('brand')?.value)
+    data.append('brand', this.car.get('brand')?.value)
     // @ts-ignore
-    data.append('model',this.car.get('model')?.value)
+    data.append('model', this.car.get('model')?.value)
     // @ts-ignore
-    data.append('bodyType',this.car.get('bodyType')?.value)
+    data.append('bodyType', this.car.get('bodyType')?.value)
     // @ts-ignore
-    data.append('year',this.car.get('year')?.value)
+    data.append('year', this.car.get('year')?.value)
     // @ts-ignore
-    data.append('transmissionType',this.car.get('transmissionType')?.value)
+    data.append('transmissionType', this.car.get('transmissionType')?.value)
     // @ts-ignore
-    data.append('engineSize',this.car.get('engineSize')?.value)
+    data.append('engineSize', this.car.get('engineSize')?.value)
     // @ts-ignore
-    data.append('description',this.car.get('description')?.value)
+    data.append('description', this.car.get('description')?.value)
     // @ts-ignore
-    data.append('shortDescription',this.car.get('shortDescription')?.value)
+    data.append('shortDescription', this.car.get('shortDescription')?.value)
     // @ts-ignore
-    data.append('optionsList',this.car.get('optionalList')?.value)
+    data.append('optionsList', this.car.get('optionalList')?.value)
 
-    this.carService.add(data).subscribe(()=>{this.toast.success("Car successful add!","Success",{progressBar:true,timeOut:5000,progressAnimation: 'increasing'});
-    this.router.navigate(['/'])})
+    this.carService.add(data).subscribe(() => {
+      this.toast.success("Car successful add!", "Success", {
+        progressBar: true,
+        timeOut: 5000,
+        progressAnimation: 'increasing'
+      });
+      this.router.navigate(['/'])
+    })
 
 
   }
@@ -125,12 +143,12 @@ export class AddCarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uploadFile(event:any){
+  uploadFile(event: any) {
     let filetype = event.target.files[0].type;
-    if(filetype.match(/image\/png/)){
+    if (filetype.match(/image\/png/)) {
       let reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (event:any)=>{
+      reader.onload = (event: any) => {
         this.pathImage = event.target.result;
       }
 
@@ -143,8 +161,8 @@ export class AddCarComponent implements OnInit {
       });
 
       this.car.get('file')?.updateValueAndValidity();
-    }else {
-      this.car.patchValue({file:''})
+    } else {
+      this.car.patchValue({file: ''})
       window.alert("Please select correct image format")
       this.pathImage = "../../assets/add-image.png";
     }
