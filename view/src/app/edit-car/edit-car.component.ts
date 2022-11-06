@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {BodyType} from "../add-car/BodyType";
 import {TransmissionType} from "../add-car/TransmissionType";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -14,6 +14,7 @@ import {AuthService} from "../shared/service/auth.service";
   styleUrls: ['./edit-car.component.css']
 })
 export class EditCarComponent implements OnInit {
+  @ViewChildren('listInputOptional') listInputOptional: QueryList<ElementRef>;
 
   car: Car;
 
@@ -90,8 +91,22 @@ export class EditCarComponent implements OnInit {
   //endregion
 
 
-  addOption() {
-    this.optionalList.push(this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]));
+  addOption(index: number) {
+    if (this.optionalList.valid) {
+      const control = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
+      this.optionalList.push(control);
+
+      this.listInputOptional.changes.subscribe(() => {
+        if (this.listInputOptional.length)
+          this.listInputOptional.last.nativeElement.focus()
+      })
+    } else {
+      for (let i = this.optionalList.length - 1; i > -1; i--) {
+        if (this.optionalList.at(i).invalid) {
+          this.listInputOptional.get(i)?.nativeElement.focus()
+        }
+      }
+    }
   }
 
   removeOption(i: number) {
@@ -99,13 +114,13 @@ export class EditCarComponent implements OnInit {
   }
 
 
-  constructor(private auth:AuthService,private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService) {
+  constructor(private auth: AuthService, private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService) {
     this.id = activateRoute.snapshot.params['id'];
 
   }
 
   onReset() {
-    this.pathImage = this.pathPart + this.car.id+'/'+this.car.imageName;
+    this.pathImage = this.pathPart + this.car.id + '/' + this.car.imageName;
 
     let optionalArr: string[] = this.car.optionsList;
 
@@ -155,16 +170,16 @@ export class EditCarComponent implements OnInit {
     // @ts-ignore
     data.append('shortDescription', this.carForm.get('shortDescription')?.value)
     // @ts-ignore
-    data.append('optionsList',this.carForm.get('optionalList')?.value)
+    data.append('optionsList', this.carForm.get('optionalList')?.value)
 
     this.carService.update(data, this.id).subscribe((data) => {
-        this.toast.success("Car successful update!", "Success", {
-          progressBar: true,
-          timeOut: 5000,
-          progressAnimation: 'increasing'
-        });
-        this.router.navigate(['/']);
-      })
+      this.toast.success("Car successful update!", "Success", {
+        progressBar: true,
+        timeOut: 5000,
+        progressAnimation: 'increasing'
+      });
+      this.router.navigate(['/']);
+    })
 
 
   }
@@ -198,7 +213,7 @@ export class EditCarComponent implements OnInit {
     } else {
       this.carForm.patchValue({file: ''})
       window.alert("Please select correct image format")
-      this.pathImage = this.pathPart + this.car.id+'/'+this.car.imageName;
+      this.pathImage = this.pathPart + this.car.id + '/' + this.car.imageName;
     }
   }
 }

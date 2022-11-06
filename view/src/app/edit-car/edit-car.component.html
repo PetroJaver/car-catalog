@@ -177,18 +177,30 @@
       <div formArrayName="optionalList">
         <h4>Optional list:</h4>
 
-        <div *ngFor="let option of optionalList.controls; let i=index">
+        <div *ngFor="let option of optionalList.controls; let i=index" class="mb-3">
           <!-- The repeated alias template -->
-          <div class="d-flex justify-content-between mb-3">
-            <input class="form-control d-inline col-8" id="option-{{ i }}" type="text"
-                   [class.is-valid]="optionalList.at(i)?.valid"
-                   [class.is-invalid]="optionalList.at(i).invalid&&optionalList.at(i).dirty"
-                   [formControlName]="i" placeholder="Option">
+          <div class="d-flex justify-content-between " [class.is-valid]="optionalList.at(i)?.valid"
+               [class.is-invalid]="optionalList.at(i)?.invalid&&optionalList.at(i)?.dirty">
+            <div class="col-10 p-0">
+              <input class="form-control d-inline col-8" id="option-{{ i }}" type="text" maxlength="30"
+                     [class.is-valid]="optionalList.at(i)?.valid"
+                     [class.is-invalid]="optionalList.at(i)?.invalid&&optionalList.at(i)?.dirty"
+                     [formControlName]="i" placeholder="Required*" (keydown.enter)="addOption(i+1)" #listInputOptional>
+
+            </div>
             <button type="button" class="btn btn-danger col-2 d-inline" (click)="removeOption(i)">Drop option</button>
+          </div>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+          <div class="invalid-feedback">
+            Looks bad!
           </div>
         </div>
 
-        <button type="button" class="btn btn-success" (click)="addOption()">Add option</button>
+        <button type="button" class="btn btn-success" (click)="addOption(optionalList.length-1)"
+                [disabled]="optionalList.invalid">Add option
+        </button>
       </div>
       <hr class="mb-0">
       <!--buttons-->
