@@ -3,6 +3,7 @@ package com.implemica.controller;
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import com.implemica.model.service.CarServiceImpl;
+import com.implemica.model.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class Controller {
     @Autowired
     CarServiceImpl carService;
 
-    @Value("${upload.path}")
-    private String imagesPath;
+    @Autowired
+    StorageService storageService;
 
     @PostMapping(value = "cars", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasAuthority('cars:create')")
@@ -89,10 +90,10 @@ public class Controller {
             produces = MediaType.IMAGE_JPEG_VALUE
     )
 
-    public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") Long id) throws IOException {
-        String imageName = imagesPath + "/" + carService.findCarById(id).getImageName();
+    public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") Long id) {
+        String imageName = carService.findCarById(id).getImageName();
 
-        return Files.readAllBytes(Paths.get(imageName));
+        return storageService.downloadFile(imageName);
     }
 }
 

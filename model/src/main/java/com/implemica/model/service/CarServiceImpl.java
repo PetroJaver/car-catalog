@@ -8,22 +8,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CarServiceImpl implements CarService {
     @Autowired
-    CarRepository carRepository;
-    @Value("${upload.path}")
-    private String imagesPath;
+    StorageService storageService;
 
+    @Autowired
+    CarRepository carRepository;
+
+    @Override
     public void saveCar(CarDTO carDto) throws IOException, ParseException {
         MultipartFile file = carDto.getFile();
-        String imageName = saveImage(file);
+        String imageName = storageService.uploadFile(file);
         carRepository.save(getCarFromCarDto(carDto, imageName));
     }
 
@@ -31,7 +31,7 @@ public class CarServiceImpl implements CarService {
     public boolean deleteCarById(Long id) {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            deleteImage(imageName);
+            storageService.deleteFile(imageName);
 
             carRepository.deleteById(id);
             return true;
@@ -57,8 +57,8 @@ public class CarServiceImpl implements CarService {
     public boolean update(CarDTO carDto, Long id) throws IOException {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            deleteImage(imageName);
-            String newImageName = saveImage(carDto.getFile());
+            storageService.deleteFile(imageName);
+            String newImageName = storageService.uploadFile(carDto.getFile());
 
             Car car = getCarFromCarDto(carDto, newImageName);
             car.setId(id);
@@ -84,29 +84,5 @@ public class CarServiceImpl implements CarService {
         car.setModel(carDto.getModel());
 
         return car;
-    }
-
-    private String saveImage(MultipartFile file) throws IOException {
-
-        File uploadDir = new File(imagesPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-
-        String imageName = UUID.randomUUID().toString();
-        imageName += "." + file.getOriginalFilename();
-        file.transferTo(new File(imagesPath + "/" + imageName));
-
-
-        return imageName;
-    }
-
-    private boolean deleteImage(String imageName) {
-        File file = new File(imagesPath + "/" + imageName);
-
-        file.delete();
-
-        return false;
     }
 }

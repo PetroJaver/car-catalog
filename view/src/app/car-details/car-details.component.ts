@@ -16,18 +16,21 @@ export class CarDetailsComponent {
 
   id: number;
 
-  constructor(public auth:AuthService,private activateRoute: ActivatedRoute, private carService: CarService, private toast: ToastrService, private router: Router) {
+  constructor(public auth: AuthService, private activateRoute: ActivatedRoute, private carService: CarService, private toast: ToastrService, private router: Router) {
 
     this.id = activateRoute.snapshot.params['id'];
   }
 
   delete(id: number): void {
-    this.carService.delete(id).subscribe(() => this.toast.success("Car successful delete!", "Success", {
-      progressBar: true,
-      timeOut: 5000,
-      progressAnimation: 'increasing'
-    }))
-    this.router.navigate(['/']);
+    this.carService.delete(id).subscribe(() => {
+      this.toast.success("Car successful delete!", "Success", {
+        progressBar: true,
+        timeOut: 5000,
+        progressAnimation: 'increasing'
+      });
+
+      this.router.navigate(['/']);
+    })
   }
 
   ngOnInit(): void {
