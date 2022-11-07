@@ -3,24 +3,36 @@
     <h1>Details</h1>
   </div>
 
-  <div class="container-md mt-5 mb-5 text-bg-dark rounded-5 p-5 shadow-lg">
-    <div class="p-3 text-center img-top" style=" display: block;">
+  <div class="container my-5 text-bg-dark rounded-5 p-5 shadow-lg">
+    <div class="p-3 text-center img-top col-12">
       <img style="max-width: 100%;" [src]="'http://localhost:8080/cars/images/'+car.id+'/' + car.imageName">
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="col-12 text-center">
       <h1>{{car.brand}} {{car.model}}</h1>
     </div>
     <hr>
-    <h4>Body:<span class="text-secondary"> {{car.bodyType|lowercase}}</span></h4>
-    <hr style="width: 30%">
-    <h4>Transmission: <span class="text-secondary">{{car.transmissionType|lowercase}}</span></h4>
-    <hr style="width: 30%">
-    <h4>Engine size: <span class="text-secondary">{{car.engineSize|number}}</span></h4>
-    <hr style="width: 30%">
-    <h4>Year: <span class="text-secondary">{{car.year}}</span></h4>
-    <hr style="width: 30%">
+    <div class="col-12 row">
+      <h4 class="col-1 ps-0 mb-0">Body:</h4>
+      <h4 class="text-secondary col-2 mb-0">{{car.bodyType|lowercase}}</h4>
+    </div>
+    <hr class="col-4">
+    <div class="col-12 row">
+      <h4 class="col-2 ps-0 mb-0 me-2">Transmission:</h4>
+      <h4 class="text-secondary col-2 mb-0">{{car.transmissionType|lowercase}}</h4>
+    </div>
+    <hr class="col-4">
+    <div class="col-12 row">
+      <h4 class="col-2 ps-0 mb-0">Engine size:</h4>
+      <h4 class="text-secondary col-2 mb-0">{{car.engineSize|number}}</h4>
+    </div>
+    <hr class="col-4">
+    <div class="col-12 row">
+      <h4 class="col-1 ps-0 mb-0">Year:</h4>
+      <h4 class="text-secondary col-2 mb-0">{{car.year}}</h4>
+    </div>
+    <hr class="col-4">
     <h4>Description:</h4>
-    <div style="word-wrap: break-word;">
+    <div class="col-12" style="word-wrap: break-word;">
       <p class="text-secondary" style="font-size: 24px">{{car.description}}</p>
     </div>
     <hr>
