@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface CarService {
-    void saveCar(CarDTO car) throws IOException, ParseException;
+    void saveCar(CarDTO car);
 
     boolean deleteCarById(Long id);
 
@@ -16,5 +16,5 @@ public interface CarService {
 
     List<Car> findAll();
 
-    boolean update(CarDTO car, Long id) throws ParseException,IOException;
+    boolean update(CarDTO car, Long id);
 }

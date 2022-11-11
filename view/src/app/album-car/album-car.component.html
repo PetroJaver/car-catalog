@@ -3,48 +3,61 @@
     <h1>catalog<span *ngIf="noCars"> is empty!</span></h1>
   </div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let car of cars">
+    <div class="col" *ngFor="let car of cars;let i = index">
       <div class="card h-100 rounded-4 text-bg-dark box-shadow ">
         <div class="hover-zoom p-3 text-center card-img-top" style="width: 100%; display: block; cursor: pointer;">
-          <img style="max-width: 100%;" [src]="'http://localhost:8080/cars/images/'+car.id+'/' + car.imageName"
+          <img style="max-width: 100%;" [src]="'https://carcatalogimages.s3.eu-west-3.amazonaws.com/'+ car.imageName"
                [routerLink]="['details', car.id]">
         </div>
         <div class="card-title text-center">
-          <h3>{{car.brand}} {{car.model}}</h3>
+          <h3>{{car.brand.replace('_',' ')|titlecase}} {{car.model}}</h3>
         </div>
         <div class="card-body">
           <p class="margin-left-2 margin-right-2">{{car.shortDescription}}</p>
         </div>
-        <div *ngIf="auth.isAuthenticated()" class="card-body mb-3 d-flex justify-content-end"
-             style="position: relative;">
+        <div *ngIf="auth.isAuthenticated()"
+                     class="card-body mb-3 d-flex justify-content-end"
+                     style="position: relative;">
           <div style="position: absolute;bottom: 0;">
             <button type="button" class="btn btn-danger mr-3" data-bs-toggle="modal"
-                    [attr.data-bs-target]="'#modal'+car.id">Delete
+                    [attr.data-bs-target]="'#modal'+car.id" (mouseover)="textDeleteButton[i]=true"
+                    (mouseleave)="textDeleteButton[i]=false">
+
+              <span [hidden]="textDeleteButton[i]">
+                <img src="assets/icons/trash.svg" width="16">
+              </span>
+              <span [hidden]="!textDeleteButton[i]">Delete</span>
             </button>
-            <button type="button" class="btn btn-warning" [routerLink]="['edit', car.id]">Edit</button>
+            <button type="button" class="btn btn-warning" [routerLink]="['edit', car.id]"
+                    (mouseover)="textEditButton[i]=true" (mouseleave)="textEditButton[i]=false">
+              <span [hidden]="textEditButton[i]">
+                <img src="assets/icons/pen-solid.svg" width="16">
+              </span>
+              <span [hidden]="!textEditButton[i]" class="fw-semibold">Edit</span>
+            </button>
           </div>
         </div>
-      </div>
-      <div class="modal fade" [id]="'modal'+car.id" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-          <div class="modal-content border-0">
-            <div class="modal-header border-0">
-              <h1 class="modal-title fs-6" id="staticBackdropLabel">Are you sure you want to delete the car?</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="d-flex justify-content-center modal-footer border-0">
-              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete(car.id)">Delete
-              </button>
+
+        <div class="modal fade" [id]="'modal'+car.id" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0">
+              <div class="modal-header border-0">
+                <h1 class="modal-title fs-6 text-center text-dark" id="staticBackdropLabel">Are you sure you want to delete the
+                  car?</h1>
+              </div>
+              <div class="d-flex justify-content-center modal-footer border-0">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete(car.id)">
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 </div>
-
-
-
 
 

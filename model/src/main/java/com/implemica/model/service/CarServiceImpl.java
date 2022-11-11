@@ -4,7 +4,6 @@ import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import com.implemica.model.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +20,7 @@ public class CarServiceImpl implements CarService {
     CarRepository carRepository;
 
     @Override
-    public void saveCar(CarDTO carDto) throws IOException, ParseException {
+    public void saveCar(CarDTO carDto) {
         MultipartFile file = carDto.getFile();
         String imageName = storageService.uploadFile(file);
         carRepository.save(getCarFromCarDto(carDto, imageName));
@@ -42,8 +41,14 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car findCarById(Long id) {
+        Car car;
+        try {
+            car = carRepository.findById(id).orElseThrow();
+        }catch (Exception e){
+            car = null;
+        }
 
-        return carRepository.findById(id).orElseThrow();
+       return car;
     }
 
     @Override
@@ -52,15 +57,16 @@ public class CarServiceImpl implements CarService {
         return (List<Car>) carRepository.findAll();
     }
 
-
     @Override
-    public boolean update(CarDTO carDto, Long id) throws IOException {
+    public boolean update(CarDTO carDto, Long id) {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            storageService.deleteFile(imageName);
-            String newImageName = storageService.uploadFile(carDto.getFile());
+            if(carDto.getFile()!=null){
+                storageService.deleteFile(imageName);
+                imageName = storageService.uploadFile(carDto.getFile());
+            }
 
-            Car car = getCarFromCarDto(carDto, newImageName);
+            Car car = getCarFromCarDto(carDto, imageName);
             car.setId(id);
 
             carRepository.save(car);

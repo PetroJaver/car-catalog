@@ -1,28 +1,43 @@
 <div class="container-fluid" style="padding: 2% 8%">
   <div class="text-center">
-    <div class="container-md text-bg-dark rounded-5 col-4 p-4">
+    <div class="container-md text-bg-dark rounded-5 col-lg-4 col-sm-6 col-12 p-4">
       <div class="form-signin w-100">
         <form [formGroup]="user" (ngSubmit)="onSubmit()">
           <img class="mb-4" src="../../assets/logo.png" alt="" width="100">
           <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
           <div class="col-12 mb-2">
-            <label for="username" class="form-label w-100 text-start fs-4">Email address:</label>
-            <div class="input-group mb-3">
+            <label for="username" class="form-label w-100 text-start fs-4 required">Email address:</label>
+            <div class="input-group" [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" (keydown.enter)="nextPassword()">
               <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon2"
                      id="username" formControlName="email"
-                     [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid">
+                     [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" (keydown.enter)="nextPassword()" #emailField>
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/at-solid.svg" width="16"></span>
+            </div>
+            <div class="valid-feedback text-start">
+              Looks good!
+            </div>
+            <div class="invalid-feedback text-start">
+              <span [hidden]="!email?.errors?.['email']">Please enter a valid email!</span>
+              <span [hidden]="!email?.errors?.['required']">Required!</span>
             </div>
           </div>
 
           <div class="col-12 mb-2">
-            <label for="username" class="form-label w-100 text-start fs-4">Password:</label>
-            <div class="input-group mb-3">
+            <label for="username" class="form-label w-100 text-start fs-4 required">Password:</label>
+            <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
               <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
                      id="password" formControlName="password"
-                     [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
+                     [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid" #passwordField>
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
+
+            </div>
+            <div class="valid-feedback text-start">
+              Looks good!
+            </div>
+            <div class="invalid-feedback text-start">
+              <span [hidden]="!password?.errors?.['minlength']">Min length 4 symbols!</span>
+              <span [hidden]="!password?.errors?.['required']||password?.errors?.['minlength']">Required!</span>
             </div>
           </div>
 
@@ -35,4 +50,3 @@
     </div>
   </div>
 </div>
-

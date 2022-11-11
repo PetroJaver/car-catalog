@@ -1,5 +1,6 @@
 package com.implemica.model.dto;
 
+import com.implemica.model.enums.Brand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.enums.CarsBodyType;
 import lombok.*;
@@ -11,7 +12,7 @@ import java.util.List;
 public class CarDTO {
     private MultipartFile file;
 
-    private String brand;
+    private Brand brand;
 
     private String model;
 

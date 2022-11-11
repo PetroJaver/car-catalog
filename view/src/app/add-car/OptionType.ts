@@ -1,0 +1,20 @@
+export enum OptionType{
+  ONE = 'Climate control',
+  TWO = 'Cruise control',
+  THREE = 'Door closers',
+  FOUR = 'Signaling',
+  FIVE = 'Electronic immobilizer',
+  SIX = 'Automatic headlights',
+  SEVEN = 'Rear View Camera',
+  EIGHT = 'Automatic parking system',
+  NINE = 'ABS',
+  TEN = 'ESP',
+  ELEVEN = 'Airbags',
+  TWELVE = 'Front seat ventilation',
+  THIRTEEN = 'Automatic braking system',
+  FOURTEEN = 'Heated steering wheel',
+  FIFTEEN = 'Fog lights',
+  SIXTEEN = 'Heated windshield',
+  SEVENTEEN = 'A roof with a panoramic view',
+  EIGHTEEN = 'Driver\'s seat settings memory'
+}

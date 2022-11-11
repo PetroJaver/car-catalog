@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./shared/service/auth.service";
 import {Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(public auth: AuthService, private router: Router) {
+  textLogInButton:boolean = false;
+  textLogOutButton:boolean = false;
+  textAddCarButton:boolean = false;
+
+  constructor(public auth: AuthService, private router: Router,private titleService: Title) {
+    this.titleService.setTitle('car-catalog');
   }
 
   ngOnInit() {
@@ -24,7 +30,6 @@ export class AppComponent implements OnInit {
           this.auth.logout();
         } else {
           this.auth.setToken(token)
-          this.router.navigate(['/'])
         }
       }
     }, false);

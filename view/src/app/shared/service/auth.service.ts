@@ -13,7 +13,7 @@ export class AuthService {
 
   private token: any = null;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
   }
 
   login(user: User): Observable<{ token: string }> {
@@ -22,7 +22,6 @@ export class AuthService {
         ({token}) => {
           localStorage.setItem('auth-token', token)
           this.setToken(token)
-          this.router.navigate(['/'])
         }));
   }
 
@@ -41,6 +40,5 @@ export class AuthService {
   logout() {
     this.token = null;
     localStorage.clear();
-    this.router.navigate(['/login'])
   }
 }

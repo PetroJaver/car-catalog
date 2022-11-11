@@ -1,110 +1,114 @@
 <div class="container-fluid" style="padding: 2% 8%">
-  <div class="container text-center w-100 mb-4" style="font-family: 'Luckiest Guy', cursive;">
-    <h1>Edit Car</h1>
+  <div class="container  text-center w-100 " style="font-family: 'Luckiest Guy', cursive;">
+    <h1>Add Car</h1>
   </div>
-  <form class="container my-5 text-bg-dark rounded-5 p-5" [formGroup]="carForm" (ngSubmit)="onSubmit()">
-    <div class="row g-3"><!--image-->
-      <div class="col-12 p-3 text-center img-top" style=" display: block;">
+  <form class="container my-5 p-5 text-bg-dark rounded-5 fw-semibold" [formGroup]="carForm" (ngSubmit)="onSubmit()">
+    <div class="row g-3">
+      <!--image-->
+      <div class="d-block p-3 text-center img-top">
         <img style="max-width: 100%; " [src]="pathImage">
       </div>
-      <div class="col-12 row">
-        <label for="image" class="col-2 form-label fs-4 fw-semibold required">Files</label>
-        <div class="col-10 ps-1">
+      <!--image choose-->
+      <div class="row g-0">
+        <label for="image" class="col-sm-2 form-label fs-4 required">Files</label>
+        <div class="col-sm-10">
           <input class="form-control" type="file" id="image"
                  [ngClass]="{'is-valid':file?.valid,'is-invalid':file?.invalid&&file?.dirty}" formControlName="file"
                  (change)="uploadFile($event)">
           <div class="valid-feedback">
             Looks good!
           </div>
-          <div class="invalid-feedback">
-            Looks bad!
+          <div class="invalid-feedback fs-0">
+            Required!
           </div>
         </div>
       </div>
       <hr>
       <!--brand and model-->
-      <div class="col-12 row justify-content-between">
-        <div class="col-6 row">
-          <label for="brand" class="col-4 form-label fs-4 fw-semibold required">Brand</label>
-          <div class="col-8">
-            <input type="text" class="form-control col-12" id="brand"
-                   [ngClass]="{'is-valid':brand?.valid,'is-invalid':brand?.invalid&&brand?.dirty}"
-                   formControlName="brand"
-                   placeholder="Enter brand">
+      <div class="row justify-content-between g-0">
+        <div class="col-sm-6 row mb-1 mb-sm-0 g-0">
+          <label for="brand" class="col-sm-4 form-label fs-4 required">Brand</label>
+          <div class="col-sm-8">
+            <select class="form-select"
+                    [ngClass]="{'is-valid':brand?.valid,'is-invalid':brand?.invalid&&brand?.dirty}"
+                    formControlName="brand" id="brand">
+              <option selected value="">Brand</option>
+              <option *ngFor="let brand of brandChoose | keyvalue"
+                      value="{{brand.key}}">{{brand.value}}</option>
+            </select>
+
             <div class="valid-feedback">
               Looks good!
             </div>
             <div class="invalid-feedback">
-              Looks bad!
+              Please choose brand!
             </div>
           </div>
         </div>
-        <div class="col-6 row">
-          <label for="model" class="col-4 form-label fs-4 fw-semibold required">Model</label>
-          <div class="col-8">
-            <input type="text" class="form-control col-12" id="model"
+        <div class="col-sm-6 row g-0">
+          <label for="model" class="col-sm-4 form-label fs-4 text-sm-center required">Model</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="model"
                    [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
-                   formControlName="model"
-                   placeholder="Enter model">
+                   formControlName="model" placeholder="Enter model">
             <div class="valid-feedback">
               Looks good!
             </div>
             <div class="invalid-feedback">
-              Looks bad!
+              <span [hidden]="!model?.errors?.['maxlength']">Max length 40 symbols!</span>
+              <span [hidden]="!model?.errors?.['minlength']">Min length 2 symbols!</span>
+              <span [hidden]="!model?.errors?.['required']">Required!</span>
+              <span [hidden]="!model?.errors?.['pattern']||(model?.errors?.['minlength']||model?.errors?.['maxlength']||
+                               model?.errors?.['required'])">
+                Valid characters: numbers, latin alphabet characters, space, and hyphen!
+              </span>
             </div>
           </div>
         </div>
       </div>
-      <hr>
-      <!--body-->
-      <div class="col-12 row">
-        <div class="col-6 row">
-          <label for="bodyType" class="col-6 form-label fs-4 fw-semibold required">Body</label>
-          <div class="col-6">
-            <select class="form-select col-12"
+      <hr class="mb-0">
+
+      <div class="col-sm-6 row g-0 gy-3">
+        <!--body-->
+        <div class="row g-0">
+          <label for="bodyType" class="col-sm-6 form-label fs-4 required">Body</label>
+          <div class="col-sm-6">
+            <select class="form-select"
                     [ngClass]="{'is-valid':bodyType?.valid,'is-invalid':bodyType?.invalid&&bodyType?.dirty}"
                     formControlName="bodyType" id="bodyType">
               <option selected value="">Body</option>
-              <option *ngFor="let bodyType of bodyTypes | keyvalue"
-                      value="{{bodyType.key}}">{{bodyType.value}}</option>
+              <option *ngFor="let bodyType of bodyTypes | keyvalue" value="{{bodyType.key}}">{{bodyType.value}}</option>
             </select>
             <div class="valid-feedback">
               Looks good!
             </div>
             <div class="invalid-feedback">
-              Looks bad!
+              Please choose body!
             </div>
           </div>
         </div>
-      </div>
-      <hr class="col-6">
-      <!--transmission-->
-      <div class="col-12 row">
-        <div class="row col-6">
-          <label for="transmissionType" class="col-6 form-label fs-4 fw-semibold required">Transmission</label>
-          <div class="col-6">
-            <select class="form-select col-12" aria-label=".form-select example"
-                    [ngClass]="{'is-valid':transmissionType?.valid,'is-invalid':transmissionType?.invalid&&transmissionType?.dirty}"
-                    formControlName="transmissionType" id="transmissionType">
-              <option selected value="">Transmission</option>
-              <option *ngFor="let transmissionType of transmissionTypes | keyvalue"
-                      [value]="transmissionType.key">{{transmissionType.value}}</option>
-            </select>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Looks bad!
+        <hr>
+
+        <!--transmission-->
+        <div class="row g-0">
+          <label for="bodyType" class="col-sm-6 form-label fs-4 required">Transmission</label>
+          <div class="col-sm-6 d-block d-sm-flex d-md-block d-xl-flex justify-content-between">
+            <div *ngFor="let transmission of transmissionTypes|keyvalue;let i = index" class="form-check form-check-inline
+             m-0 ms-2 ms-sm-0 ms-md-2 ms-xl-0">
+              <input class="form-check-input mt-2" type="radio" formControlName="transmissionType"
+                     [value]="transmission.key" [id]="transmission">
+              <label class="form-check-label fs-5" [for]="transmission">
+                {{transmission.value}}
+              </label>
             </div>
           </div>
         </div>
-      </div>
-      <hr class="col-6">
-      <!--engine size-->
-      <div class="col-12 row">
-        <div class="row col-6">
-          <label for="engine" class="col-6 form-label fs-4 fw-semibold required">Engine size</label>
-          <div class="col-6">
+        <hr>
+
+        <!--engine size-->
+        <div class="row g-0">
+          <label for="engine" class="col-sm-6 form-label fs-4 required">Engine size</label>
+          <div class="col-sm-6">
             <input type="number" step="0.1" class="form-control " id="engine" min="0.1" max="10"
                    [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
                    placeholder="Engine size" formControlName="engineSize">
@@ -112,17 +116,18 @@
               Looks good!
             </div>
             <div class="invalid-feedback">
-              Looks bad!
+              <span [hidden]="!engineSize?.errors?.['max']">Max engine size 10!</span>
+              <span [hidden]="!engineSize?.errors?.['min']">Min engine size 0.1!</span>
+              <span [hidden]="!engineSize?.errors?.['required']">Required!</span>
             </div>
           </div>
         </div>
-      </div>
-      <hr class="col-6">
-      <!--year-->
-      <div class="col-12 row">
-        <div class="col-6 row">
-          <label for="engine" class="col-6 form-label fs-4 fw-semibold required">Year</label>
-          <div class="col-6">
+        <hr>
+
+        <!--year-->
+        <div class="row g-0">
+          <label for="engine" class="col-sm-6 form-label fs-4 required">Year</label>
+          <div class="col-sm-6">
             <input type="number" class="form-control" min="1880" max="2100" id="year" [class.is-valid]="year?.valid"
                    [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year"
                    placeholder="Year">
@@ -130,16 +135,19 @@
               Looks good!
             </div>
             <div class="invalid-feedback">
-              Looks bad!
+              <span [hidden]="!year?.errors?.['max']">Max year 2100!</span>
+              <span [hidden]="!year?.errors?.['min']">Min year 1800!</span>
+              <span [hidden]="!year?.errors?.['required']">Required!</span>
             </div>
           </div>
         </div>
+        <hr>
       </div>
-      <hr>
+
       <!--short description-->
-      <div class="col-12 row mb-1">
-        <label for="shortDescription" class="form-label col-12 fs-4 fw-semibold required">Short description:</label>
-        <textarea class="form-control col-12" id="shortDescription" rows="3" maxlength="150"
+      <div class="row g-0">
+        <label for="shortDescription" class="form-label fs-4 required">Short description:</label>
+        <textarea class="form-control col-12" id="shortDescription" rows="3"
                   [class.is-valid]="shortDescription?.valid"
                   [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
                   formControlName="shortDescription" placeholder="Short description"></textarea>
@@ -147,58 +155,107 @@
           Looks good!
         </div>
         <div class="invalid-feedback">
-          Looks bad!
+          <span [hidden]="!shortDescription?.errors?.['maxlength']">Max length 150 symbols!</span>
+          <span [hidden]="!shortDescription?.errors?.['minlength']">Min length 25 symbols!</span>
+          <span [hidden]="!shortDescription?.errors?.['required']">Required!</span>
         </div>
       </div>
       <hr>
       <!--description-->
-      <div class="col-12 row mb-1">
-        <label for="description" class="form-label col-12 fs-4 fw-semibold required">Description:</label>
-        <textarea class="form-control col-12" id="description" rows="3" maxlength="5000"
+      <div class="row g-0">
+        <label for="description" class="form-label fs-4 required">Description:</label>
+        <textarea class="form-control" id="description" rows="5"
                   [class.is-valid]="description?.valid" [class.is-invalid]="description?.invalid&&description?.dirty"
                   formControlName="description" placeholder="Description"></textarea>
         <div class="valid-feedback">
           Looks good!
         </div>
         <div class="invalid-feedback">
-          Looks bad!
+          <span [hidden]="!description?.errors?.['maxlength']">Max length 5000 symbols!</span>
+          <span [hidden]="!description?.errors?.['minlength']">Min length 50 symbols!</span>
+          <span [hidden]="!description?.errors?.['required']">Required!</span>
         </div>
       </div>
       <hr>
       <!--options list-->
-      <div formArrayName="optionalList" class="row col-12">
-        <div class="col-12">
-          <h4>Optional list:</h4>
-        </div>
-        <div *ngFor="let option of optionalList.controls; let i=index" class="col-12 row mb-3"
-             [class.is-valid]="optionalList.at(i)?.valid"
-             [class.is-invalid]="optionalList.at(i)?.invalid&&optionalList.at(i)?.dirty">
-          <!-- The repeated alias template -->
-          <div class="col-6 me-3 row">
-            <input class="form-control" id="option-{{ i }}" type="text" maxlength="30"
-                   [class.is-valid]="optionalList.at(i)?.valid"
-                   [class.is-invalid]="optionalList.at(i)?.invalid&&optionalList.at(i)?.dirty"
-                   [formControlName]="i" placeholder="Required*" (keydown.enter)="addOption(i+1)"
-                   #listInputOptional>
+      <div formArrayName="optionalList" class="row g-0">
+        <span class="fs-4">
+          Options:
+        </span>
+
+        <div class="row g-0">
+          <div *ngFor="let option of optionalList.controls;let i = index"
+               class="col-md-6 col-xl-4 m-0">
+            <label>
+              <button type="button" (click)='dropOption(i)' class="btn-close btn-close-white btn-sm"
+                      aria-label="Close">
+              </button>
+
+              {{option.value}}
+            </label>
           </div>
-          <button type="button" class="btn btn-danger col-2" (click)="removeOption(i)">Drop option</button>
         </div>
-        <div class="valid-feedback">
-          Looks good!
-        </div>
-        <div class="invalid-feedback">
-          Looks bad!
-        </div>
-        <button type="button" class="btn btn-success col-2" (click)="addOption(optionalList.length-1)"
-                [disabled]="optionalList.invalid">Add option
-        </button>
       </div>
+
+      <div class="row g-0">
+        <div class="col-sm-6 row g-0 gy-2 ps-0">
+
+          <div class="col-sm-10 col-xl-8 col-xl-6"
+               [class.is-valid]="optional?.valid&&optional?.value!==''&&optional?.value!==null"
+               [class.is-invalid]="optional?.invalid&&optional?.dirty">
+            <input #optionalInput class="form-control" id="option" type="text"
+                   [class.is-valid]="optional?.valid&&optional?.value!==''&&optional?.value!==null"
+                   [class.is-invalid]="optional?.invalid&&optional?.dirty"
+                   formControlName="optional" placeholder="Add option" (keydown.enter)="addOption()">
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              <span [hidden]="!optional?.errors?.['maxlength']">Max length 25 symbols!</span>
+              <span [hidden]="!optional?.errors?.['minlength']">Min length 2 symbols!</span>
+              <span
+                [hidden]="!optional?.errors?.['pattern']||(optional?.errors?.['minlength']||optional?.errors?.['maxlength'])">
+                Valid characters: numbers, latin alphabet characters, space, and hyphen!
+              </span>
+            </div>
+          </div>
+
+          <div class="col-sm-2 d-flex justify-content-end">
+            <div class="text-center">
+              <button type="button" class="btn btn-success" (click)="addOption()"
+                      [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
+                <img src="assets/icons/plus-solid.svg" width="21">
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <hr>
       <!--buttons-->
-      <div class="d-flex justify-content-between w-100">
-        <button type="submit" class="btn btn-success col-5" [disabled]="!carForm.valid">Edit car</button>
-        <button type="reset" class="btn btn-danger col-5">Reset</button>
+      <div class="d-flex justify-content-end p-0">
+        <button type="button" (click)="onReset()" class="btn btn-danger col-auto me-3"
+                (mouseover)="textResetCarButton=true"
+                (mouseleave)="textResetCarButton=false">
+          <span [hidden]="textResetCarButton===true">
+                <img src="assets/icons/xmark-solid.svg" width="16">
+          </span>
+          <span [hidden]="textResetCarButton===false">Reset</span><span class="sr-only">(current)</span>
+        </button>
+
+        <button type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid"
+                (mouseover)="textAddCarButton=true"
+                (mouseleave)="textAddCarButton=false">
+          <span [hidden]="textAddCarButton===true">
+                <img src="assets/icons/pen-solid.svg" width="21">
+          </span>
+          <span [hidden]="textAddCarButton===false">Edit car</span><span class="sr-only">(current)</span>
+        </button>
       </div>
     </div>
   </form>
 </div>
+
+<p>{{carForm.value|json}}</p>
+<p>{{isUploadImage}}</p>

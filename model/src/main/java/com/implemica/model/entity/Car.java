@@ -1,5 +1,6 @@
 package com.implemica.model.entity;
 
+import com.implemica.model.enums.Brand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.enums.CarsBodyType;
 import lombok.*;
@@ -22,8 +23,9 @@ public class Car {
     @Column(name = "image_name", nullable = false)
     private String imageName;
 
-    @Column(nullable = false, length = 20)
-    private String brand;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Brand brand;
 
     @Column(nullable = false, length = 40)
     private String model;

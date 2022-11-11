@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 @Service
@@ -40,23 +38,22 @@ public class StorageService {
 
         File file = convertMultiPartFileToFile(multipartFile);
 
-        s3Client.putObject(new PutObjectRequest(bucketName,fileName,file));
+        FileInputStream fileInputStream;
+
+        try {
+            fileInputStream = new FileInputStream(file);
+        }catch (FileNotFoundException e){
+            fileInputStream = null;
+        }
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setCacheControl("max-age=31536000, must-revalidate");
+
+        s3Client.putObject(new PutObjectRequest(bucketName,fileName, fileInputStream,metadata));
 
         file.delete();
 
         return fileName;
-    }
-
-    public byte[] downloadFile(String fileName){
-        S3Object s3Object = s3Client.getObject(bucketName, fileName);
-        S3ObjectInputStream inputStream = s3Object.getObjectContent();
-        try{
-            byte[] content = IOUtils.toByteArray(inputStream);
-            return content;
-        }catch (IOException e){
-
-        }
-        return null;
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {

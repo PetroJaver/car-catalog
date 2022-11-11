@@ -10,9 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
+
 
 @RequestMapping("/")
 @RestController()
@@ -31,11 +30,7 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        try {
-            carService.saveCar(carDto);
-        } catch (IOException | ParseException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        carService.saveCar(carDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -54,10 +49,9 @@ public class Controller {
         return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
     @PutMapping(value = "cars/{id}")
     @PreAuthorize("hasAuthority('cars:update')")
-    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @ModelAttribute() CarDTO carDto) throws IOException {
+    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @ModelAttribute() CarDTO carDto) {
         final boolean updated = carService.update(carDto, id);
 
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -69,13 +63,6 @@ public class Controller {
         final boolean deleted = carService.deleteCarById(id);
 
         return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @GetMapping(value = "cars/images/{id}/{anyStr}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getImageWithMediaType(@PathVariable(name = "id") Long id) {
-        String imageName = carService.findCarById(id).getImageName();
-
-        return storageService.downloadFile(imageName);
     }
 }
 
