@@ -1,10 +1,8 @@
 package com.implemica.model.service;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,23 +33,19 @@ public class StorageService {
     public String uploadFile(MultipartFile multipartFile){
         String fileName = UUID.randomUUID().toString();
         fileName += "." + multipartFile.getOriginalFilename();
-
         File file = convertMultiPartFileToFile(multipartFile);
 
-        FileInputStream fileInputStream;
-
         try {
-            fileInputStream = new FileInputStream(file);
-        }catch (FileNotFoundException e){
-            fileInputStream = null;
+            FileInputStream fileInputStream = new FileInputStream(file);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setCacheControl("max-age=31536000, must-revalidate");
+
+            s3Client.putObject(new PutObjectRequest(bucketName,fileName, fileInputStream,metadata));
+
+            file.delete();
+        }catch (Exception e){
+            return null;
         }
-
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setCacheControl("max-age=31536000, must-revalidate");
-
-        s3Client.putObject(new PutObjectRequest(bucketName,fileName, fileInputStream,metadata));
-
-        file.delete();
 
         return fileName;
     }
@@ -61,7 +55,7 @@ public class StorageService {
         try(FileOutputStream fos = new FileOutputStream(convertedFile)){
             fos.write(file.getBytes());
         }catch (IOException e){
-
+            return null;
         }
 
         return convertedFile;

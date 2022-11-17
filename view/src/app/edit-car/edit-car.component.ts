@@ -10,6 +10,7 @@ import {AuthService} from "../shared/service/auth.service";
 import {Title} from "@angular/platform-browser";
 import {Brand} from "../add-car/Brand";
 import { Location } from '@angular/common'
+import {CarDto} from "../shared/models/CarDto";
 @Component({
   selector: 'app-edit-car',
   templateUrl: './edit-car.component.html',
@@ -178,20 +179,22 @@ export class EditCarComponent implements OnInit {
 
   onSubmit() {
     const data: FormData = new FormData();
+    let carDto:CarDto = new CarDto();
 
     if(this.isUploadImage){
       data.append('file', this.carForm.get('file')?.value)
     }
 
-    data.append('brand', this.carForm.get('brand')?.value)
-    data.append('model', this.carForm.get('model')?.value)
-    data.append('bodyType', this.carForm.get('bodyType')?.value)
-    data.append('year', this.carForm.get('year')?.value)
-    data.append('transmissionType', this.carForm.get('transmissionType')?.value)
-    data.append('engineSize', this.carForm.get('engineSize')?.value)
-    data.append('description', this.carForm.get('description')?.value)
-    data.append('shortDescription', this.carForm.get('shortDescription')?.value)
-    data.append('optionsList', this.carForm.get('optionalList')?.value)
+    carDto.optionsList =  this.carForm.get('optionalList')?.value;
+    carDto.brand = this.carForm.get('brand')?.value;
+    carDto.model = this.carForm.get('model')?.value;
+    carDto.bodyType = this.carForm.get('bodyType')?.value;
+    carDto.year = this.carForm.get('year')?.value;
+    carDto.transmissionType = this.carForm.get('transmissionType')?.value;
+    carDto.engineSize = this.carForm.get('engineSize')?.value;
+    carDto.description = this.carForm.get('description')?.value;
+    carDto.shortDescription = this.carForm.get('shortDescription')?.value;
+    data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
 
     this.carService.update(data, this.id).subscribe((data) => {
       this.toast.success("Car successful update!", "Success", {
@@ -210,8 +213,6 @@ export class EditCarComponent implements OnInit {
         this.router.navigate(['/'])
       }
     })
-
-
   }
 
 

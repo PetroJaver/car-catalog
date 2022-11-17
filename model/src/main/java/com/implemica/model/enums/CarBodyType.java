@@ -1,6 +1,6 @@
 package com.implemica.model.enums;
 
-public enum CarsBodyType {
+public enum CarBodyType {
     HATCHBACK,
     SEDAN,
     MUV,

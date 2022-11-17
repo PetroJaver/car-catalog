@@ -1,6 +1,6 @@
 package com.implemica.model.enums;
 
-public enum Brand {
+public enum CarBrand {
     AUDI("Audi"), ACURA("Acura"), ALFA("Alfa"), ROMEO("Romeo"),
     ASTON_MARTIN("Aston Martin"), BENTLEY("Bentley"), BYD("BYD"), BMW("BMW"),
     BRILLIANCE("Brilliance"), BUICK("Buick"), BUGATTI("Bugatti"),
@@ -24,11 +24,7 @@ public enum Brand {
 
     private final String stringValue;
 
-    Brand(String stringValue) {
+    CarBrand(String stringValue) {
         this.stringValue = stringValue;
-    }
-
-    public String getStringValue() {
-        return stringValue;
     }
 }

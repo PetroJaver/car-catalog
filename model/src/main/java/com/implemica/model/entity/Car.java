@@ -1,8 +1,8 @@
 package com.implemica.model.entity;
 
-import com.implemica.model.enums.Brand;
+import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
-import com.implemica.model.enums.CarsBodyType;
+import com.implemica.model.enums.CarBodyType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "car")
@@ -20,37 +19,37 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "image_name", nullable = false)
+    @Column(name = "image_name")
     private String imageName;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Brand brand;
+    private CarBrand brand;
 
     @Column(nullable = false, length = 40)
     private String model;
 
-    @Column(name = "body_type", nullable = false)
+    @Column(name = "body_type")
     @Enumerated(EnumType.STRING)
-    private CarsBodyType bodyType;
+    private CarBodyType bodyType;
 
     @Column(nullable = false)
     private Integer year;
 
-    @Column(name = "transmission_type", nullable = false)
+    @Column(name = "transmission_type")
     @Enumerated(EnumType.STRING)
     private CarTransmissionType transmissionType;
 
-    @Column(scale = 1, nullable = false)
+    @Column(scale = 1)
     private double engineSize;
 
-    @Column(length = 10000, nullable = false)
-    private String description;
-
-    @Column(name = "short_description", nullable = false)
+    @Column(name = "short_description")
     private String shortDescription;
 
+    @Column(length = 10000)
+    private String description;
+
     @ElementCollection
-    @Column(name = "options_list", nullable = false)
+    @Column(name = "options_list")
     private List<String> optionsList;
 }

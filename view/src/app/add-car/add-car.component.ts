@@ -9,6 +9,7 @@ import {Brand} from "./Brand";
 import {Title} from "@angular/platform-browser";
 import {OptionType} from "./OptionType";
 import {AuthService} from "../shared/service/auth.service";
+import {CarDto} from "../shared/models/CarDto";
 
 @Component({
   selector: 'app-add-car',
@@ -156,7 +157,7 @@ export class AddCarComponent implements OnInit {
     const data: FormData = new FormData()
     let optionListData: string[] = []
     let lengthBaseOptions = this.baseOptions.length
-
+    let carDto:CarDto = new CarDto();
 
     for (let i = 0; i < this.optionalCheckBox.length; i++) {
       if (i < lengthBaseOptions && this.optionalCheckBox.at(i).value)
@@ -166,26 +167,27 @@ export class AddCarComponent implements OnInit {
         optionListData.push(this.addedOptions[i - lengthBaseOptions])
     }
 
+    carDto.optionsList =  optionListData;
+    // @ts-ignore
+    carDto.brand = this.car.get('brand')?.value;
+    // @ts-ignore
+    carDto.model = this.car.get('model')?.value;
+    // @ts-ignore
+    carDto.bodyType = this.car.get('bodyType')?.value;
+    // @ts-ignore
+    carDto.year = this.car.get('year')?.value;
+    // @ts-ignore
+    carDto.transmissionType = this.car.get('transmissionType')?.value;
+    // @ts-ignore
+    carDto.engineSize = this.car.get('engineSize')?.value;
+    // @ts-ignore
+    carDto.description = this.car.get('description')?.value;
+    // @ts-ignore
+    carDto.shortDescription = this.car.get('shortDescription')?.value;
     // @ts-ignore
     data.append('file', this.car.get('file')?.value)
-    // @ts-ignore
-    data.append('brand', this.car.get('brand')?.value)
-    // @ts-ignore
-    data.append('model', this.car.get('model')?.value)
-    // @ts-ignore
-    data.append('bodyType', this.car.get('bodyType')?.value)
-    // @ts-ignore
-    data.append('year', this.car.get('year')?.value)
-    // @ts-ignore
-    data.append('transmissionType', this.car.get('transmissionType')?.value)
-    // @ts-ignore
-    data.append('engineSize', this.car.get('engineSize')?.value)
-    // @ts-ignore
-    data.append('description', this.car.get('description')?.value)
-    // @ts-ignore
-    data.append('shortDescription', this.car.get('shortDescription')?.value)
-    // @ts-ignore
-    data.append('optionsList', optionListData)
+
+    data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
 
     this.carService.add(data).subscribe(() => {
       this.toast.success("Car successful add!", "Success", {
@@ -204,8 +206,6 @@ export class AddCarComponent implements OnInit {
         this.router.navigate(['/'])
       }
     })
-
-
   }
 
 

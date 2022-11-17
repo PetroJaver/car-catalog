@@ -2,13 +2,13 @@ package com.implemica.model.service;
 
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
+import com.implemica.model.enums.CarBodyType;
+import com.implemica.model.enums.CarBrand;
+import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -20,8 +20,7 @@ public class CarServiceImpl implements CarService {
     CarRepository carRepository;
 
     @Override
-    public void saveCar(CarDTO carDto) {
-        MultipartFile file = carDto.getFile();
+    public void saveCar(CarDTO carDto,MultipartFile file) {
         String imageName = storageService.uploadFile(file);
         carRepository.save(getCarFromCarDto(carDto, imageName));
     }
@@ -58,12 +57,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean update(CarDTO carDto, Long id) {
+    public boolean update(Long id, CarDTO carDto, MultipartFile file) {
+
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            if(carDto.getFile()!=null){
+
+            if(file!=null){
                 storageService.deleteFile(imageName);
-                imageName = storageService.uploadFile(carDto.getFile());
+                imageName = storageService.uploadFile(file);
             }
 
             Car car = getCarFromCarDto(carDto, imageName);
@@ -78,10 +79,10 @@ public class CarServiceImpl implements CarService {
     private Car getCarFromCarDto(CarDTO carDto, String imageName) {
         Car car = new Car();
 
-        car.setBrand(carDto.getBrand());
-        car.setBodyType(carDto.getBodyType());
+        car.setBrand(CarBrand.valueOf(carDto.getBrand()));
+        car.setBodyType(CarBodyType.valueOf(carDto.getBodyType()));
         car.setYear(carDto.getYear());
-        car.setTransmissionType(carDto.getTransmissionType());
+        car.setTransmissionType(CarTransmissionType.valueOf(carDto.getTransmissionType()));
         car.setEngineSize(carDto.getEngineSize());
         car.setDescription(carDto.getDescription());
         car.setOptionsList(carDto.getOptionsList());
