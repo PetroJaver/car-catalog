@@ -20,9 +20,12 @@ const routes = [
   {path: 'details/:id', component: CarDetailsComponent},
   {path: 'add', component: AddCarComponent, canActivate: [AuthGuard]},
   {path: 'edit/:id', component: EditCarComponent, canActivate: [AuthGuard]},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: '**',redirectTo:'', pathMatch: 'full'}
+
 ]
 
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +39,7 @@ const routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    // @ts-ignore
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,

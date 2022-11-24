@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit,AfterViewInit {
     password: ['', [Validators.minLength(4), Validators.required]]
   })
 
+  textResetButton: boolean = false;
+  textLogInButton: boolean = false;
+
   constructor(private fb: FormBuilder, private auth: AuthService, private toast: ToastrService,private titleService: Title
     , private router: Router) {
     this.titleService.setTitle('login');

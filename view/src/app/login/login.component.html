@@ -41,9 +41,29 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-between w-100 ps-3 pe-3">
+<!--          <div class="d-flex justify-content-between w-100 ps-3 pe-3">
             <button type="submit" class="btn btn-success col-5" [disabled]="!user.valid">Log in</button>
             <button type="reset" class="btn btn-danger col-5">Reset</button>
+          </div>-->
+
+          <div class="d-flex justify-content-end pe-3">
+            <button type="reset" class="btn btn-danger col-auto me-3"
+                    (mouseover)="textResetButton=true"
+                    (mouseleave)="textResetButton=false">
+          <span [hidden]="textResetButton===true">
+                <img src="assets/icons/icons8-multiply-30.png" width="19">
+          </span>
+              <span [hidden]="textResetButton===false">Reset</span><span class="sr-only">(current)</span>
+            </button>
+
+            <button type="submit" class="btn btn-success col-auto" [disabled]="!user.valid"
+                    (mouseover)="textLogInButton=true"
+                    (mouseleave)="textLogInButton=false">
+              <span [hidden]="textLogInButton===true">
+                <img src="assets/icons/right-to-bracket-solid.svg" width="16">
+              </span>
+              <span [hidden]="textLogInButton===false">Log in</span>
+            </button>
           </div>
         </form>
       </div>

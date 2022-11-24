@@ -35,6 +35,8 @@ export class AddCarComponent implements OnInit {
 
   textResetCarButton: boolean =false;
 
+
+
   car = this.fb.group(
     {
       file: ['', Validators.required],
@@ -230,7 +232,11 @@ export class AddCarComponent implements OnInit {
       this.car.get('file')?.updateValueAndValidity()
     } else {
       this.car.patchValue({file: ''})
-      window.alert("Please select correct image format")
+      this.toast.info("Please select correct image format!", "Invalid file", {
+        progressBar: true,
+        timeOut: 5000,
+        progressAnimation: 'increasing'
+      })
       this.pathImage = "../../assets/add-image.png"
     }
   }

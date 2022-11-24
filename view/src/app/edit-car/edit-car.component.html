@@ -234,12 +234,12 @@
 
       <hr>
       <!--buttons-->
-      <div class="d-flex justify-content-end p-0">
-        <button type="button" (click)="onReset()" class="btn btn-danger col-auto me-3"
+      <div class="d-flex justify-content-end pe-3">
+        <button type="reset" class="btn btn-danger col-auto me-3"
                 (mouseover)="textResetCarButton=true"
                 (mouseleave)="textResetCarButton=false">
           <span [hidden]="textResetCarButton===true">
-                <img src="assets/icons/xmark-solid.svg" width="16">
+                <img src="assets/icons/icons8-multiply-30.png" width="19">
           </span>
           <span [hidden]="textResetCarButton===false">Reset</span><span class="sr-only">(current)</span>
         </button>
@@ -247,10 +247,10 @@
         <button type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid"
                 (mouseover)="textAddCarButton=true"
                 (mouseleave)="textAddCarButton=false">
-          <span [hidden]="textAddCarButton===true">
-                <img src="assets/icons/pen-solid.svg" width="21">
-          </span>
-          <span [hidden]="textAddCarButton===false">Edit car</span><span class="sr-only">(current)</span>
+              <span [hidden]="textAddCarButton===true">
+                <img src="assets/icons/right-to-bracket-solid.svg" width="16">
+              </span>
+          <span [hidden]="textAddCarButton===false">Add</span>
         </button>
       </div>
     </div>

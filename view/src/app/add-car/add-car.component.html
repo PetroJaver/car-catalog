@@ -96,8 +96,8 @@ model?.errors?.['required'])">
             <div *ngFor="let transmission of transmissionTypes|keyvalue;let i = index" class="form-check form-check-inline
              m-0 ms-2 ms-sm-0 ms-md-2 ms-xl-0">
               <input class="form-check-input mt-2" type="radio" formControlName="transmissionType"
-                     [value]="transmission.key" [id]="transmission">
-              <label class="form-check-label fs-5" [for]="transmission">
+                     [value]="transmission.key" [id]="transmission.key">
+              <label class="form-check-label fs-5" [for]="transmission.key">
                 {{transmission.value}}
               </label>
             </div>
@@ -136,7 +136,7 @@ model?.errors?.['required'])">
             </div>
             <div class="invalid-feedback">
               <span [hidden]="!year?.errors?.['max']">Max year 2100!</span>
-              <span [hidden]="!year?.errors?.['min']">Min year 1800!</span>
+              <span [hidden]="!year?.errors?.['min']">Min year 1880!</span>
               <span [hidden]="!year?.errors?.['required']">Required!</span>
             </div>
           </div>
@@ -251,13 +251,14 @@ model?.errors?.['required'])">
       </div>
 
       <hr>
+
       <!--buttons-->
-      <div class="d-flex justify-content-end p-0">
-        <button type="button" (click)="onReset()" class="btn btn-danger col-auto me-3"
+      <div class="d-flex justify-content-end pe-3">
+        <button type="reset" class="btn btn-danger col-auto me-3"
                 (mouseover)="textResetCarButton=true"
                 (mouseleave)="textResetCarButton=false">
           <span [hidden]="textResetCarButton===true">
-                <img src="assets/icons/xmark-solid.svg" width="16">
+                <img src="assets/icons/icons8-multiply-30.png" width="19">
           </span>
           <span [hidden]="textResetCarButton===false">Reset</span><span class="sr-only">(current)</span>
         </button>
@@ -265,10 +266,10 @@ model?.errors?.['required'])">
         <button type="submit" class="btn btn-success col-auto" [disabled]="!car.valid"
                 (mouseover)="textAddCarButton=true"
                 (mouseleave)="textAddCarButton=false">
-          <span [hidden]="textAddCarButton===true">
-                <img src="assets/icons/plus-solid.svg" width="21">
-          </span>
-          <span [hidden]="textAddCarButton===false">Add car</span><span class="sr-only">(current)</span>
+              <span [hidden]="textAddCarButton===true">
+                <img src="assets/icons/right-to-bracket-solid.svg" width="16">
+              </span>
+          <span [hidden]="textAddCarButton===false">Add</span>
         </button>
       </div>
     </div>
