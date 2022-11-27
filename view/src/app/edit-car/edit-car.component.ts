@@ -50,7 +50,7 @@ export class EditCarComponent implements OnInit {
       bodyType: ['', [Validators.required]],
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
       transmissionType: ['MANUAL', [Validators.required]],
-      engineSize: [null, [Validators.max(10), Validators.min(0.1), Validators.required]],
+      engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
       description: [null, [Validators.required, Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(150)]],
       optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
@@ -79,7 +79,7 @@ export class EditCarComponent implements OnInit {
       this.onReset();
     }, error => {
       if(error.status=404){
-        this.toast.error("Car number "+this.id+" does not exist!", "Not found!", {
+        this.toast.error("Car id "+this.id+" does not exist!", "Not found!", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'
@@ -134,6 +134,9 @@ export class EditCarComponent implements OnInit {
     return this.carForm.get('optionalList') as FormArray;
   }
 
+  get engineValue(){
+    return Number(this.engineSize?.value)
+  }
   //endregion
 
 

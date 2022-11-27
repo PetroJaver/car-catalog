@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {User} from "../interface/user";
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
-import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Injectable(
   {
@@ -10,22 +10,22 @@ import {Router} from "@angular/router";
   }
 )
 export class AuthService {
-
   private token: any = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private location:Location) {
   }
 
-  login(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>("http://localhost:8080/login", user).pipe(
-      tap(
-        ({token}) => {
+  login(user: User): Observable<{ token: string,firstName:string }> {
+    return this.http.post<{ token: string,firstName:string }>("http://localhost:8080/login", user).pipe(
+      tap(({token, firstName}) => {
           localStorage.setItem('auth-token', token)
-          this.setToken(token)
+          localStorage.setItem('first-name', firstName)
+          this.setToken(token);
+          this.location.back();
         }));
   }
 
-  setToken(token: string) {
+  setToken(token: any) {
     this.token = token;
   }
 

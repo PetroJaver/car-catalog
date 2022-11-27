@@ -16,30 +16,40 @@
 
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item py-2" *ngIf="auth.isAuthenticated()">
-              <button routerLink="add" class="btn btn-success me-2" (mouseover)="textAddCarButton=true"
-                      (mouseleave)="textAddCarButton=false">
-              <span [hidden]="textAddCarButton===true">
-                <img src="assets/icons/plus-solid.svg" width="21">
-              </span>
-                <span [hidden]="textAddCarButton===false">Add car</span><span class="sr-only">(current)</span>
-              </button>
 
-              <button class="btn btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#modalLogout" (mouseover)="textLogOutButton=true"
-                      (mouseleave)="textLogOutButton=false">
+            <li class="nav-item py-2" *ngIf="auth.isAuthenticated()">
+              <div class="d-inline">
+                <img src="assets/icons/user.png" width="40" class="me-2">
+                <span><h5 class="d-inline-block">{{firstName}}</h5></span>
+              </div>
+
+              <div class="d-inline-block text-end" style=" width: 150px">
+                  <button routerLink="add" class="btn btn-success me-2" (mouseover)="textAddCarButton=true" style="height: 40px"
+                          (mouseleave)="textAddCarButton=false">
+              <span [hidden]="textAddCarButton===true">
+                <img src="assets/icons/plus-solid.svg" width="20">
+              </span>
+                    <span [hidden]="textAddCarButton===false">Add car</span><span class="sr-only">(current)</span>
+                  </button>
+
+                  <button class="btn btn-danger" data-bs-toggle="modal" style="height: 40px"
+                          data-bs-target="#modalLogout" (mouseover)="textLogOutButton=true"
+                          (mouseleave)="textLogOutButton=false">
               <span [hidden]="textLogOutButton===true">
                 <img src="assets/icons/right-from-bracket-solid.svg" width="16">
               </span>
-                <span [hidden]="textLogOutButton===false">Log out</span>
-              </button>
+                    <span [hidden]="textLogOutButton===false">Log out</span>
+                  </button>
+              </div>
+
+
 
             </li>
             <li class="nav-item py-2" *ngIf="!auth.isAuthenticated()">
-              <button routerLink="login" class="btn btn-success" (mouseover)="textLogInButton=true"
+              <button routerLink="login" class="btn btn-success" (mouseover)="textLogInButton=true" style="height: 40px"
                       (mouseleave)="textLogInButton=false">
               <span [hidden]="textLogInButton===true">
-                <img src="assets/icons/right-to-bracket-solid.svg" width="16">
+                <img src="assets/icons/right-to-bracket-solid.svg" width="20">
               </span>
                 <span [hidden]="textLogInButton===false">Log in</span>
               </button>
@@ -61,16 +71,27 @@
 
 </div>
 
-<div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<div  class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0">
         <h1 class="modal-title fs-6 text-center" id="staticBackdropLabel">Are you sure you want to log out?</h1>
       </div>
       <div class="d-flex justify-content-center modal-footer border-0">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (mouseover)="textModalCloseButton=true"
+                (mouseleave)="textModalCloseButton=false">
+              <span [hidden]="textModalCloseButton===true">
+                <img src="assets/icons/ban-solid.svg" width="18">
+              </span>
+          <span [hidden]="textModalCloseButton===false">Close</span>
+        </button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" routerLink="login"
-                (click)="auth.logout() ">Log out
+                (click)="auth.logout()"(mouseover)="textModalDeleteButton=true"
+                (mouseleave)="textModalDeleteButton=false">
+          <span [hidden]="textModalDeleteButton===true">
+                <img src="assets/icons/right-from-bracket-solid.svg" width="16">
+          </span>
+          <span [hidden]="textModalDeleteButton===false">Log out</span><span class="sr-only">(current)</span>
         </button>
       </div>
     </div>

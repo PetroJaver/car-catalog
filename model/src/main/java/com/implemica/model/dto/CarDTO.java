@@ -34,8 +34,8 @@ public class CarDTO {
     @ValueOfEnum(enumClass = CarTransmissionType.class,message = "Invalid transmissionType")
     private String transmissionType;
 
-    @DecimalMax(value = "10.0", message = "engineSize less than 0.1")
-    @DecimalMin(value = "0.1", message = "engineSize more than 10")
+    @DecimalMax(value = "10.0", message = "engineSize more than 10")
+    @DecimalMin(value = "0", message = "engineSize less than 0")
     private double engineSize;
 
     @Size(min = 25,max = 150,message = "shortDescription is length not from 25 to 150")

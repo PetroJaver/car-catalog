@@ -9,11 +9,16 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  textLogInButton:boolean = false;
-  textLogOutButton:boolean = false;
-  textAddCarButton:boolean = false;
+  textLogInButton: boolean = false;
+  textLogOutButton: boolean = false;
+  textAddCarButton: boolean = false;
 
-  constructor(public auth: AuthService, private router: Router,private titleService: Title) {
+  textModalDeleteButton: boolean = false;
+  textModalCloseButton: boolean = false;
+
+  firstName: string = String(localStorage.getItem('first-name'));
+
+  constructor(public auth: AuthService, private router: Router, private titleService: Title) {
     this.titleService.setTitle('car-catalog');
   }
 
@@ -28,8 +33,10 @@ export class AppComponent implements OnInit {
         let token = localStorage.getItem('auth-token');
         if (token == undefined) {
           this.auth.logout();
+          // @ts-ignore
+          $('.modal').modal('hide');
         } else {
-          this.auth.setToken(token)
+          this.auth.setToken(token);
         }
       }
     }, false);

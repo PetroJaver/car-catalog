@@ -7,8 +7,10 @@ import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Service
@@ -19,9 +21,18 @@ public class CarServiceImpl implements CarService {
     @Autowired
     CarRepository carRepository;
 
+    @Value("${default.image}")
+    String defaultImagePath;
+
     @Override
-    public void saveCar(CarDTO carDto,MultipartFile file) {
-        String imageName = storageService.uploadFile(file);
+    public void saveCar(CarDTO carDto, MultipartFile file) {
+        String imageName;
+        if(file == null){
+            imageName = defaultImagePath;
+        }else{
+            imageName = storageService.uploadFile(file);
+        }
+
         carRepository.save(getCarFromCarDto(carDto, imageName));
     }
 
@@ -29,7 +40,9 @@ public class CarServiceImpl implements CarService {
     public boolean deleteCarById(Long id) {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            storageService.deleteFile(imageName);
+            if(!imageName.equals(defaultImagePath)){
+                storageService.deleteFile(imageName);
+            }
 
             carRepository.deleteById(id);
             return true;
@@ -43,11 +56,11 @@ public class CarServiceImpl implements CarService {
         Car car;
         try {
             car = carRepository.findById(id).orElseThrow();
-        }catch (Exception e){
+        } catch (Exception e) {
             car = null;
         }
 
-       return car;
+        return car;
     }
 
     @Override
@@ -62,8 +75,11 @@ public class CarServiceImpl implements CarService {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
 
-            if(file!=null){
-                storageService.deleteFile(imageName);
+            if (file != null) {
+                if(!imageName.equals(defaultImagePath)){
+                    storageService.deleteFile(imageName);
+                }
+
                 imageName = storageService.uploadFile(file);
             }
 

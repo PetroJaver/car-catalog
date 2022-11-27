@@ -3,6 +3,7 @@ package com.implemica.application.util.selenium.tests;
 import com.implemica.application.util.selenium.pages.AddCarPage;
 import com.implemica.application.util.selenium.pages.CatalogAuthPage;
 import com.implemica.application.util.selenium.pages.Header;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class AddCarTest extends BaseSeleniumTest{
 
+    @Ignore
     @Test
     public void addCarForm() throws Exception{
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));

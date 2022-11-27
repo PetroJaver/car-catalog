@@ -18,16 +18,18 @@ export class CarDetailsComponent {
 
   car: Car;
 
+  textModalDeleteButton:boolean = false;
+  textModalCloseButton:boolean = false;
+
   id: number;
 
   constructor(public auth: AuthService, private activateRoute: ActivatedRoute, private carService: CarService,
               private toast: ToastrService, private router: Router, private titleService: Title) {
     this.id = activateRoute.snapshot.params['id'];
-    this.titleService.setTitle('car-details/' + this.id);
   }
 
-  delete(id: number): void {
-    this.carService.delete(id).subscribe(() => {
+  delete(): void {
+    this.carService.delete(this.id).subscribe(() => {
         this.toast.success("Car successful delete!", "Success", {
           progressBar: true,
           timeOut: 5000,
@@ -39,9 +41,11 @@ export class CarDetailsComponent {
   }
 
   ngOnInit(): void {
-    this.carService.get(this.id).subscribe((data) => this.car = data, error => {
+    this.carService.get(this.id).subscribe((data) => {
+      this.car = data;
+      this.titleService.setTitle('car-details/' + this.car.brand.toLowerCase());}, error => {
       if(error.status=404){
-        this.toast.error("Car number "+this.id+" does not exist!", "Not found!", {
+        this.toast.error("Car id "+this.id+" does not exist!", "Not found!", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'

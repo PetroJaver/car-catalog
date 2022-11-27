@@ -47,8 +47,6 @@ export class LoginComponent implements OnInit,AfterViewInit {
           timeOut: 5000,
           progressAnimation: 'increasing'
         })
-
-        this.router.navigate(['/'])
       }, error => {
         if (error.status == 403) {
           this.toast.error("Invalid password or username!", "Wrong", {

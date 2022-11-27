@@ -25,11 +25,7 @@ export class AddCarComponent implements OnInit {
 
   transmissionTypes = TransmissionType;
 
-  baseOptions: string[] = Object.values(OptionType);
-
-  addedOptions: string[] = [];
-
-  pathImage: string = "../../assets/add-image.png";
+  pathImage: string;
 
   textAddCarButton: boolean = false;
 
@@ -39,17 +35,17 @@ export class AddCarComponent implements OnInit {
 
   car = this.fb.group(
     {
-      file: ['', Validators.required],
+      file: [null],
       brand: ['', Validators.required],
       model: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
       bodyType: ['', [Validators.required]],
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
-      transmissionType: ['MANUAL', [Validators.required]],
-      engineSize: [null, [Validators.max(10), Validators.min(0.1), Validators.required]],
+      transmissionType: ['', [Validators.required]],
+      engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
       description: [null, [Validators.required, Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(150)]],
       optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
-      optionalCheckBox: this.fb.array([])
+      optionalList: this.fb.array([])
     }
   )
 
@@ -57,7 +53,7 @@ export class AddCarComponent implements OnInit {
               private toast: ToastrService, private titleService: Title,private auth:AuthService) {
 
     this.titleService.setTitle('add-car')
-    this.addCheckboxes()
+    this.onReset()
   }
 
   ngOnInit(): void {
@@ -108,68 +104,64 @@ export class AddCarComponent implements OnInit {
     return this.car.get('shortDescription')
   }
 
-  get optionalCheckBox() {
-    return this.car.get('optionalCheckBox') as FormArray
+  get optionalList() {
+    return this.car.get('optionalList') as FormArray
   }
 
   get file() {
     return this.car.get('file')
   }
 
+  get engineValue(){
+    return Number(this.engineSize?.value)
+  }
   //endregion
 
 
   addOption() {
-    // @ts-ignore
-    this.addedOptions.push(this.optional?.value)
-    this.optionalCheckBox.push(this.fb.control(true))
+    this.optionalList.push(this.fb.control(this.optional?.value))
     this.optional?.reset('')
     this.optionalInput.nativeElement.focus()
   }
 
   dropOption(index: number) {
-    this.addedOptions.splice(index, 1)
-    this.optionalCheckBox.removeAt(index+(this.baseOptions.length-1))
+    this.optionalList.removeAt(index)
   }
 
+  private addOptions() {
+    let arrayOptions = Object.values(OptionType)
 
-
-  private addCheckboxes() {
-    for (let i = this.optionalCheckBox.length - 1; i > -1; i--) {
-      this.optionalCheckBox.removeAt(i)
+    for (let i = this.optionalList.length - 1; i > -1; i--) {
+      this.optionalList.removeAt(i)
     }
 
-    this.baseOptions.forEach(() => this.optionalCheckBox.push(this.fb.control(false)))
+    for (let i = arrayOptions.length - 1; i > -1; i--)
+      this.optionalList.push(this.fb.control(arrayOptions[i]))
   }
 
   onReset() {
     this.car.reset()
 
-    this.addCheckboxes()
-    this.addedOptions = [];
+    this.pathImage = "../../assets/add-image.png"
+
+    this.addOptions()
 
     this.car.patchValue({
       transmissionType: 'MANUAL',
       brand: '',
-      bodyType: ''
+      bodyType: '',
+      //@ts-ignore
+      year: new Date().getFullYear(),
+      //@ts-ignore
+      engineSize: '1'
     })
   }
 
   onSubmit() {
     const data: FormData = new FormData()
-    let optionListData: string[] = []
-    let lengthBaseOptions = this.baseOptions.length
     let carDto:CarDto = new CarDto();
 
-    for (let i = 0; i < this.optionalCheckBox.length; i++) {
-      if (i < lengthBaseOptions && this.optionalCheckBox.at(i).value)
-        optionListData.push(this.baseOptions[i])
-
-      if (i >= lengthBaseOptions && this.optionalCheckBox.at(i).value)
-        optionListData.push(this.addedOptions[i - lengthBaseOptions])
-    }
-
-    carDto.optionsList =  optionListData;
+    carDto.optionsList =  this.optionalList.value;
     // @ts-ignore
     carDto.brand = this.car.get('brand')?.value;
     // @ts-ignore
@@ -186,8 +178,12 @@ export class AddCarComponent implements OnInit {
     carDto.description = this.car.get('description')?.value;
     // @ts-ignore
     carDto.shortDescription = this.car.get('shortDescription')?.value;
-    // @ts-ignore
-    data.append('file', this.car.get('file')?.value)
+
+    if(this.car.get('file')?.value!=null){
+      // @ts-ignore
+      data.append('file', this.car.get('file')?.value)
+    }
+
 
     data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
 
@@ -210,8 +206,6 @@ export class AddCarComponent implements OnInit {
     })
   }
 
-
-
   uploadFile(event: any) {
     let filetype = event.target.files[0].type
     if (filetype.match(/image\/png/)) {
@@ -231,7 +225,7 @@ export class AddCarComponent implements OnInit {
 
       this.car.get('file')?.updateValueAndValidity()
     } else {
-      this.car.patchValue({file: ''})
+      this.car.patchValue({file: null})
       this.toast.info("Please select correct image format!", "Invalid file", {
         progressBar: true,
         timeOut: 5000,

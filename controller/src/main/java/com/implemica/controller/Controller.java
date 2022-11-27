@@ -4,22 +4,15 @@ import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import com.implemica.model.service.CarServiceImpl;
 import com.implemica.model.service.StorageService;
-import com.implemica.security.JwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RequestMapping("/")
@@ -33,7 +26,7 @@ public class Controller {
 
     @PostMapping(value = "cars", consumes = "multipart/form-data")
     @PreAuthorize("hasAuthority('cars:create')")
-    public ResponseEntity<?> create(@Valid @RequestPart CarDTO carDto, @RequestPart MultipartFile file) {
+    public ResponseEntity<?> create(@Valid @RequestPart CarDTO carDto, @RequestPart(required = false) MultipartFile file) {
         carService.saveCar(carDto, file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

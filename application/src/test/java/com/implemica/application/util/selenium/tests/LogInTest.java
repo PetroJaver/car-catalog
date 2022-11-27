@@ -4,6 +4,7 @@ import static com.implemica.application.util.selenium.helpers.LogInTestValues.*;
 import com.implemica.application.util.selenium.pages.CatalogAuthPage;
 import com.implemica.application.util.selenium.pages.Header;
 import com.implemica.application.util.selenium.pages.LogInPage;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertFalse;
 
 public class LogInTest extends BaseSeleniumTest{
 
+    @Ignore
     @Test
     public void testLogIn() throws Exception {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
