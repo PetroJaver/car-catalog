@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   textModalDeleteButton: boolean = false;
   textModalCloseButton: boolean = false;
 
+  scrolled:boolean = false;
+
   firstName: string = String(localStorage.getItem('first-name'));
 
   constructor(public auth: AuthService, private router: Router, private titleService: Title) {
@@ -40,5 +42,17 @@ export class AppComponent implements OnInit {
         }
       }
     }, false);
+
+    window.addEventListener('scroll', (event) => {
+      if(window.scrollY!=0){
+        this.scrolled=true;
+      }else {
+        this.scrolled=false;
+      }
+    }, false);
+  }
+
+  scrollToTop(){
+    window.scrollTo(0,0)
   }
 }

@@ -28,7 +28,7 @@
           <div class="col-sm-8">
             <select class="form-select"
                     [ngClass]="{'is-valid':brand?.valid}"
-                    formControlName="brand" id="brand">
+                    formControlName="brand" id="brand" #selectBrand>
               <option *ngIf="!brand?.dirty" selected value="">Brand</option>
               <option *ngFor="let brand of brandChoose | keyvalue"
                       value="{{brand.key}}">{{brand.value}}</option>
@@ -123,9 +123,9 @@ model?.errors?.['required'])">
 
       <!--short description-->
       <div class="row g-0">
-        <label for="shortDescription" class="form-label fs-4 required">Short description:</label>
+        <label for="shortDescription" class="form-label fs-4">Short description:</label>
         <textarea class="form-control col-12" id="shortDescription" rows="3"
-                  [class.is-valid]="shortDescription?.valid"
+                  [class.is-valid]="shortDescription?.valid&&shortDescription?.value!=''"
                   [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
                   formControlName="shortDescription" placeholder="Short description"></textarea>
         <div class="valid-feedback">
@@ -134,15 +134,14 @@ model?.errors?.['required'])">
         <div class="invalid-feedback">
           <span [hidden]="!shortDescription?.errors?.['maxlength']">Max length 150 symbols!</span>
           <span [hidden]="!shortDescription?.errors?.['minlength']">Min length 25 symbols!</span>
-          <span [hidden]="!shortDescription?.errors?.['required']">Required!</span>
         </div>
       </div>
       <hr>
       <!--description-->
       <div class="row g-0">
-        <label for="description" class="form-label fs-4 required">Description:</label>
+        <label for="description" class="form-label fs-4">Description:</label>
         <textarea class="form-control" id="description" rows="5"
-                  [class.is-valid]="description?.valid" [class.is-invalid]="description?.invalid&&description?.dirty"
+                  [class.is-valid]="description?.valid&&description?.value!=''" [class.is-invalid]="description?.invalid&&description?.dirty"
                   formControlName="description" placeholder="Description"></textarea>
         <div class="valid-feedback">
           Looks good!
@@ -150,7 +149,6 @@ model?.errors?.['required'])">
         <div class="invalid-feedback">
           <span [hidden]="!description?.errors?.['maxlength']">Max length 5000 symbols!</span>
           <span [hidden]="!description?.errors?.['minlength']">Min length 50 symbols!</span>
-          <span [hidden]="!description?.errors?.['required']">Required!</span>
         </div>
       </div>
       <hr>
@@ -201,7 +199,7 @@ model?.errors?.['required'])">
             <div class="text-center">
               <button type="button" class="btn btn-success" (click)="addOption()"
                       [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
-                <img src="assets/icons/plus-solid.svg" width="21">
+                <img src="assets/icons/plus-solid.svg" width="16">
               </button>
             </div>
           </div>

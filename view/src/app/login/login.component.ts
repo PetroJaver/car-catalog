@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit,AfterViewInit {
   @ViewChild('emailField') emailField:ElementRef;
-  @ViewChild('passwordField') passwordField:ElementRef;
 
   user: FormGroup = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
@@ -61,11 +60,5 @@ export class LoginComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.emailField.nativeElement.focus();
-  }
-
-  nextPassword(){
-    if(this.email?.valid){
-      this.passwordField.nativeElement.focus();
-    }
   }
 }

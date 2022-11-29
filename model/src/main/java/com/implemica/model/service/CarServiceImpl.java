@@ -100,10 +100,18 @@ public class CarServiceImpl implements CarService {
         car.setYear(carDto.getYear());
         car.setTransmissionType(CarTransmissionType.valueOf(carDto.getTransmissionType()));
         car.setEngineSize(carDto.getEngineSize());
-        car.setDescription(carDto.getDescription());
+        if(carDto.getDescription()==null){
+            car.setDescription("");
+        }else {
+            car.setDescription(carDto.getDescription());
+        }
         car.setOptionsList(carDto.getOptionsList());
         car.setImageName(imageName);
-        car.setShortDescription(carDto.getShortDescription());
+        if(carDto.getShortDescription()==null){
+            car.setShortDescription("");
+        }else {
+            car.setShortDescription(carDto.getShortDescription());
+        }
         car.setModel(carDto.getModel());
 
         return car;

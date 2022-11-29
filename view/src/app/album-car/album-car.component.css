@@ -7,9 +7,3 @@
   0 0 40px rgba(0, 0, 0, .1) inset;
   transition-duration: 0.5s;
 }
-
-#up-arrow:hover{
-  filter: drop-shadow(1px 1px 3px #101010);
-  -webkit-filter: drop-shadow(1px 1px 3px #101010);
-  cursor: pointer;
-}

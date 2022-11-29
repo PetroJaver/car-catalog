@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {BodyType} from "../add-car/BodyType";
 import {TransmissionType} from "../add-car/TransmissionType";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -16,10 +16,10 @@ import {CarDto} from "../shared/models/CarDto";
   templateUrl: './edit-car.component.html',
   styleUrls: ['./edit-car.component.css']
 })
-export class EditCarComponent implements OnInit {
+export class EditCarComponent implements OnInit,AfterViewInit {
   @ViewChildren('listInputOptional') listInputOptional: QueryList<ElementRef>;
 
-
+  @ViewChild('selectBrand') selectBrand:ElementRef;
   @ViewChild('optionalInput') optionalInput: ElementRef;
 
   car: Car;
@@ -38,7 +38,7 @@ export class EditCarComponent implements OnInit {
 
   transmissionTypes = TransmissionType;
 
-  textAddCarButton: boolean = false;
+  textEditCarButton: boolean = false;
 
   textResetCarButton: boolean = false;
 
@@ -51,8 +51,8 @@ export class EditCarComponent implements OnInit {
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
       transmissionType: ['MANUAL', [Validators.required]],
       engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
-      description: [null, [Validators.required, Validators.minLength(50), Validators.maxLength(5000)]],
-      shortDescription: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(150)]],
+      description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
+      shortDescription: ['', [Validators.minLength(25), Validators.maxLength(150)]],
       optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
       optionalList: this.fb.array([])
     }
@@ -87,6 +87,11 @@ export class EditCarComponent implements OnInit {
         this.router.navigate(['/']);
       }
     })
+  }
+
+  ngAfterViewInit() {
+    this.selectBrand.nativeElement.focus();
+    window.scrollTo(0,0);
   }
 
   //region getter
@@ -195,8 +200,16 @@ export class EditCarComponent implements OnInit {
     carDto.year = this.carForm.get('year')?.value;
     carDto.transmissionType = this.carForm.get('transmissionType')?.value;
     carDto.engineSize = this.carForm.get('engineSize')?.value;
-    carDto.description = this.carForm.get('description')?.value;
-    carDto.shortDescription = this.carForm.get('shortDescription')?.value;
+    // @ts-ignore
+    if(this.description?.value!=""){
+      // @ts-ignore
+      carDto.description = this.carForm.get('description')?.value;
+    }
+    // @ts-ignore
+    if(this.shortDescription?.value!=""){
+      // @ts-ignore
+      carDto.shortDescription = this.carForm.get('shortDescription')?.value;
+    }
     data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
 
     this.carService.update(data, this.id).subscribe((data) => {
@@ -238,8 +251,12 @@ export class EditCarComponent implements OnInit {
 
       this.carForm.get('file')?.updateValueAndValidity();
     } else {
-      this.carForm.patchValue({file: ''})
-
+      this.carForm.patchValue({file: null})
+      this.toast.info("Please select correct image format!", "Invalid file", {
+        progressBar: true,
+        timeOut: 5000,
+        progressAnimation: 'increasing'
+      })
       window.alert("Please select correct image format")
       this.pathImage = this.pathPart + this.car.imageName;
 

@@ -1,1 +1,5 @@
-
+#up-arrow:hover{
+  filter: drop-shadow(1px 1px 3px #101010);
+  -webkit-filter: drop-shadow(1px 1px 3px #101010);
+  cursor: pointer;
+}

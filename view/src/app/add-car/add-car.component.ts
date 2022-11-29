@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild} from '@angular/core';
 import {BodyType} from "./BodyType";
 import {TransmissionType} from "./TransmissionType";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
@@ -16,8 +16,9 @@ import {CarDto} from "../shared/models/CarDto";
   templateUrl: './add-car.component.html',
   styleUrls: ['./add-car.component.css']
 })
-export class AddCarComponent implements OnInit {
+export class AddCarComponent implements OnInit,AfterViewInit {
   @ViewChild('optionalInput') optionalInput: ElementRef;
+  @ViewChild('selectBrand') selectBrand:ElementRef;
 
   brandChoose = Brand;
 
@@ -42,8 +43,8 @@ export class AddCarComponent implements OnInit {
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
       transmissionType: ['', [Validators.required]],
       engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
-      description: [null, [Validators.required, Validators.minLength(50), Validators.maxLength(5000)]],
-      shortDescription: ['', [Validators.required, Validators.minLength(25), Validators.maxLength(150)]],
+      description: ["", [Validators.minLength(50), Validators.maxLength(5000)]],
+      shortDescription: ["", [Validators.minLength(25), Validators.maxLength(150)]],
       optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
       optionalList: this.fb.array([])
     }
@@ -65,6 +66,11 @@ export class AddCarComponent implements OnInit {
         }
       }
     }, false);
+  }
+
+  ngAfterViewInit() {
+    this.selectBrand.nativeElement.focus();
+    window.scrollTo(0,0)
   }
 
   //region getters
@@ -153,7 +159,9 @@ export class AddCarComponent implements OnInit {
       //@ts-ignore
       year: new Date().getFullYear(),
       //@ts-ignore
-      engineSize: '1'
+      engineSize: '1',
+      description: "",
+      shortDescription: ""
     })
   }
 
@@ -175,9 +183,16 @@ export class AddCarComponent implements OnInit {
     // @ts-ignore
     carDto.engineSize = this.car.get('engineSize')?.value;
     // @ts-ignore
-    carDto.description = this.car.get('description')?.value;
+    if(this.description?.value!=""){
+      // @ts-ignore
+      carDto.description = this.car.get('description')?.value;
+    }
     // @ts-ignore
-    carDto.shortDescription = this.car.get('shortDescription')?.value;
+    if(this.shortDescription?.value!=""){
+      // @ts-ignore
+      carDto.shortDescription = this.car.get('shortDescription')?.value;
+    }
+
 
     if(this.car.get('file')?.value!=null){
       // @ts-ignore

@@ -70,7 +70,9 @@
   </footer>
 
 </div>
-
+<div *ngIf="scrolled" class="col d-flex justify-content-end" >
+  <img (click)="scrollToTop()" id="up-arrow" src="assets/icons/chevron-up-solid.svg" style="position: fixed;bottom: 60px" width="30">
+</div>
 <div  class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">

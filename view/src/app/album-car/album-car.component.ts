@@ -23,8 +23,6 @@ export class AlbumCarComponent implements OnInit {
 
   textEditButton: boolean[];
 
-  scrolled:boolean = false;
-
   constructor(public carService: CarService, private toast: ToastrService, public auth: AuthService,private titleService: Title) {
     this.titleService.setTitle('car-catalog');
   }
@@ -36,14 +34,6 @@ export class AlbumCarComponent implements OnInit {
 
     this.textDeleteButton.fill(false);
     this.textEditButton.fill(false);
-
-    window.addEventListener('scroll', (event) => {
-      if(window.scrollY!=0){
-        this.scrolled=true;
-      }else {
-        this.scrolled=false;
-      }
-    }, false);
   }
 
   delete(id: number): void {
@@ -74,14 +64,5 @@ export class AlbumCarComponent implements OnInit {
       }
     })
   }
-
-  get scrollY(){
-    return window.scrollY;
-  }
-
-  scrollToTop(){
-    window.scrollTo(0,0)
-  }
-
 }
 

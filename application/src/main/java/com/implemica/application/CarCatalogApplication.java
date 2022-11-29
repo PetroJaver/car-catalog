@@ -5,12 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = {
         org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
         org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
         org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class
 })
+@EnableSwagger2
 @ComponentScan(basePackages = "com.implemica")
 @EnableJpaRepositories(basePackages = "com.implemica")
 @EntityScan(basePackages = "com.implemica")

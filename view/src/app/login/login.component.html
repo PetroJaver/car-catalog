@@ -8,10 +8,10 @@
 
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4 required">Email address:</label>
-            <div class="input-group" [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" (keydown.enter)="nextPassword()">
+            <div class="input-group" [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid">
               <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon2"
                      id="username" formControlName="email"
-                     [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" (keydown.enter)="nextPassword()" #emailField>
+                     [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" #emailField>
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/at-solid.svg" width="16"></span>
             </div>
             <div class="valid-feedback text-start">

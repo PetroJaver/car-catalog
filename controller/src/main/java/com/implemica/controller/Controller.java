@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RequestMapping("/")
 @RestController()
 public class Controller {

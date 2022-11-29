@@ -1,6 +1,6 @@
 <div class="container-fluid" style="padding: 2% 8%">
   <div class="container  text-center w-100 " style="font-family: 'Luckiest Guy', cursive;">
-    <h1>Add Car</h1>
+    <h1>Edit Car</h1>
   </div>
   <form class="container my-5 p-5 text-bg-dark rounded-5 fw-semibold" [formGroup]="carForm" (ngSubmit)="onSubmit()">
     <div class="row g-3">
@@ -26,7 +26,7 @@
         <div class="col-sm-6 row mb-1 mb-sm-0 g-0">
           <label for="brand" class="col-sm-4 form-label fs-4">Brand</label>
           <div class="col-sm-8">
-            <select class="form-select" formControlName="brand" id="brand">
+            <select class="form-select" formControlName="brand" id="brand" #selectBrand>
               <option *ngFor="let brand of brandChoose | keyvalue"
                       value="{{brand.key}}">{{brand.value}}</option>
             </select>
@@ -110,9 +110,9 @@ model?.errors?.['required'])">
 
       <!--short description-->
       <div class="row g-0">
-        <label for="shortDescription" class="form-label fs-4 required">Short description:</label>
+        <label for="shortDescription" class="form-label fs-4">Short description:</label>
         <textarea class="form-control col-12" id="shortDescription" rows="3"
-                  [class.is-valid]="shortDescription?.valid"
+                  [class.is-valid]="shortDescription?.valid&&shortDescription?.value!=''"
                   [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
                   formControlName="shortDescription" placeholder="Short description"></textarea>
         <div class="valid-feedback">
@@ -127,9 +127,9 @@ model?.errors?.['required'])">
       <hr>
       <!--description-->
       <div class="row g-0">
-        <label for="description" class="form-label fs-4 required">Description:</label>
+        <label for="description" class="form-label fs-4">Description:</label>
         <textarea class="form-control" id="description" rows="5"
-                  [class.is-valid]="description?.valid" [class.is-invalid]="description?.invalid&&description?.dirty"
+                  [class.is-valid]="description?.valid&&description?.value!=''" [class.is-invalid]="description?.invalid&&description?.dirty"
                   formControlName="description" placeholder="Description"></textarea>
         <div class="valid-feedback">
           Looks good!
@@ -188,7 +188,7 @@ model?.errors?.['required'])">
             <div class="text-center">
               <button type="button" class="btn btn-success" (click)="addOption()"
                       [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
-                <img src="assets/icons/plus-solid.svg" width="21">
+                <img src="assets/icons/plus-solid.svg" width="16">
               </button>
             </div>
           </div>
@@ -200,9 +200,10 @@ model?.errors?.['required'])">
 
       <!--buttons-->
       <div class="row g-0 d-flex justify-content-end">
-        <button type="reset" class="btn btn-danger col-auto me-3"
+        <button type="button" class="btn btn-danger col-auto me-3"
                 (mouseover)="textResetCarButton=true"
-                (mouseleave)="textResetCarButton=false">
+                (mouseleave)="textResetCarButton=false"
+                (click)="onReset()">
           <span [hidden]="textResetCarButton===true">
                 <img src="assets/icons/icons8-multiply-30.png" width="19">
           </span>
@@ -210,14 +211,15 @@ model?.errors?.['required'])">
         </button>
 
         <button type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid"
-                (mouseover)="textAddCarButton=true"
-                (mouseleave)="textAddCarButton=false">
-              <span [hidden]="textAddCarButton===true">
+                (mouseover)="textEditCarButton=true"
+                (mouseleave)="textEditCarButton=false">
+              <span [hidden]="textEditCarButton===true">
                 <img src="assets/icons/pen-solid.svg" width="16">
               </span>
-          <span [hidden]="textAddCarButton===false">Edit</span>
+          <span [hidden]="textEditCarButton===false">Edit</span>
         </button>
       </div>
     </div>
   </form>
 </div>
+
