@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 .form-control:focus {
   color: #212529;
@@ -97,4 +96,21 @@
   border-radius: 50%;
   background: #0eea28;
   cursor: pointer;
+}
+
+.option-chips{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #E0E0E0;
+  margin-right: 10px;
+  color: #404040;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.option-chips:hover{
+  background-color: #C7C7C7;
+  cursor: default;
 }

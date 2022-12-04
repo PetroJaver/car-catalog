@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BodyType} from "./BodyType";
 import {TransmissionType} from "./TransmissionType";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
@@ -8,8 +8,8 @@ import {ToastrService} from "ngx-toastr";
 import {Brand} from "./Brand";
 import {Title} from "@angular/platform-browser";
 import {OptionType} from "./OptionType";
-import {AuthService} from "../shared/service/auth.service";
 import {CarDto} from "../shared/models/CarDto";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-add-car',
@@ -27,10 +27,6 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   transmissionTypes = TransmissionType;
 
   pathImage: string;
-
-  textAddCarButton: boolean = false;
-
-  textResetCarButton: boolean =false;
 
 
 
@@ -51,9 +47,9 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   )
 
   constructor(private fb: FormBuilder, private carService: CarService, private router: Router,
-              private toast: ToastrService, private titleService: Title,private auth:AuthService) {
+              private toast: ToastrService, private titleService: Title, public location:Location) {
 
-    this.titleService.setTitle('add-car')
+    this.titleService.setTitle('Add car in catalog')
     this.onReset()
   }
 
@@ -125,9 +121,11 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
 
   addOption() {
-    this.optionalList.push(this.fb.control(this.optional?.value))
-    this.optional?.reset('')
-    this.optionalInput.nativeElement.focus()
+    if(this.optional?.valid){
+      this.optionalList.push(this.fb.control(this.optional?.value))
+      this.optional?.reset('')
+      this.optionalInput.nativeElement.focus()
+    }
   }
 
   dropOption(index: number) {
@@ -223,7 +221,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
   uploadFile(event: any) {
     let filetype = event.target.files[0].type
-    if (filetype.match(/image\/png/)) {
+    if (filetype.match(/image\/png/)||filetype.match(/image\/jpeg/)) {
       let reader = new FileReader()
       reader.readAsDataURL(event.target.files[0])
       reader.onload = (event: any) => {

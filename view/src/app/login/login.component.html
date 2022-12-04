@@ -3,19 +3,16 @@
     <div class="container-md text-bg-dark rounded-5 col-lg-4 col-sm-6 col-12 p-4">
       <div class="form-signin w-100">
         <form [formGroup]="user" (ngSubmit)="onSubmit()">
-          <img class="mb-4" src="../../assets/logo.png" alt="" width="100">
+          <img src="../../assets/logo.png" alt="" width="100">
           <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4 required">Email address:</label>
             <div class="input-group" [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid">
-              <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon2"
+              <input type="email" class="form-control" placeholder="Username" aria-describedby="basic-addon"
                      id="username" formControlName="email"
                      [class.is-invalid]="email?.invalid&&email?.dirty" [class.is-valid]="email?.valid" #emailField>
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/at-solid.svg" width="16"></span>
-            </div>
-            <div class="valid-feedback text-start">
-              Looks good!
             </div>
             <div class="invalid-feedback text-start">
               <span [hidden]="!email?.errors?.['email']">Please enter a valid email!</span>
@@ -32,37 +29,19 @@
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
 
             </div>
-            <div class="valid-feedback text-start">
-              Looks good!
-            </div>
             <div class="invalid-feedback text-start">
               <span [hidden]="!password?.errors?.['minlength']">Min length 4 symbols!</span>
               <span [hidden]="!password?.errors?.['required']||password?.errors?.['minlength']">Required!</span>
             </div>
           </div>
 
-<!--          <div class="d-flex justify-content-between w-100 ps-3 pe-3">
-            <button type="submit" class="btn btn-success col-5" [disabled]="!user.valid">Log in</button>
-            <button type="reset" class="btn btn-danger col-5">Reset</button>
-          </div>-->
-
           <div class="d-flex justify-content-end pe-3">
-            <button type="reset" class="btn btn-danger col-auto me-3"
-                    (mouseover)="textResetButton=true"
-                    (mouseleave)="textResetButton=false">
-          <span [hidden]="textResetButton===true">
-                <img src="assets/icons/icons8-multiply-30.png" width="19">
-          </span>
-              <span [hidden]="textResetButton===false">Reset</span><span class="sr-only">(current)</span>
+            <button type="button" class="btn btn-danger col-auto me-3" (click)="location.back()">
+              <span class="d-flex align-items-center"><img src="assets/icons/x-mark-16.png" class="me-2">Cancel</span>
             </button>
 
-            <button type="submit" class="btn btn-success col-auto" [disabled]="!user.valid"
-                    (mouseover)="textLogInButton=true"
-                    (mouseleave)="textLogInButton=false">
-              <span [hidden]="textLogInButton===true">
-                <img src="assets/icons/right-to-bracket-solid.svg" width="16">
-              </span>
-              <span [hidden]="textLogInButton===false">Log in</span>
+            <button type="submit" class="btn btn-success col-auto" [disabled]="!user.valid">
+              <span class="d-flex align-items-center"><img src="assets/icons/account-login-16.png" class="me-2">Login</span>
             </button>
           </div>
         </form>
@@ -70,3 +49,4 @@
     </div>
   </div>
 </div>
+

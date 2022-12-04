@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 .card:hover {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 1),
@@ -6,4 +5,24 @@
   23px 0 20px -23px rgba(0, 0, 0, .8),
   0 0 40px rgba(0, 0, 0, .1) inset;
   transition-duration: 0.5s;
+}
+
+@media (hover: hover) {
+  .card-button{
+    display: none;
+  }
+
+  .card:hover .card-button{
+    display: inline-block;
+  }
+}
+
+@media (hover: none) {
+  .card-button{
+    display: inline-block;
+  }
+
+  .card:hover .card-button{
+    display: inline-block;
+  }
 }

@@ -16,24 +16,12 @@ export class AlbumCarComponent implements OnInit {
 
   noCars: boolean = false;
 
-  textModalDeleteButton:boolean = false;
-  textModalCloseButton:boolean = false;
-
-  textDeleteButton: boolean[];
-
-  textEditButton: boolean[];
-
   constructor(public carService: CarService, private toast: ToastrService, public auth: AuthService,private titleService: Title) {
-    this.titleService.setTitle('car-catalog');
+    this.titleService.setTitle('Car catalog');
   }
 
   ngOnInit(): void {
     this.getCar()
-    this.textDeleteButton = new Array(this.cars.length);
-    this.textEditButton = new Array(this.cars.length);
-
-    this.textDeleteButton.fill(false);
-    this.textEditButton.fill(false);
   }
 
   delete(id: number): void {

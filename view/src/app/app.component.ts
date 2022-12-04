@@ -9,16 +9,9 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  textLogInButton: boolean = false;
-  textLogOutButton: boolean = false;
-  textAddCarButton: boolean = false;
-
-  textModalDeleteButton: boolean = false;
-  textModalCloseButton: boolean = false;
-
   scrolled:boolean = false;
 
-  firstName: string = String(localStorage.getItem('first-name'));
+  firstName: string|null = localStorage.getItem('first-name');
 
   constructor(public auth: AuthService, private router: Router, private titleService: Title) {
     this.titleService.setTitle('car-catalog');
@@ -33,6 +26,7 @@ export class AppComponent implements OnInit {
     window.addEventListener('storage', (event) => {
       if (event.storageArea == localStorage) {
         let token = localStorage.getItem('auth-token');
+        this.firstName = localStorage.getItem('first-name');
         if (token == undefined) {
           this.auth.logout();
           // @ts-ignore
@@ -43,7 +37,7 @@ export class AppComponent implements OnInit {
       }
     }, false);
 
-    window.addEventListener('scroll', (event) => {
+    window.addEventListener('scroll', () => {
       if(window.scrollY!=0){
         this.scrolled=true;
       }else {

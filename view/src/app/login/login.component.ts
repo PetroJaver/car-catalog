@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/service/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
-import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -18,12 +18,9 @@ export class LoginComponent implements OnInit,AfterViewInit {
     password: ['', [Validators.minLength(4), Validators.required]]
   })
 
-  textResetButton: boolean = false;
-  textLogInButton: boolean = false;
-
   constructor(private fb: FormBuilder, private auth: AuthService, private toast: ToastrService,private titleService: Title
-    , private router: Router) {
-    this.titleService.setTitle('login');
+    , public location:Location) {
+    this.titleService.setTitle('Login car catalog');
   }
 
   get email() {

@@ -58,9 +58,8 @@ export class EditCarComponent implements OnInit,AfterViewInit {
     }
   );
 
-  constructor(private auth: AuthService,private location: Location, private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService, private titleService: Title) {
+  constructor(private auth: AuthService,public location: Location, private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService, private titleService: Title) {
     this.id = activateRoute.snapshot.params['id'];
-    this.titleService.setTitle('edit-car/' + this.id);
   }
 
   ngOnInit(): void {
@@ -75,7 +74,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
     this.carService.get(this.id).subscribe((data: Car) => {
       this.car = data;
-
+      this.titleService.setTitle(`Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`);
       this.onReset();
     }, error => {
       if(error.status=404){
