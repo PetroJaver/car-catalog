@@ -1,15 +1,11 @@
-package com.implemica.application.util.selenium.tests;
+package com.implemica.selenium.tests;
 
-import com.implemica.application.util.readproperties.ConfigProvider;
-import com.implemica.application.util.selenium.pages.BaseSeleniumPage;
+import com.implemica.selenium.pages.BaseSeleniumPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.concurrent.TimeUnit;
 

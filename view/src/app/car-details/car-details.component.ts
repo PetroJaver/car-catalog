@@ -12,13 +12,8 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./car-details.component.css']
 })
 export class CarDetailsComponent {
-  textDeleteButton: boolean = false;
-  textEditButton: boolean = false;
 
   car: Car;
-
-  textModalDeleteButton:boolean = false;
-  textModalCloseButton:boolean = false;
 
   id: number;
 

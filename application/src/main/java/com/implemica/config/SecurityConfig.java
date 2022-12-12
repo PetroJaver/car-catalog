@@ -24,6 +24,14 @@ public class SecurityConfig{
         this.jwtConfigurer = jwtConfigurer;
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            "/authenticate",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/webjars/**"
+    };
+
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -31,7 +39,7 @@ public class SecurityConfig{
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .anyRequest()
+                .antMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .and()
                 .apply(jwtConfigurer);

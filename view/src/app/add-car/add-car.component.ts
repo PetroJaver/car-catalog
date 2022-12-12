@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BodyType} from "./BodyType";
 import {TransmissionType} from "./TransmissionType";
-import {FormArray, FormBuilder, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CarService} from "../shared/service/car.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
@@ -30,18 +30,18 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
 
 
-  car = this.fb.group(
+  car:FormGroup = this.fb.group(
     {
       file: [null],
-      brand: ['', Validators.required],
-      model: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
-      bodyType: ['', [Validators.required]],
+      brand: [null, Validators.required],
+      model: [null, [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
+      bodyType: [null, [Validators.required]],
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
-      transmissionType: ['', [Validators.required]],
+      transmissionType: [null, [Validators.required]],
       engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
-      description: ["", [Validators.minLength(50), Validators.maxLength(5000)]],
-      shortDescription: ["", [Validators.minLength(25), Validators.maxLength(150)]],
-      optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
+      description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
+      shortDescription: [null, [Validators.minLength(25), Validators.maxLength(150)]],
+      optional: [null, [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
       optionalList: this.fb.array([])
     }
   )
@@ -113,10 +113,6 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   get file() {
     return this.car.get('file')
   }
-
-  get engineValue(){
-    return Number(this.engineSize?.value)
-  }
   //endregion
 
 
@@ -154,59 +150,62 @@ export class AddCarComponent implements OnInit,AfterViewInit {
       transmissionType: 'MANUAL',
       brand: '',
       bodyType: '',
-      //@ts-ignore
       year: new Date().getFullYear(),
-      //@ts-ignore
       engineSize: '1',
-      description: "",
-      shortDescription: ""
+      description: null,
+      shortDescription: null
     })
   }
 
   onSubmit() {
-    const data: FormData = new FormData()
-    let carDto:CarDto = new CarDto();
+    const car: CarDto = new CarDto;
+    car.brand = this.car.get('brand')?.value;
+    car.model = this.car.get('model')?.value;
+    car.bodyType = this.car.get('bodyType')?.value;
+    car.year = Math.floor(Number(this.car.get('year')?.value))
+    car.transmissionType = this.car.get('transmissionType')?.value;
+    car.engineSize = parseFloat(Number(this.car.get('engineSize')?.value).toFixed(1))
+    car.optionsList = this.car.get('optionalList')?.value;
+    car.shortDescription = this.car.get('shortDescription')?.value;
 
-    carDto.optionsList =  this.optionalList.value;
-    // @ts-ignore
-    carDto.brand = this.car.get('brand')?.value;
-    // @ts-ignore
-    carDto.model = this.car.get('model')?.value;
-    // @ts-ignore
-    carDto.bodyType = this.car.get('bodyType')?.value;
-    // @ts-ignore
-    carDto.year = this.car.get('year')?.value;
-    // @ts-ignore
-    carDto.transmissionType = this.car.get('transmissionType')?.value;
-    // @ts-ignore
-    carDto.engineSize = this.car.get('engineSize')?.value;
-    // @ts-ignore
+
     if(this.description?.value!=""){
-      // @ts-ignore
-      carDto.description = this.car.get('description')?.value;
-    }
-    // @ts-ignore
-    if(this.shortDescription?.value!=""){
-      // @ts-ignore
-      carDto.shortDescription = this.car.get('shortDescription')?.value;
+      car.description = this.car.get('description')?.value;
     }
 
-
-    if(this.car.get('file')?.value!=null){
-      // @ts-ignore
-      data.append('file', this.car.get('file')?.value)
-    }
+    this.carService.add(car).subscribe((data) => {
 
 
-    data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
+      if(this.car.get('file')?.value!=null){
+        const dataImage:FormData = new FormData();
+        dataImage.append('image', this.car.get('file')?.value);
+        console.log(data.id)
+        this.carService.uploadImage(dataImage, data.id).subscribe(()=>{
+          this.toast.success("Car successful update!", "Success", {
+            progressBar: true,
+            timeOut: 5000,
+            progressAnimation: 'increasing'
+          });
+          this.location.back();
+        },error => {
+          if(error.status==0||error.status==401||error.status==404){
+            this.toast.error("Car fail add!", "Fail", {
+              progressBar: true,
+              timeOut: 5000,
+              progressAnimation: 'increasing'
+            })
+            this.router.navigate(['/'])
+          }
+        })
+      }else{
+        this.toast.success("Car successful update!", "Success", {
+          progressBar: true,
+          timeOut: 5000,
+          progressAnimation: 'increasing'
+        });
+        this.router.navigate(['/'])
+      }
 
-    this.carService.add(data).subscribe(() => {
-      this.toast.success("Car successful add!", "Success", {
-        progressBar: true,
-        timeOut: 5000,
-        progressAnimation: 'increasing'
-      })
-      this.router.navigate(['/'])
     }, error => {
       if(error.status==0||error.status==401){
         this.toast.error("Car fail add!", "Fail", {

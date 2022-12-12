@@ -45,7 +45,7 @@
             <div class="col-sm-8">
               <input type="text" class="form-control" id="model"
                      [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
-                     formControlName="model" placeholder="Enter model">
+                     formControlName="model" placeholder="Model">
               <div class="invalid-feedback">
                 <span [hidden]="!model?.errors?.['maxlength']">Max length 40 symbols!</span>
                 <span [hidden]="!model?.errors?.['minlength']">Min length 2 symbols!</span>

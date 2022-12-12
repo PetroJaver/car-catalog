@@ -1,10 +1,10 @@
-package com.implemica.application.util.selenium.helpers;
+package com.implemica.selenium.helpers;
 
 import java.io.File;
 
 public class AddCarTestValues extends BaseTestValues{
     public static final String INVALID_FILE_PATH = new File("src/test/resources/filesForSilenium/any.txt").getAbsolutePath();
-    public static final String VALID_FILE_PATH = new File("src/test/resources/filesForSilenium/carimage.png").getAbsolutePath();
+    public static final String VALID_FILE_PATH = new File("src/test/resources/filesForSilenium/testCarImage.png").getAbsolutePath();
 
     public static final String INVALID_PATTERN = "Valid characters: numbers, latin alphabet characters, space, and hyphen!";
 

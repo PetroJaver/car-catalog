@@ -25,24 +25,19 @@ public class CarServiceImpl implements CarService {
     String defaultImagePath;
 
     @Override
-    public void saveCar(CarDTO carDto, MultipartFile file) {
-        String imageName;
-        if(file == null){
-            imageName = defaultImagePath;
-        }else{
-            imageName = storageService.uploadFile(file);
-        }
-
-        carRepository.save(getCarFromCarDto(carDto, imageName));
+    public Car saveCar(CarDTO carDto) {
+        Car car = getCarFromCarDto(carDto);
+        car.setImageName(defaultImagePath);
+        return carRepository.save(car);
     }
 
     @Override
     public boolean deleteCarById(Long id) {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
-            if(!imageName.equals(defaultImagePath)){
+
+            if (!imageName.equals(defaultImagePath))
                 storageService.deleteFile(imageName);
-            }
 
             carRepository.deleteById(id);
             return true;
@@ -53,46 +48,50 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car findCarById(Long id) {
-        Car car;
-        try {
-            car = carRepository.findById(id).orElseThrow();
-        } catch (Exception e) {
-            car = null;
-        }
-
-        return car;
+        return carRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Car> findAll() {
-
         return (List<Car>) carRepository.findAll();
     }
 
     @Override
-    public boolean update(Long id, CarDTO carDto, MultipartFile file) {
+    public boolean uploadImageCarById(Long id, MultipartFile newImage) {
+        Car oldCar = carRepository.findById(id).orElse(null);
 
-        if (carRepository.existsById(id)) {
-            String imageName = carRepository.findById(id).orElseThrow().getImageName();
+        if (oldCar != null) {
+            String oldImageName = oldCar.getImageName();
 
-            if (file != null) {
-                if(!imageName.equals(defaultImagePath)){
-                    storageService.deleteFile(imageName);
-                }
-
-                imageName = storageService.uploadFile(file);
+            if (!oldImageName.equals(defaultImagePath)) {
+                storageService.deleteFile(oldImageName);
             }
 
-            Car car = getCarFromCarDto(carDto, imageName);
-            car.setId(id);
-
-            carRepository.save(car);
+            String newImageName = storageService.uploadFile(newImage);
+            oldCar.setImageName(newImageName);
+            carRepository.save(oldCar);
             return true;
         }
         return false;
     }
 
-    private Car getCarFromCarDto(CarDTO carDto, String imageName) {
+    @Override
+    public boolean updateCarById(Long id, CarDTO carDto) {
+        Car oldCar = carRepository.findById(id).orElse(null);
+
+        if (oldCar != null) {
+            Car car = getCarFromCarDto(carDto);
+            car.setImageName(oldCar.getImageName());
+            car.setId(oldCar.getId());
+
+            carRepository.save(car);
+            return true;
+        }
+
+        return false;
+    }
+
+    private Car getCarFromCarDto(CarDTO carDto) {
         Car car = new Car();
 
         car.setBrand(CarBrand.valueOf(carDto.getBrand()));
@@ -100,19 +99,10 @@ public class CarServiceImpl implements CarService {
         car.setYear(carDto.getYear());
         car.setTransmissionType(CarTransmissionType.valueOf(carDto.getTransmissionType()));
         car.setEngineSize(carDto.getEngineSize());
-        if(carDto.getDescription()==null){
-            car.setDescription("");
-        }else {
-            car.setDescription(carDto.getDescription());
-        }
         car.setOptionsList(carDto.getOptionsList());
-        car.setImageName(imageName);
-        if(carDto.getShortDescription()==null){
-            car.setShortDescription("");
-        }else {
-            car.setShortDescription(carDto.getShortDescription());
-        }
         car.setModel(carDto.getModel());
+        car.setDescription(carDto.getDescription());
+        car.setShortDescription(carDto.getShortDescription());
 
         return car;
     }

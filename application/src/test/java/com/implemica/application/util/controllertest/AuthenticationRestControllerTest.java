@@ -5,9 +5,7 @@ import com.implemica.model.enums.Role;
 import com.implemica.model.enums.Status;
 import com.implemica.model.repository.UserRepository;
 import com.implemica.security.JwtTokenProvider;
-import org.junit.After;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,10 +21,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,56 +42,52 @@ public class AuthenticationRestControllerTest {
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
 
-    private final User userTest = new User(1L,"test@test.email"
-            ,"$2a$12$qV1GJcrL.vnDhY4G5c1v..V9w6tRxDncJqhCzMTzOlChn/927.8oW"
-            ,"Test","Test", Role.ADMIN, Status.ACTIVE);
+    private final User userTest = new User(1L, "test"
+            , "$2a$12$lml3Rq3vDj39k/YEJUEi6erCmyWOKLJdyyzOdmCvcnnQSsl.fH.yC", Role.ADMIN, Status.ACTIVE);
 
 
     @Test
-    public void authenticateTest() throws Exception{
-        when(userRepository.findByEmail(eq("test@test.com"))).thenReturn(Optional.of(userTest));
-        when(jwtTokenProvider.createToken(eq("test@test.com"),eq("ADMIN"))).thenReturn("token");
+    public void authenticateTest() throws Exception {
+        when(userRepository.findByUsername(eq("test"))).thenReturn(Optional.of(userTest));
+        when(jwtTokenProvider.createToken(eq("test"), eq("ADMIN"))).thenReturn("token");
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"test@test.com\",\"password\":\"test\"}"))
+                        .content("{\"username\":\"test\",\"password\":\"test\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"email\": \"test@test.com\",\"token\": \"token\"}"));
+                .andExpect(content().json("{\"username\": \"test\",\"token\": \"token\"}"));
 
-        verify(userRepository,times(1)).findByEmail(eq("test@test.com"));
+        verify(userRepository, times(1)).findByUsername(eq("test"));
         verifyNoMoreInteractions(userRepository);
-
-        verify(jwtTokenProvider,times(1)).createToken(eq("test@test.com"),eq("ADMIN"));
     }
 
     @Test
-    public void handleValidationExceptionsTest() throws Exception{
-        when(userRepository.findByEmail(eq("test@test.com"))).thenReturn(Optional.of(userTest));
-        when(jwtTokenProvider.createToken(eq("test@test.com"),eq("ADMIN"))).thenReturn("token");
-
+    public void handleValidationExceptionsTest() throws Exception {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"test@test.com\",\"password\":\"te\"}"))
+                        .content("{\"username\":\"test\",\"password\":\"no\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("{\"password\": \"password is length not from 4 to 16\"}"));
+
+        verifyNoInteractions(userRepository);
     }
 
     @Test
-    public void authenticateUserNotExistTest() throws Exception{
-        when(userRepository.findByEmail(eq("notExist@test.com"))).thenThrow(new UsernameNotFoundException("User doesn't exists"));
+    public void authenticateUserNotExistTest() throws Exception {
+        when(userRepository.findByUsername(eq("notExistAdmin"))).thenThrow(new UsernameNotFoundException("User doesn't exists"));
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"notExist@test.com\",\"password\":\"test\"}"))
+                        .content("{\"username\":\"notExistAdmin\",\"password\":\"test\"}"))
                 .andExpect(status().isForbidden())
                 .andExpect(content().string("Invalid email/password combination"));
 
-        verify(userRepository,times(1)).findByEmail(eq("notExist@test.com"));
+        verify(userRepository, times(1)).findByUsername(eq("notExistAdmin"));
         verifyNoMoreInteractions(userRepository);
     }
 
     @Test
-    public void authenticateUserAuthenticationExceptionTest() throws Exception{
+    public void authenticateUserAuthenticationExceptionTest() throws Exception {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new AuthenticationException("Not Authenticated") {
                     @Override
@@ -102,7 +98,7 @@ public class AuthenticationRestControllerTest {
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"test@test.com\",\"password\":\"test\"}"))
+                        .content("{\"username\":\"admin\",\"password\":\"test\"}"))
                 .andExpect(status().isForbidden())
                 .andExpect(content().string("Invalid email/password combination"));
 

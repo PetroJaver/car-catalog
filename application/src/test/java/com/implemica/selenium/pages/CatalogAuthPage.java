@@ -1,4 +1,4 @@
-package com.implemica.application.util.selenium.pages;
+package com.implemica.selenium.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

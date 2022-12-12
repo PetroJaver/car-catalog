@@ -38,10 +38,6 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
   transmissionTypes = TransmissionType;
 
-  textEditCarButton: boolean = false;
-
-  textResetCarButton: boolean = false;
-
   carForm: FormGroup = this.fb.group(
     {
       file: [''],
@@ -137,10 +133,6 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   get optionalList() {
     return this.carForm.get('optionalList') as FormArray;
   }
-
-  get engineValue(){
-    return Number(this.engineSize?.value)
-  }
   //endregion
 
 
@@ -185,41 +177,59 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   }
 
   onSubmit() {
-    const data: FormData = new FormData();
-    let carDto:CarDto = new CarDto();
-
-    if(this.isUploadImage){
-      data.append('file', this.carForm.get('file')?.value)
-    }
-
-    carDto.optionsList =  this.carForm.get('optionalList')?.value;
-    carDto.brand = this.carForm.get('brand')?.value;
-    carDto.model = this.carForm.get('model')?.value;
-    carDto.bodyType = this.carForm.get('bodyType')?.value;
-    carDto.year = this.carForm.get('year')?.value;
-    carDto.transmissionType = this.carForm.get('transmissionType')?.value;
-    carDto.engineSize = this.carForm.get('engineSize')?.value;
-    // @ts-ignore
-    if(this.description?.value!=""){
+    const car: CarDto = new CarDto;
+    car.brand = this.carForm.get('brand')?.value;
+    car.model = this.carForm.get('model')?.value;
+    car.bodyType = this.carForm.get('bodyType')?.value;
+    car.year = Math.floor(Number(this.carForm.get('year')?.value))
+    car.transmissionType = this.carForm.get('transmissionType')?.value;
+    car.engineSize = parseFloat(Number(this.carForm.get('engineSize')?.value).toFixed(1))
+    car.optionsList = this.carForm.get('optionalList')?.value;
+    if(this.carForm.get('description')?.value===""){
       // @ts-ignore
-      carDto.description = this.carForm.get('description')?.value;
+      car.description = null;
+    }else {
+      car.description = this.carForm.get('description')?.value;
     }
-    // @ts-ignore
-    if(this.shortDescription?.value!=""){
-      // @ts-ignore
-      carDto.shortDescription = this.carForm.get('shortDescription')?.value;
-    }
-    data.append('carDto', new Blob([JSON.stringify(carDto)], { type: 'application/json' }));
 
-    this.carService.update(data, this.id).subscribe((data) => {
-      this.toast.success("Car successful update!", "Success", {
-        progressBar: true,
-        timeOut: 5000,
-        progressAnimation: 'increasing'
-      });
-        this.location.back();
+    if(this.carForm.get('shortDescription')?.value===""){
+      // @ts-ignore
+      car.shortDescription = null;
+    }else {
+      car.shortDescription = this.carForm.get('shortDescription')?.value;
+    }
+
+    this.carService.update(car, this.id).subscribe(() => {
+      if(this.carForm.get('file')?.value!=null){
+        const dataImage:FormData = new FormData();
+        dataImage.append('image', this.carForm.get('file')?.value);
+        this.carService.uploadImage(dataImage, this.id).subscribe(()=>{
+          this.toast.success("Car successful update!", "Success", {
+            progressBar: true,
+            timeOut: 5000,
+            progressAnimation: 'increasing'
+          });
+          this.location.back();
+        },error => {
+          if(error.status==0||error.status==401||error.status==404){
+            this.toast.error("Car fail add!", "Fail", {
+              progressBar: true,
+              timeOut: 5000,
+              progressAnimation: 'increasing'
+            })
+            this.router.navigate(['/'])
+          }
+        })
+      }else{
+          this.toast.success("Car successful update!", "Success", {
+            progressBar: true,
+            timeOut: 5000,
+            progressAnimation: 'increasing'
+          });
+          this.location.back();
+      }
     }, error => {
-      if(error.status==0||error.status==401){
+      if(error.status==0||error.status==400||error.status==401||error.status==404){
         this.toast.error("Car fail add!", "Fail", {
           progressBar: true,
           timeOut: 5000,

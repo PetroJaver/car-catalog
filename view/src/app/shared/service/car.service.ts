@@ -2,34 +2,39 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Car} from "../models/Car";
 import {Observable} from "rxjs";
+import {CarDto} from "../models/CarDto";
 
 @Injectable({
   providedIn: "root"
 })
 export class CarService {
+  baseUrl: string = "http://localhost:8080/cars/";
   constructor(private http: HttpClient) {
   }
 
   getAll(): Observable<Car[]> {
-    return this.http.get<Car[]>('http://localhost:8080/cars');
+    return this.http.get<Car[]>(this.baseUrl);
   }
 
   get(id: number): Observable<Car> {
-    return this.http.get<Car>('http://localhost:8080/cars/' + id);
+    return this.http.get<Car>(this.baseUrl + id);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>('http://localhost:8080/cars/' + id);
+    return this.http.delete<void>(this.baseUrl + id);
   }
 
-  add(data: FormData): Observable<void> {
-
-    return this.http.post<void>('http://localhost:8080/cars', data);
+  add(car: CarDto): Observable<Car> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post<Car>(this.baseUrl, JSON.stringify(car),{'headers': headers});
   }
 
-  update(data: FormData, id: number): Observable<void> {
-    return this.http.put<void>('http://localhost:8080/cars/' + id, data);
+  update(car: CarDto, id: number): Observable<void> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.put<void>(this.baseUrl + id, JSON.stringify(car),{'headers': headers});
   }
 
-
+  uploadImage(body: FormData, id: number): Observable<void>{
+    return this.http.post<void>(`${this.baseUrl}uploadImage/${id}`, body);
+  }
 }

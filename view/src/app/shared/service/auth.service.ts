@@ -15,11 +15,10 @@ export class AuthService {
   constructor(private http: HttpClient,private location:Location) {
   }
 
-  login(user: User): Observable<{ token: string,firstName:string }> {
-    return this.http.post<{ token: string,firstName:string }>("http://localhost:8080/login", user).pipe(
-      tap(({token, firstName}) => {
+  login(user: User): Observable<{ token: string}> {
+    return this.http.post<{ token: string}>("http://localhost:8080/login", user).pipe(
+      tap(({token}) => {
           localStorage.setItem('auth-token', token)
-          localStorage.setItem('first-name', firstName)
           this.setToken(token);
           this.location.back();
         }));

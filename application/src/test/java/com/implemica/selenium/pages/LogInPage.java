@@ -1,4 +1,4 @@
-package com.implemica.application.util.selenium.pages;
+package com.implemica.selenium.pages;
 
 import static com.implemica.application.util.readproperties.ConfigProvider.*;
 

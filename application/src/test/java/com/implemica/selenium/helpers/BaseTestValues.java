@@ -1,4 +1,4 @@
-package com.implemica.application.util.selenium.helpers;
+package com.implemica.selenium.helpers;
 
 public class BaseTestValues {
     public static final String REQUIRED_TIP = "Required!";

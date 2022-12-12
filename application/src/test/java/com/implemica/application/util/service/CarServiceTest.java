@@ -1,26 +1,19 @@
 package com.implemica.application.util.service;
 
-import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
-import com.implemica.model.enums.CarBodyType;
-import com.implemica.model.enums.CarBrand;
-import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.repository.CarRepository;
 import com.implemica.model.service.CarServiceImpl;
 import com.implemica.model.service.StorageService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.implemica.application.util.helpers.TestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -35,71 +28,48 @@ public class CarServiceTest {
     @InjectMocks
     CarServiceImpl carService;
 
-    private final Car firstCar = new Car(1L, "imgForFirstCar", CarBrand.BMW, "Series 8"
-            , CarBodyType.COUPE, 2020, CarTransmissionType.AUTOMATIC, 4d
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
-
-    private final Car secondCar = new Car(2L, "imgForSecondCar", CarBrand.AUDI, "A8", CarBodyType.COUPE
-            , 2021, CarTransmissionType.AUTOMATIC, 4.1
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
-
-    private final Car thirdCar = new Car(3L, "imgForThirdCar", CarBrand.MASERATI, "A8", CarBodyType.COUPE
-            , 2021, CarTransmissionType.MANUAL, 6.2
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
-
-    private final CarDTO firstCarDto = new CarDTO(CarBrand.BMW.toString(), "Series 8"
-            , CarBodyType.COUPE.toString(), 2020, CarTransmissionType.AUTOMATIC.toString(), 4d
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
-
-    private final CarDTO noValidBrandCarDto = new CarDTO("bmw", "Series 8"
-            , CarBodyType.COUPE.toString(), 2020, CarTransmissionType.AUTOMATIC.toString(), 4d
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
-
-    private final MultipartFile file = new MockMultipartFile("imgForFirstCar", "Testing file.".getBytes());
-
-    private final CarDTO carDtoSave = new CarDTO(CarBrand.BMW.toString(), "Series 8"
-            , CarBodyType.COUPE.toString(), 2020, CarTransmissionType.AUTOMATIC.toString(), 4d
-            , "It is a long established fact that a reader will"
-            , "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            , Arrays.asList("Climate control", "Signaling"));
+    @Before
+    public void before() {
+        org.springframework.test.util.ReflectionTestUtils.setField(carService, "defaultImagePath", DEFAULT_IMAGE_PATH);
+    }
 
     @Test
     public void saveCar() {
-        when(storageService.uploadFile(any(MultipartFile.class))).thenReturn("imgForFirstCar");
-        when(carRepository.save(any(Car.class))).thenReturn(firstCar);
+        when(carRepository.save(EXAMPLE_CAR_WITHOUT_ID)).thenReturn(EXAMPLE_CAR);
 
-        carService.saveCar(carDtoSave, file);
+        Car returnedCar = carService.saveCar(EXAMPLE_CAR_DTO);
+        assertEquals(EXAMPLE_CAR, returnedCar);
 
-        verify(storageService, times(1)).uploadFile(file);
         verify(carRepository, times(1)).save(any(Car.class));
-        verifyNoMoreInteractions(storageService);
+        verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
 
     @Test
-    public void deleteCarExistCar() {
-        String imageName = firstCar.getImageName();
-
+    public void deleteExistCarWithDefaultImage() {
         when(carRepository.existsById(1L)).thenReturn(true);
-        when(carRepository.findById(1L)).thenReturn(Optional.of(firstCar));
-        when(storageService.deleteFile(imageName)).thenReturn(true);
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
 
         assertTrue(carService.deleteCarById(1L));
 
         verify(carRepository, times(1)).existsById(1L);
-        verify(storageService, times(1)).deleteFile(imageName);
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).deleteById(1L);
+        verifyNoInteractions(storageService);
+        verifyNoMoreInteractions(carRepository);
+    }
+
+    @Test
+    public void deleteExistCarWithNotDefaultImage() {
+        when(carRepository.existsById(1L)).thenReturn(true);
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME));
+
+        assertTrue(carService.deleteCarById(1L));
+
+        verify(carRepository, times(1)).existsById(1L);
+        verify(carRepository, times(1)).findById(1L);
+        verify(carRepository, times(1)).deleteById(1L);
+        verify(storageService, times(1)).deleteFile(NOT_DEFAULT_IMAGE_PATH);
         verifyNoMoreInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
@@ -117,87 +87,117 @@ public class CarServiceTest {
 
     @Test
     public void findCarByIdExistCar() {
-        when(carRepository.findById(1L)).thenReturn(Optional.of(firstCar));
-        Car findCar = carService.findCarById(1L);
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
+        Car foundCar = carService.findCarById(1L);
 
-        assertEquals(firstCar, findCar);
+        assertEquals(EXAMPLE_CAR, foundCar);
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
+        verifyNoInteractions(storageService);
     }
 
     @Test
     public void findCarByIdNotExistCar() {
-        when(carRepository.findById(1L)).thenThrow(NoSuchElementException.class);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Car findCar = carService.findCarById(1L);
-
-        assertEquals(null, findCar);
+        Car foundCar = carService.findCarById(1L);
+        assertNull(foundCar);
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
+        verifyNoInteractions(storageService);
     }
 
     @Test
     public void updateCarExistCar() {
-        Car existCar = secondCar;
-        existCar.setId(1L);
-        String imageName = existCar.getImageName();
-        String imageNameNew = file.getName();
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
+        when(carRepository.save(EXAMPLE_CAR)).thenReturn(EXAMPLE_CAR);
 
+        assertTrue(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
 
-        when(carRepository.existsById(1L)).thenReturn(true);
-        when(carRepository.findById(1L)).thenReturn(Optional.of(existCar));
-        when(storageService.deleteFile(imageName)).thenReturn(true);
-        when(storageService.uploadFile(file)).thenReturn(imageNameNew);
-
-        assertTrue(carService.update(1L, firstCarDto, file));
-
-        verify(carRepository, times(1)).existsById(1L);
-        verify(storageService, times(1)).deleteFile(imageName);
-        verify(storageService, times(1)).uploadFile(file);
         verify(carRepository, times(1)).findById(1L);
-        verify(carRepository, times(1)).save(any(Car.class));
-        verifyNoMoreInteractions(storageService);
+        verify(carRepository, times(1)).save(EXAMPLE_CAR);
+        verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
 
     @Test
-    public void updateCarFileNull() {
-        Car existCar = secondCar;
-        existCar.setId(1L);
+    public void updateCarNotExist() {
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(carRepository.existsById(1L)).thenReturn(true);
-        when(carRepository.findById(1L)).thenReturn(Optional.of(existCar));
+        assertFalse(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
 
-        assertTrue(carService.update(1L, firstCarDto, null));
-
-        verify(carRepository, times(1)).existsById(1L);
         verify(carRepository, times(1)).findById(1L);
-        verify(carRepository, times(1)).save(any(Car.class));
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }
 
     @Test
-    public void updateCarNotExistCar() {
-        when(carRepository.existsById(1L)).thenReturn(false);
+    public void findAllNotEmpty() {
+        when(carRepository.findAll()).thenReturn(CAR_LIST);
 
-        assertFalse(carService.update(1L, firstCarDto, file));
-
-        verify(carRepository, times(1)).existsById(1L);
-        verifyNoMoreInteractions(carRepository);
-        verifyNoInteractions(storageService);
-    }
-
-    @Test
-    public void findAll() {
-        List<Car> carList = Arrays.asList(firstCar, secondCar, thirdCar);
-        when(carRepository.findAll()).thenReturn(carList);
-
-        assertEquals(carService.findAll(), carList);
+        assertEquals(carService.findAll(), CAR_LIST);
 
         verify(carRepository, times(1)).findAll();
+        verifyNoMoreInteractions(carRepository);
+        verifyNoInteractions(storageService);
+    }
+
+    @Test
+    public void findAllEmpty() {
+        when(carRepository.findAll()).thenReturn(null);
+
+        assertNull(carService.findAll());
+
+        verify(carRepository, times(1)).findAll();
+        verifyNoMoreInteractions(carRepository);
+        verifyNoInteractions(storageService);
+    }
+
+    @Test
+    public void uploadImageExistCarByIdWithDefaultImage() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
+        when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
+                .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
+
+        assertTrue(carService.uploadImageCarById(1L, MULTIPART_FILE));
+
+        verify(carRepository, times(1)).findById(1L);
+        verify(carRepository,times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
+        verifyNoMoreInteractions(carRepository);
+        verifyNoMoreInteractions(storageService);
+
+        EXAMPLE_CAR.setImageName(DEFAULT_IMAGE_PATH);
+    }
+
+    @Test
+    public void uploadImageExistCarByIdWithNotDefaultImage() {
+        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME));
+        when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
+                .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        when(storageService.deleteFile(MULTIPART_FILE.getName())).thenReturn(true);
+        when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
+
+        assertTrue(carService.uploadImageCarById(1L, MULTIPART_FILE));
+
+        verify(carRepository, times(1)).findById(1L);
+        verify(carRepository,times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
+        verify(storageService, times(1)).deleteFile(MULTIPART_FILE.getName());
+        verifyNoMoreInteractions(carRepository);
+        verifyNoMoreInteractions(storageService);
+    }
+
+    @Test
+    public void uploadImageNotExistCarById() {
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertFalse(carService.uploadImageCarById(1L, MULTIPART_FILE));
+
+        verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }

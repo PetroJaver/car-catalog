@@ -1,6 +1,6 @@
-package com.implemica.application.util.selenium.pages;
+package com.implemica.selenium.pages;
 
-import static com.implemica.application.util.selenium.helpers.AddCarTestValues.*;
+import static com.implemica.selenium.helpers.AddCarTestValues.*;
 
 import com.implemica.model.enums.CarBodyType;
 import com.implemica.model.enums.CarBrand;

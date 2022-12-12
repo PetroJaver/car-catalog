@@ -9,20 +9,21 @@
 
 @media (hover: hover) {
   .card-button{
-    display: none;
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
 
   .card:hover .card-button{
     display: inline-block;
+    opacity: 1;
+    transition: opacity 1s;
   }
 }
 
 @media (hover: none) {
   .card-button{
     display: inline-block;
-  }
-
-  .card:hover .card-button{
-    display: inline-block;
+    opacity: 1;
   }
 }

@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" routerLink="/">
           <!-- Logo Image -->
-          <img src="../assets/logo.png" class="d-inline-block align-middle me-2" style="cursor: pointer">
+          <img src="../assets/logo.svg" height="47" width="168" class="d-inline-block align-middle me-2" style="cursor: pointer">
         </a>
 
         <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -18,10 +18,10 @@
             <li class="nav-item py-2 ms-1" *ngIf="auth.isAuthenticated()">
               <span class="d-flex align-items-center">
                 <img src="assets/icons/user.png" width="30" class="me-2">
-                <h6 class="d-inline-block mt-2">{{firstName}}</h6>
+                <h6 class="d-inline-block mt-2">Petro</h6>
               </span>
             </li>
-            <li class="nav-item py-2 ms-1 ms-lg-5" *ngIf="auth.isAuthenticated()">
+            <li class="nav-item d-flex align-items-center py-2 ms-1 ms-lg-5" *ngIf="auth.isAuthenticated()">
               <button routerLink="add" class="btn btn-success btn-sm me-2">
                 <span class="d-flex align-items-center"><img src="assets/icons/plus-8-16.png" class="me-2">Add car</span>
               </button>
@@ -30,7 +30,7 @@
                 <span class="d-flex align-items-center"><img src="assets/icons/account-logout-16.png" class="me-2">Logout</span>
               </button>
             </li>
-            <li class="nav-item py-2" *ngIf="!auth.isAuthenticated()">
+            <li class="nav-item d-flex align-items-center py-2" *ngIf="!auth.isAuthenticated()">
               <button routerLink="login" class="btn btn-sm btn-success d-flex align-items-center">
                 <span class="d-flex align-items-center"><img src="assets/icons/account-login-16.png" class="me-2">Login</span>
               </button>

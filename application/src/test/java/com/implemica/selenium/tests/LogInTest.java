@@ -1,9 +1,9 @@
-package com.implemica.application.util.selenium.tests;
+package com.implemica.selenium.tests;
 
-import static com.implemica.application.util.selenium.helpers.LogInTestValues.*;
-import com.implemica.application.util.selenium.pages.CatalogAuthPage;
-import com.implemica.application.util.selenium.pages.Header;
-import com.implemica.application.util.selenium.pages.LogInPage;
+import static com.implemica.selenium.helpers.LogInTestValues.*;
+import com.implemica.selenium.pages.CatalogAuthPage;
+import com.implemica.selenium.pages.Header;
+import com.implemica.selenium.pages.LogInPage;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;

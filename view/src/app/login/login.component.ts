@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
   @ViewChild('emailField') emailField:ElementRef;
 
   user: FormGroup = this.fb.group({
-    email: ['', [Validators.email, Validators.required]],
+    username: ['', [Validators.required]],
     password: ['', [Validators.minLength(4), Validators.required]]
   })
 
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit,AfterViewInit {
     this.titleService.setTitle('Login car catalog');
   }
 
-  get email() {
-    return this.user.get('email');
+  get username() {
+    return this.user.get('username');
   }
 
   get password() {

@@ -7,18 +7,19 @@
       <div class="card h-100 rounded-3 text-bg-dark box-shadow ">
         <div class="hover-zoom p-3 text-center card-img-top" style="width: 100%; display: block">
           <div class="d-flex align-items-center justify-content-center w-100" style="height: 200px;position: relative">
-            <div *ngIf="auth.isAuthenticated()" style="position: absolute;bottom:0px;width: 100%">
-                <button type="button" class="btn btn-sm btn-danger mr-1 mr-lg-3 card-button" data-bs-toggle="modal" [attr.data-bs-target]="'#modal'+car.id">
+            <div *ngIf="auth.isAuthenticated()" style="position: absolute;top:0px;width: 100%" class="text-end">
+              <button type="button" class="btn btn-sm btn-warning mr-1 mr-lg-3 card-button" [routerLink]="['edit', car.id]">
+                <span class="d-flex align-items-center fw-semibold"><img src="assets/icons/edit-16.png" class="me-2">Edit</span>
+              </button>
+
+                <button type="button" class="btn btn-sm btn-danger  card-button" data-bs-toggle="modal" [attr.data-bs-target]="'#modal'+car.id">
                   <span class="d-flex align-items-center"><img src="assets/icons/trash-2-16.png" class="me-2">Delete</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-warning card-button" [routerLink]="['edit', car.id]">
-                  <span class="d-flex align-items-center fw-semibold"><img src="assets/icons/edit-16.png" class="me-2">Edit</span>
-                </button>
+
             </div>
             <img style="max-width: 100%; cursor: pointer" [src]="'https://carcatalogimages.s3.eu-west-3.amazonaws.com/'+ car.imageName"
                  [routerLink]="['details', car.id]">
           </div>
-
         </div>
         <div class="card-title text-center">
           <h3 class="mb-0">{{car.brand.replace('_', ' ')|titlecase}} {{car.model}}</h3>
