@@ -38,7 +38,7 @@ public class StorageService {
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setCacheControl("max-age=1209600, must-revalidate");
+            metadata.setCacheControl("max-age=2592000, must-revalidate");
 
             s3Client.putObject(new PutObjectRequest(bucketName,fileName, fileInputStream,metadata));
 

@@ -26,7 +26,7 @@ public class CarDTO {
     @NotEmpty(message = "model is empty")
     @Pattern(regexp = "[a-zA-Z0-9-\\s]*",message = "model is not correct")
     @Size(min = 2, max=40, message = "model is length not from 2 to 40")
-    @ApiModelProperty(example = "\"911\"",required = true)
+    @ApiModelProperty(example = "Cayenne",required = true)
     private String model;
 
     @ValueOfEnum(enumClass = CarBodyType.class,message = "Invalid bodyType")

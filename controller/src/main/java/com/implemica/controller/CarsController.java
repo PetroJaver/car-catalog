@@ -135,7 +135,7 @@ public class CarsController {
             name = "id",
             value = "The unique identifier of the car, by which the image will be uploaded.",
             required = true,
-            example = "1") Long id, @Parameter(name = "newCarImage", description = "The new image of the car that will" +
+            example = "1") Long id, @Parameter(name = "image", description = "The new image of the car that will" +
             " be changed for the car whose id was specified.") @RequestPart() MultipartFile image) {
         boolean imageUploaded = carService.uploadImageCarById(id, image);
         return imageUploaded ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);

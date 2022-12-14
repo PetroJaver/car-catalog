@@ -7,5 +7,6 @@ export enum BodyType{
   CONVERTIBLE = "Convertible",
   WAGON = "Wagon",
   VAN = "Van",
-  JEEP = "Jeep"
+  JEEP = "Jeep",
+  SPORTCAR = "Sport car"
 }

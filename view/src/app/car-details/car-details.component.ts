@@ -38,7 +38,7 @@ export class CarDetailsComponent {
     this.carService.get(this.id).subscribe((data) => {
       this.car = data;
       this.titleService.setTitle(`Details ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`)}, error => {
-      if(error.status=404){
+      if(error.status===404){
         this.toast.error("Car id "+this.id+" does not exist!", "Not found!", {
           progressBar: true,
           timeOut: 5000,

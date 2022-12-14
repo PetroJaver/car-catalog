@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
-
     private final JwtConfigurer jwtConfigurer;
 
     public SecurityConfig(JwtConfigurer jwtConfigurer) {

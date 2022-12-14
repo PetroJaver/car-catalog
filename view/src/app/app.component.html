@@ -15,31 +15,30 @@
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item py-2 ms-1" *ngIf="auth.isAuthenticated()">
+            <li class="nav-item d-flex align-items-center py-2 ms-1" *ngIf="auth.isAuthenticated()">
               <span class="d-flex align-items-center">
                 <img src="assets/icons/user.png" width="30" class="me-2">
                 <h6 class="d-inline-block mt-2">Petro</h6>
               </span>
             </li>
             <li class="nav-item d-flex align-items-center py-2 ms-1 ms-lg-5" *ngIf="auth.isAuthenticated()">
-              <button routerLink="add" class="btn btn-success btn-sm me-2">
-                <span class="d-flex align-items-center"><img src="assets/icons/plus-8-16.png" class="me-2">Add car</span>
+              <button routerLink="add" class="btn btn-success me-2">
+                <span class="d-flex align-items-center"><img src="assets/icons/plus%20.png" class="me-2">Add car</span>
               </button>
 
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalLogout">
-                <span class="d-flex align-items-center"><img src="assets/icons/account-logout-16.png" class="me-2">Logout</span>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalLogout">
+                <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
               </button>
             </li>
             <li class="nav-item d-flex align-items-center py-2" *ngIf="!auth.isAuthenticated()">
-              <button routerLink="login" class="btn btn-sm btn-success d-flex align-items-center">
-                <span class="d-flex align-items-center"><img src="assets/icons/account-login-16.png" class="me-2">Login</span>
+              <button routerLink="login" class="btn btn-success d-flex align-items-center">
+                <span class="d-flex align-items-center"><img src="assets/icons/log-in.png" class="me-2">Login</span>
               </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-
     <router-outlet></router-outlet>
 
   </div>
@@ -60,16 +59,16 @@
 <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
-      <div class="modal-header border-0">
+      <div class="modal-header border-0 d-flex justify-content-center">
         <h1 class="modal-title fs-6 text-center" id="staticBackdropLabel">Are you sure you want to log out?</h1>
       </div>
-      <div class="d-flex justify-content-center modal-footer border-0">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-          <span class="d-flex align-items-center"><img src="assets/icons/x-mark-16.png" class="me-2">No</span>
+      <div class="d-flex justify-content-center modal-footer border-0 p-3">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
         </button>
 
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" routerLink="login" (click)="auth.logout()">
-          <span class="d-flex align-items-center"><img src="assets/icons/check-mark-12-16.png" class="me-2">Yes</span>
+          <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
         </button>
       </div>
     </div>

@@ -9,12 +9,13 @@ import {Car} from "../shared/models/Car";
 import {AuthService} from "../shared/service/auth.service";
 import {Title} from "@angular/platform-browser";
 import {Brand} from "../add-car/Brand";
-import { Location } from '@angular/common'
+import {Location} from '@angular/common'
 import {CarDto} from "../shared/models/CarDto";
+
 @Component({
   selector: 'app-edit-car',
-  templateUrl: './edit-car.component.html',
-  styleUrls: ['./edit-car.component.css']
+  templateUrl: '../shared/templates/car-form.html',
+  styleUrls: ['../shared/templates/car-form.css']
 })
 export class EditCarComponent implements OnInit,AfterViewInit {
   @ViewChildren('listInputOptional') listInputOptional: QueryList<ElementRef>;
@@ -23,6 +24,8 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   @ViewChild('optionalInput') optionalInput: ElementRef;
 
   car: Car;
+
+  title:string;
 
   id: number;
 
@@ -59,6 +62,12 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    $(document).ready(function() {
+      // @ts-ignore
+      $('.tooltip').not(this).hide();
+    });
+
     window.addEventListener('storage', (event) => {
       if (event.storageArea == localStorage) {
         let token = localStorage.getItem('auth-token');
@@ -70,10 +79,12 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
     this.carService.get(this.id).subscribe((data: Car) => {
       this.car = data;
+
+      this.title = `Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`
       this.titleService.setTitle(`Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`);
       this.onReset();
     }, error => {
-      if(error.status=404){
+      if(error.status===404){
         this.toast.error("Car id "+this.id+" does not exist!", "Not found!", {
           progressBar: true,
           timeOut: 5000,
@@ -81,6 +92,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
         })
         this.router.navigate(['/']);
       }
+
     })
   }
 
@@ -211,7 +223,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
           });
           this.location.back();
         },error => {
-          if(error.status==0||error.status==401||error.status==404){
+          if(error.status==404){
             this.toast.error("Car fail add!", "Fail", {
               progressBar: true,
               timeOut: 5000,
@@ -229,7 +241,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
           this.location.back();
       }
     }, error => {
-      if(error.status==0||error.status==400||error.status==401||error.status==404){
+      if(error.status===400||error.status===404){
         this.toast.error("Car fail add!", "Fail", {
           progressBar: true,
           timeOut: 5000,
@@ -266,7 +278,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
         timeOut: 5000,
         progressAnimation: 'increasing'
       })
-      window.alert("Please select correct image format")
+
       this.pathImage = this.pathPart + this.car.imageName;
 
       this.isUploadImage = false;

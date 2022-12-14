@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Car} from "../shared/models/Car";
 import {CarService} from "../shared/service/car.service";
 import {ToastrService} from "ngx-toastr";
@@ -10,7 +10,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './album-car.component.html',
   styleUrls: ['./album-car.component.css']
 })
-export class AlbumCarComponent implements OnInit {
+export class AlbumCarComponent implements OnInit{
 
   cars: Car[];
 
@@ -22,6 +22,13 @@ export class AlbumCarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCar()
+
+    // @ts-ignore
+    $(document).ready(function() {
+      // @ts-ignore
+      $('body').tooltip({ selector: '[data-toggle=tooltip]', trigger : 'hover',delay: {"show": 800, "hide": 100}})
+    });
+
   }
 
   delete(id: number): void {
@@ -32,14 +39,6 @@ export class AlbumCarComponent implements OnInit {
         timeOut: 5000,
         progressAnimation: 'increasing'
       })
-    },error => {
-      if(error.status=403){
-        this.toast.error("Maybe you are not logged in.", "Delete fail!", {
-          progressBar: true,
-          timeOut: 5000,
-          progressAnimation: 'increasing'
-        })
-      }
     })
   }
 

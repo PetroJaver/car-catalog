@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BodyType} from "./BodyType";
-import {TransmissionType} from "./TransmissionType";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CarService} from "../shared/service/car.service";
 import {Router} from "@angular/router";
@@ -13,8 +12,8 @@ import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-add-car',
-  templateUrl: './add-car.component.html',
-  styleUrls: ['./add-car.component.css']
+  templateUrl: '../shared/templates/car-form.html',
+    styleUrls: ['../shared/templates/car-form.css']
 })
 export class AddCarComponent implements OnInit,AfterViewInit {
   @ViewChild('optionalInput') optionalInput: ElementRef;
@@ -24,13 +23,13 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
   bodyTypes = BodyType;
 
-  transmissionTypes = TransmissionType;
+  title:string = "Add car"
 
   pathImage: string;
 
 
 
-  car:FormGroup = this.fb.group(
+  carForm:FormGroup = this.fb.group(
     {
       file: [null],
       brand: [null, Validators.required],
@@ -49,7 +48,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   constructor(private fb: FormBuilder, private carService: CarService, private router: Router,
               private toast: ToastrService, private titleService: Title, public location:Location) {
 
-    this.titleService.setTitle('Add car in catalog')
+    this.titleService.setTitle('Add car')
     this.onReset()
   }
 
@@ -71,47 +70,47 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
   //region getters
   get optional() {
-    return this.car.get('optional')
+    return this.carForm.get('optional')
   }
 
   get brand() {
-    return this.car.get('brand')
+    return this.carForm.get('brand')
   }
 
   get model() {
-    return this.car.get('model')
+    return this.carForm.get('model')
   }
 
   get bodyType() {
-    return this.car.get('bodyType')
+    return this.carForm.get('bodyType')
   }
 
   get year() {
-    return this.car.get('year')
+    return this.carForm.get('year')
   }
 
   get transmissionType() {
-    return this.car.get('transmissionType')
+    return this.carForm.get('transmissionType')
   }
 
   get engineSize() {
-    return this.car.get('engineSize')
+    return this.carForm.get('engineSize')
   }
 
   get description() {
-    return this.car.get('description')
+    return this.carForm.get('description')
   }
 
   get shortDescription() {
-    return this.car.get('shortDescription')
+    return this.carForm.get('shortDescription')
   }
 
   get optionalList() {
-    return this.car.get('optionalList') as FormArray
+    return this.carForm.get('optionalList') as FormArray
   }
 
   get file() {
-    return this.car.get('file')
+    return this.carForm.get('file')
   }
   //endregion
 
@@ -140,13 +139,13 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   }
 
   onReset() {
-    this.car.reset()
+    this.carForm.reset()
 
     this.pathImage = "../../assets/add-image.png"
 
     this.addOptions()
 
-    this.car.patchValue({
+    this.carForm.patchValue({
       transmissionType: 'MANUAL',
       brand: '',
       bodyType: '',
@@ -159,26 +158,29 @@ export class AddCarComponent implements OnInit,AfterViewInit {
 
   onSubmit() {
     const car: CarDto = new CarDto;
-    car.brand = this.car.get('brand')?.value;
-    car.model = this.car.get('model')?.value;
-    car.bodyType = this.car.get('bodyType')?.value;
-    car.year = Math.floor(Number(this.car.get('year')?.value))
-    car.transmissionType = this.car.get('transmissionType')?.value;
-    car.engineSize = parseFloat(Number(this.car.get('engineSize')?.value).toFixed(1))
-    car.optionsList = this.car.get('optionalList')?.value;
-    car.shortDescription = this.car.get('shortDescription')?.value;
+    car.brand = this.carForm.get('brand')?.value;
+    car.model = this.carForm.get('model')?.value;
+    car.bodyType = this.carForm.get('bodyType')?.value;
+    car.year = Math.floor(Number(this.carForm.get('year')?.value))
+    car.transmissionType = this.carForm.get('transmissionType')?.value;
+    car.engineSize = parseFloat(Number(this.carForm.get('engineSize')?.value).toFixed(1))
+    car.optionsList = this.carForm.get('optionalList')?.value;
 
 
     if(this.description?.value!=""){
-      car.description = this.car.get('description')?.value;
+      car.description = this.carForm.get('description')?.value;
+    }
+
+    if(this.shortDescription?.value!=""){
+      car.shortDescription = this.carForm.get('shortDescription')?.value;
     }
 
     this.carService.add(car).subscribe((data) => {
 
 
-      if(this.car.get('file')?.value!=null){
+      if(this.carForm.get('file')?.value!=null){
         const dataImage:FormData = new FormData();
-        dataImage.append('image', this.car.get('file')?.value);
+        dataImage.append('image', this.carForm.get('file')?.value);
         console.log(data.id)
         this.carService.uploadImage(dataImage, data.id).subscribe(()=>{
           this.toast.success("Car successful update!", "Success", {
@@ -187,15 +189,6 @@ export class AddCarComponent implements OnInit,AfterViewInit {
             progressAnimation: 'increasing'
           });
           this.location.back();
-        },error => {
-          if(error.status==0||error.status==401||error.status==404){
-            this.toast.error("Car fail add!", "Fail", {
-              progressBar: true,
-              timeOut: 5000,
-              progressAnimation: 'increasing'
-            })
-            this.router.navigate(['/'])
-          }
         })
       }else{
         this.toast.success("Car successful update!", "Success", {
@@ -206,15 +199,6 @@ export class AddCarComponent implements OnInit,AfterViewInit {
         this.router.navigate(['/'])
       }
 
-    }, error => {
-      if(error.status==0||error.status==401){
-        this.toast.error("Car fail add!", "Fail", {
-          progressBar: true,
-          timeOut: 5000,
-          progressAnimation: 'increasing'
-        })
-        this.router.navigate(['/'])
-      }
     })
   }
 
@@ -230,14 +214,14 @@ export class AddCarComponent implements OnInit,AfterViewInit {
       // @ts-ignore
       const image = (event.target as HTMLInputElement)?.files[0]
 
-      this.car.patchValue({
+      this.carForm.patchValue({
         // @ts-ignore
         file: image
       })
 
-      this.car.get('file')?.updateValueAndValidity()
+      this.carForm.get('file')?.updateValueAndValidity()
     } else {
-      this.car.patchValue({file: null})
+      this.carForm.patchValue({file: null})
       this.toast.info("Please select correct image format!", "Invalid file", {
         progressBar: true,
         timeOut: 5000,

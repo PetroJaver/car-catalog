@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
 
   constructor(private fb: FormBuilder, private auth: AuthService, private toast: ToastrService,private titleService: Title
     , public location:Location) {
-    this.titleService.setTitle('Login car catalog');
+    this.titleService.setTitle('Login');
   }
 
   get username() {
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
           progressAnimation: 'increasing'
         })
       }, error => {
-        if (error.status == 403) {
+        if (error.status === 403) {
           this.toast.error("Invalid password or username!", "Wrong", {
             progressBar: true,
             timeOut: 2000,

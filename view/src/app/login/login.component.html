@@ -7,15 +7,14 @@
           <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
           <div class="col-12 mb-2">
-            <label for="username" class="form-label w-100 text-start fs-4 required">Email address:</label>
+            <label for="username" class="form-label w-100 text-start fs-4 required">Username:</label>
             <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid">
-              <input class="form-control form-control-sm" placeholder="Email address" aria-describedby="basic-addon"
+              <input class="form-control" placeholder="Username" aria-describedby="basic-addon"
                      id="username" formControlName="username"
                      [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid" #emailField>
-              <span class="input-group-text" id="basic-addon"><img src="assets/icons/at-solid.svg" width="16"></span>
+              <span class="input-group-text" id="basic-addon"><img src="assets/icons/user-solid.svg" width="16"></span>
             </div>
             <div class="invalid-feedback text-start">
-              <span [hidden]="!username?.errors?.['email']">Please enter a valid email!</span>
               <span [hidden]="!username?.errors?.['required']">Required!</span>
             </div>
           </div>
@@ -23,9 +22,9 @@
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4 required">Password:</label>
             <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
-              <input type="password" class="form-control form-control-sm" placeholder="Password" aria-describedby="basic-addon2"
+              <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
                      id="password" formControlName="password"
-                     [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid" #passwordField>
+                     [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
 
             </div>
@@ -36,12 +35,12 @@
           </div>
 
           <div class="d-flex justify-content-end pe-3 mt-3">
-            <button type="button" class="btn btn-danger btn-sm col-auto me-3" (click)="location.back()">
-              <span class="d-flex align-items-center"><img src="assets/icons/x-mark-16.png" class="me-2">Cancel</span>
+            <button type="button" class="btn btn-danger col-auto me-3" (click)="location.back()">
+              <span class="d-flex align-items-center"><img src="assets/icons/close.png" class="me-2">Cancel</span>
             </button>
 
-            <button type="submit" class="btn btn-success btn-sm col-auto" style="margin-right: -1px" [disabled]="!user.valid">
-              <span class="d-flex align-items-center"><img src="assets/icons/check-mark-12-16.png" class="me-2">Submit</span>
+            <button type="submit" class="btn btn-success col-auto" style="margin-right: -1px" [disabled]="!user.valid">
+              <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Login</span>
             </button>
           </div>
         </form>

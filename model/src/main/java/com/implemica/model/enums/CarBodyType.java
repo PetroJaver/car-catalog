@@ -9,6 +9,7 @@ public enum CarBodyType {
     CONVERTIBLE,
     WAGON,
     VAN,
-    JEEP
+    JEEP,
+    SPORTCAR
 }
 

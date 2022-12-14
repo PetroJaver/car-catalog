@@ -14,7 +14,7 @@
       <!--image choose-->
       <div>
         <div class="row g-0">
-          <label for="image" class="col-sm-2 form-label fs-4">Files</label>
+          <label for="image" class="col-sm-2 form-label fs-4">Image</label>
           <div class="col-sm-10">
             <input class="form-control" type="file" id="image"
                    [ngClass]="{'is-valid':file?.value!=null}" formControlName="file"
@@ -210,7 +210,7 @@ model?.errors?.['required'])">
               <div class="text-center">
                 <button type="button" class="btn btn-success" (click)="addOption()"
                         [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
-                  <span class="d-flex align-items-center"><img src="assets/icons/plus-8-16.png" class="me-2">Add option</span>
+                  <span class="d-flex align-items-center"><img src="assets/icons/plus%20.png" class="me-2">Add option</span>
                 </button>
               </div>
             </div>
@@ -223,11 +223,11 @@ model?.errors?.['required'])">
       <div>
         <div class="row g-0 d-flex justify-content-end">
           <button type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancelForm" data-bs-toggle="modal">
-            <span class="d-flex align-items-center"><img src="assets/icons/x-mark-16.png" class="me-2">Cancel</span>
+            <span class="d-flex align-items-center"><img src="assets/icons/close.png" class="me-2">Cancel</span>
           </button>
 
           <button type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid">
-            <span class="d-flex align-items-center"><img src="assets/icons/check-mark-12-16.png" class="me-2">Submit</span>
+            <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Save</span>
           </button>
         </div>
       </div>
@@ -242,13 +242,13 @@ model?.errors?.['required'])">
         <h1 class="modal-title fs-6 text-center" id="staticBackdropLabel">Are you sure you want to undo your changes,
           and close form?</h1>
       </div>
-      <div class="d-flex justify-content-center modal-footer border-0">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-          <span class="d-flex align-items-center"><img src="assets/icons/x-mark-16.png" class="me-2">No</span>
+      <div class="d-flex justify-content-center modal-footer border-0 p-3">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="location.back()">
+          <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Yes</span>
         </button>
 
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="location.back()">
-          <span class="d-flex align-items-center"><img src="assets/icons/check-mark-12-16.png" class="me-2">Yes</span>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
         </button>
       </div>
     </div>
