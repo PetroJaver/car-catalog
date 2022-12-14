@@ -21,12 +21,22 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(req).pipe(catchError(error => {
-      if (error.status === 401 || error.status === 0) {
+      console.log(error)
+      if (error.status === 401) {
         this.auth.logout()
         this.router.navigate(['/login'])
         this.toast.error("Authorization time out!", "Unauthorized!", {
           progressBar: true,
           timeOut: 5000,
+          progressAnimation: 'increasing'
+        })
+      }
+
+      if(error.status === 0){
+        this.router.navigate(['/login'])
+        this.toast.error("", "Something went wrong!", {
+          progressBar: true,
+          timeOut: 10000,
           progressAnimation: 'increasing'
         })
       }

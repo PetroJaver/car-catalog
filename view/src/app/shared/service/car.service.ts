@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Car} from "../models/Car";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {CarDto} from "../models/CarDto";
 
 @Injectable({
@@ -31,7 +31,7 @@ export class CarService {
 
   update(car: CarDto, id: number): Observable<void> {
     const headers = {'content-type': 'application/json'}
-    return this.http.put<void>(this.baseUrl + id, JSON.stringify(car),{'headers': headers});
+    return this.http.put<void>(this.baseUrl + id, JSON.stringify(car), {'headers': headers});
   }
 
   uploadImage(body: FormData, id: number): Observable<void>{

@@ -79,7 +79,8 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
     this.carService.get(this.id).subscribe((data: Car) => {
       this.car = data;
-
+      let brand:string;
+      // @ts-ignore
       this.title = `Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`
       this.titleService.setTitle(`Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`);
       this.onReset();
