@@ -135,22 +135,22 @@ public class CarServiceTest {
 
     @Test
     public void findAllNotEmpty() {
-        when(carRepository.findAll()).thenReturn(CAR_LIST);
+        when(carRepository.findAllByOrderById()).thenReturn(CAR_LIST);
 
-        assertEquals(carService.findAll(), CAR_LIST);
+        assertEquals(CAR_LIST,carService.findAll());
 
-        verify(carRepository, times(1)).findAll();
+        verify(carRepository, times(1)).findAllByOrderById();
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }
 
     @Test
     public void findAllEmpty() {
-        when(carRepository.findAll()).thenReturn(null);
+        when(carRepository.findAllByOrderById()).thenReturn(null);
 
         assertNull(carService.findAll());
 
-        verify(carRepository, times(1)).findAll();
+        verify(carRepository, times(1)).findAllByOrderById();
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }

@@ -24,7 +24,7 @@ export class CarDetailsComponent {
 
   delete(): void {
     this.carService.delete(this.id).subscribe(() => {
-        this.toast.success("Car successful delete!", "Success", {
+        this.toast.success("Car successful delete!", "Delete success", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'

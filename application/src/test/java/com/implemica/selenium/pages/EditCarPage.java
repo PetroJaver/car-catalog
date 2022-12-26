@@ -1,12 +1,12 @@
 package com.implemica.selenium.pages;
 
 import com.implemica.selenium.helpers.CarValue;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,10 +15,10 @@ import java.time.Duration;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.AddCarTestValues.VALIDATION_CLASS_REG_INVALID;
-import static com.implemica.selenium.helpers.BaseTestValues.ADD_CAR_URL;
-import static com.implemica.selenium.helpers.BaseTestValues.BASE_URL;
+import static com.implemica.selenium.helpers.BaseTestValues.*;
+import static com.implemica.selenium.helpers.EditCarTestValues.XPATH_LAST_EDIT_CAR_BUTTON;
 
-public class AddCarPage extends BaseSeleniumPage {
+public class EditCarPage extends BaseSeleniumPage{
     //region file
     @FindBy(how = How.ID, using = "image")
     public WebElement inputImage;
@@ -127,27 +127,32 @@ public class AddCarPage extends BaseSeleniumPage {
 
     //region header element
     @FindBy(how = How.ID, using = "add-car-button")
-    public WebElement addCarButton;
+    public WebElement editCarButton;
 
     @FindBy(how = How.ID, using = "user-avatar")
     public WebElement userAvatar;
     //endregion
 
-    public AddCarPage() {
+    public EditCarPage(){
         PageFactory.initElements(driver, this);
     }
-
-    public AddCarPage openAddCarPage() {
-        driver.get(BASE_URL);
-        clickByJse(new CatalogAuthPage().addCarButton);
+    public EditCarPage openEditCarPageById(String id) {
+        driver.navigate().to(String.format(EDIT_URL_REG_FORMAT, id));
+        return this;
+    }
+    public EditCarPage openEditCarPageLastCar() {
+        driver.navigate().to(BASE_URL);
+        clickByJse(driver.findElement(By.xpath(XPATH_LAST_EDIT_CAR_BUTTON)));
         return this;
     }
 
-    public AddCarPage addCar(CarValue carValue) {
+    public void editCar(CarValue carValue) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         Select selectBrand = new Select(this.selectBrand);
         Select selectBodyType = new Select(this.selectBodyType);
 
         if (carValue.model != null) {
+            inputModel.clear();
             inputModel.sendKeys(carValue.model);
             //enterDataByJse(inputModel, carValue.model);
         }
@@ -179,10 +184,12 @@ public class AddCarPage extends BaseSeleniumPage {
         }
 
         if (carValue.imageName != null) {
+            inputImage.clear();
             inputImage.sendKeys(carValue.imageName);
         }
 
         if (carValue.shortDescription != null){
+            textareaShortDescription.clear();
             textareaShortDescription.sendKeys(carValue.shortDescription);
             //enterDataByJse(textareaShortDescription, carValue.shortDescription);
         }
@@ -190,6 +197,7 @@ public class AddCarPage extends BaseSeleniumPage {
         scrollDown();
 
         if(carValue.description != null){
+            textareaDescription.clear();
             textareaDescription.sendKeys(carValue.description);
             //enterDataByJse(textareaDescription, carValue.description);
         }
@@ -206,8 +214,5 @@ public class AddCarPage extends BaseSeleniumPage {
                 clickByJse(addOptionButton);
             }
         }
-
-        return this;
     }
-
 }

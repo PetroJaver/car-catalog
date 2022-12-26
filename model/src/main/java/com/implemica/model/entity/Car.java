@@ -6,6 +6,7 @@ import com.implemica.model.enums.CarBodyType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @ApiModel(description = "Car entity in data base.")
 public class Car {
     @Id
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "Unique vehicle id in the database.", example = "1")
     private Long id;

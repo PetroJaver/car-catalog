@@ -1,8 +1,12 @@
 package com.implemica.selenium.helpers;
 
-public class LogInTestValues extends BaseTestValues{
-    public static final String INVALID_USERNAME_TIP = "Please enter a valid email!";
-    public static final String INVALID_MIN_PASSWORD_TIP = "Min length 4 symbols!";
-    public static final String INVALID_PASSWORD_OR_USERNAME = "Invalid password or username!";
-    public static final String MESSAGE_SUCCESSFUL_LOG_IN = "You successfully logged in!";
+public interface LogInTestValues extends BaseTestValues{
+    String VALIDATION_CLASS_REG_VALID = ".*is-valid.*";
+    String VALIDATION_CLASS_REG_INVALID = ".*is-invalid.*";
+    String TIP_MIN_LENGTH_4 = "Min length 4 symbols!";
+    String TIP_MAX_LENGTH_20 = "Max length 20 symbols!";
+    String TIP_INCORRECT_USERNAME = "Incorrect username!";
+
+    String MESSAGE_SUCCESSFULLY_LOGIN = "You successfully logged in!";
+    String TITLE_SUCCESSFULLY_LOGIN = "Success";
 }

@@ -45,14 +45,14 @@ export class EditCarComponent implements OnInit,AfterViewInit {
     {
       file: [''],
       brand: ['', Validators.required],
-      model: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
+      model: ['', [Validators.required, Validators.pattern('["\'a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
       bodyType: ['', [Validators.required]],
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
       transmissionType: ['MANUAL', [Validators.required]],
       engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
       description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: ['', [Validators.minLength(25), Validators.maxLength(150)]],
-      optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
+      optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(2), Validators.maxLength(25)]],
       optionalList: this.fb.array([])
     }
   );

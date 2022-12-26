@@ -33,14 +33,14 @@ export class AddCarComponent implements OnInit,AfterViewInit {
     {
       file: [null],
       brand: [null, Validators.required],
-      model: [null, [Validators.required, Validators.pattern('[a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
+      model: [null, [Validators.required, Validators.pattern('["\'a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
       bodyType: [null, [Validators.required]],
       year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
       transmissionType: [null, [Validators.required]],
       engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
       description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: [null, [Validators.minLength(25), Validators.maxLength(150)]],
-      optional: [null, [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(3), Validators.maxLength(25)]],
+      optional: [null, [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(2), Validators.maxLength(25)]],
       optionalList: this.fb.array([])
     }
   )
@@ -183,7 +183,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
         dataImage.append('image', this.carForm.get('file')?.value);
         console.log(data.id)
         this.carService.uploadImage(dataImage, data.id).subscribe(()=>{
-          this.toast.success("Car successful update!", "Success", {
+          this.toast.success("Car successful added!", "Success", {
             progressBar: true,
             timeOut: 5000,
             progressAnimation: 'increasing'
@@ -191,7 +191,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
           this.location.back();
         })
       }else{
-        this.toast.success("Car successful update!", "Success", {
+        this.toast.success("Car successful added!", "Success", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'

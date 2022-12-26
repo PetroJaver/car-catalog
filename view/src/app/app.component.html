@@ -3,7 +3,7 @@
     <!-- NAVBAR-->
     <nav class="navbar navbar-expand-lg py-1 navbar-dark text-bg-dark shadow-sm">
       <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/">
+        <a id="logo" class="navbar-brand" routerLink="/">
           <!-- Logo Image -->
           <img src="../assets/logo.svg" height="47" width="168" class="d-inline-block align-middle me-2" style="cursor: pointer">
         </a>
@@ -15,23 +15,25 @@
         <div id="navbarSupportedContent" class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item d-flex align-items-center py-2 ms-1" *ngIf="auth.isAuthenticated()">
+            <li id="user-avatar" class="nav-item d-flex align-items-center py-2 ms-1" *ngIf="auth.isAuthenticated()">
               <span class="d-flex align-items-center">
                 <img src="assets/icons/user.png" width="30" class="me-2">
                 <h6 class="d-inline-block mt-2">Petro</h6>
               </span>
             </li>
+
             <li class="nav-item d-flex align-items-center py-2 ms-1 ms-lg-5" *ngIf="auth.isAuthenticated()">
-              <button routerLink="add" class="btn btn-success me-2">
+              <button id="button-to-add-car-page" routerLink="add" class="btn btn-success me-2">
                 <span class="d-flex align-items-center"><img src="assets/icons/plus%20.png" class="me-2">Add car</span>
               </button>
 
-              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalLogout">
+              <button id="logout-button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalLogout">
                 <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
               </button>
             </li>
+
             <li class="nav-item d-flex align-items-center py-2" *ngIf="!auth.isAuthenticated()">
-              <button routerLink="login" class="btn btn-success d-flex align-items-center">
+              <button id="login-button" routerLink="login" class="btn btn-success d-flex align-items-center">
                 <span class="d-flex align-items-center"><img src="assets/icons/log-in.png" class="me-2">Login</span>
               </button>
             </li>
@@ -63,11 +65,11 @@
         <h1 class="modal-title fs-6 text-center" id="staticBackdropLabel">Are you sure you want to log out?</h1>
       </div>
       <div class="d-flex justify-content-center modal-footer border-0 p-3">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button id="cancel-modal-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
         </button>
 
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" routerLink="login" (click)="auth.logout()">
+        <button id="logout-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" routerLink="login" (click)="auth.logout()">
           <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
         </button>
       </div>

@@ -8,38 +8,45 @@
 
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4 required">Username:</label>
-            <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid">
-              <input class="form-control" placeholder="Username" aria-describedby="basic-addon"
+            <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty"
+                 [class.is-valid]="username?.valid">
+              <input class="form-control" placeholder="Username" aria-describedby="basic-addon" maxlength="21"
                      id="username" formControlName="username"
-                     [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid" #emailField>
+                     [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid"
+                     #emailField>
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/user-solid.svg" width="16"></span>
             </div>
-            <div class="invalid-feedback text-start">
+            <div id="invalid-feedback-username" class="invalid-feedback text-start">
               <span [hidden]="!username?.errors?.['required']">Required!</span>
+              <span [hidden]="!((username?.errors?.['minlength'])&&(!username?.errors?.['pattern']))">Min length 4 symbols!</span>
+              <span [hidden]="!((username?.errors?.['maxlength'])&&(!username?.errors?.['pattern']))">Max length 20 symbols!</span>
+              <span [hidden]="!username?.errors?.['pattern']">Incorrect username!</span>
             </div>
           </div>
 
           <div class="col-12 mb-2">
-            <label for="username" class="form-label w-100 text-start fs-4 required">Password:</label>
-            <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
+            <label for="password" class="form-label w-100 text-start fs-4 required">Password:</label>
+            <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty"
+                 [class.is-valid]="password?.valid">
               <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
-                     id="password" formControlName="password"
+                     id="password" formControlName="password" maxlength="21"
                      [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
 
             </div>
-            <div class="invalid-feedback text-start">
+            <div id="invalid-feedback-password" class="invalid-feedback text-start">
               <span [hidden]="!password?.errors?.['minlength']">Min length 4 symbols!</span>
-              <span [hidden]="!password?.errors?.['required']||password?.errors?.['minlength']">Required!</span>
+              <span [hidden]="!password?.errors?.['maxlength']">Max length 20 symbols!</span>
+              <span [hidden]="!password?.errors?.['required']">Required!</span>
             </div>
           </div>
 
           <div class="d-flex justify-content-end pe-3 mt-3">
-            <button type="button" class="btn btn-danger col-auto me-3" (click)="location.back()">
+            <button id="cancel-button" type="button" class="btn btn-danger col-auto me-3" (click)="location.back()">
               <span class="d-flex align-items-center"><img src="assets/icons/close.png" class="me-2">Cancel</span>
             </button>
 
-            <button type="submit" class="btn btn-success col-auto" style="margin-right: -1px" [disabled]="!user.valid">
+            <button id="submit-button" type="submit" class="btn btn-success col-auto" style="margin-right: -1px" [disabled]="!user.valid">
               <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Login</span>
             </button>
           </div>
@@ -48,4 +55,3 @@
     </div>
   </div>
 </div>
-

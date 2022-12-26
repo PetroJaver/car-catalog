@@ -67,5 +67,5 @@ public class CarDTO {
     private List<@NotNull(message = "option is null")
                 @NotEmpty(message = "option is empty")
                 @Pattern(regexp = "[a-zA-Z0-9-\\s']*",message = "option is not correct")
-                @Size(min = 3, max=30, message = "option is length not from 3 to 25") String> optionsList;
+                @Size(min = 2, max=30, message = "option is length not from 3 to 25") String> optionsList;
 }

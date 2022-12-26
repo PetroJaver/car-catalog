@@ -4,6 +4,7 @@ import {AuthService} from "../shared/service/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
 import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,12 @@ export class LoginComponent implements OnInit,AfterViewInit {
   @ViewChild('emailField') emailField:ElementRef;
 
   user: FormGroup = this.fb.group({
-    username: ['', [Validators.required]],
-    password: ['', [Validators.minLength(4), Validators.required]]
+    username: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9])*$'),Validators.minLength(4),Validators.maxLength(20)]],
+    password: ['', [Validators.minLength(4),Validators.maxLength(20), Validators.required]]
   })
 
   constructor(private fb: FormBuilder, private auth: AuthService, private toast: ToastrService,private titleService: Title
-    , public location:Location) {
+    , public location:Location,private router: Router) {
     this.titleService.setTitle('Login');
   }
 

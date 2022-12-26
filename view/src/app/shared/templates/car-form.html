@@ -15,7 +15,7 @@
           </label>
 
         </div>
-        <img style="max-width: 100%;" [src]="pathImage">
+        <img id="car-image" style="max-width: 100%;" [src]="pathImage">
       </div>
 
 
@@ -35,8 +35,6 @@
                   <option *ngFor="let brand of brandChoose | keyvalue"
                           value="{{brand.key}}">{{brand.value}}</option>
                 </select>
-
-
               </div>
             </div>
           </div>
@@ -45,17 +43,16 @@
             <div class="row g-0">
               <label for="model" class="col-sm-6 col-md-4 form-label fs-4 required">Model</label>
               <div class="col-sm-6 col-lg-5">
-                <input type="text" class="form-control" id="model"
+                <input type="text" class="form-control" id="model" maxlength="41"
                        [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
                        formControlName="model" placeholder="Model">
 
-                <div class="invalid-feedback">
-                  <span [hidden]="!model?.errors?.['maxlength']">Max length 40 symbols!</span>
-                  <span [hidden]="!model?.errors?.['minlength']">Min length 2 symbols!</span>
+                <div id="invalid-feedback-model" class="invalid-feedback">
+                  <span [hidden]="!((model?.errors?.['maxlength'])&&(!model?.errors?.['pattern']))">Max length 40 symbols!</span>
+                  <span [hidden]="!((model?.errors?.['minlength'])&&(!model?.errors?.['pattern']))">Min length 2 symbols!</span>
                   <span [hidden]="!model?.errors?.['required']">Required!</span>
-                  <span [hidden]="!model?.errors?.['pattern']||(model?.errors?.['minlength']||model?.errors?.['maxlength']||
-model?.errors?.['required'])">
-                Valid characters: numbers, latin alphabet characters, space, and hyphen!
+                  <span [hidden]="!model?.errors?.['pattern']">
+                Incorrect model!
               </span>
                 </div>
               </div>
@@ -65,11 +62,11 @@ model?.errors?.['required'])">
           <!--body-->
           <div>
             <div class="row g-0">
-              <label for="bodyType" class="col-sm-6 col-md-4 form-label fs-4 required">Body</label>
+              <label for="body-type" class="col-sm-6 col-md-4 form-label fs-4 required">Body</label>
               <div class="col-sm-6 col-lg-5">
                 <select class="form-select"
                         [ngClass]="{'is-valid':bodyType?.valid}"
-                        formControlName="bodyType" id="bodyType">
+                        formControlName="bodyType" id="body-type">
                   <option *ngIf="!bodyType?.dirty" selected value="">Body</option>
                   <option *ngFor="let bodyType of bodyTypes | keyvalue"
                           value="{{bodyType.key}}">{{bodyType.value}}</option>
@@ -82,16 +79,8 @@ model?.errors?.['required'])">
           <!--transmission-->
           <div>
             <div class="row g-0">
-              <label for="bodyType" class="col-6 col-md-4 form-label fs-4 mb-0">Transmission</label>
+              <label class="col-6 col-md-4 form-label fs-4 mb-0">Transmission</label>
               <div class="row col-lg-5 g-0 d-flex justify-content-between">
-                <!--                  <div *ngFor="let transmission of transmissionTypes|keyvalue"
-                                       class="col-md-6 col-lg-4 form-check text-center d-flex align-items-center">
-                                    <input class="form-check-input" type="radio" formControlName="transmissionType"
-                                           [value]="transmission.key" [id]="transmission.key">
-                                    <label class="form-check-label fs-5" [for]="transmission.key">
-                                      {{transmission.value}}
-                                    </label>
-                                  </div>-->
                 <div class="col-sm-6 form-check text-center d-flex align-items-center">
                   <input class="form-check-input" type="radio" formControlName="transmissionType"
                          value="MANUAL" id="MANUAL">
@@ -120,15 +109,15 @@ model?.errors?.['required'])">
               <div class="col-6 col-sm-5 col-lg-3">
                 <div class="input-group"
                      [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}">
-                  <input type="number" step="0.1" id="engine" min="0" max="10" class="form-control"
+                  <input type="number" step="0.1" id="engine" min="-0.1" max="10.1" class="form-control"
                          [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
                          placeholder="Engine size" formControlName="engineSize">
                   <span class="input-group-text fw-semibold"><img src="../../../assets/icons/l-solid.svg" width="10"></span>
                 </div>
 
-                <div class="invalid-feedback">
+                <div id="invalid-feedback-engine" class="invalid-feedback">
                   <span [hidden]="!engineSize?.errors?.['max']">Max engine size 10!</span>
-                  <span [hidden]="!engineSize?.errors?.['min']">Min engine size 0.1!</span>
+                  <span [hidden]="!engineSize?.errors?.['min']">Min engine size 0!</span>
                   <span [hidden]="!engineSize?.errors?.['required']">Required!</span>
                 </div>
               </div>
@@ -140,9 +129,9 @@ model?.errors?.['required'])">
             <div class="row g-0">
               <label for="engine" class="col-6 col-md-4 form-label fs-4">Year:</label>
               <div class="col-6 col-sm-5 col-lg-3">
-                <input type="number" class="form-control" min="1880" max="2100" id="year" [class.is-valid]="year?.valid"
+                <input type="number" class="form-control" min="1879" max="2101" id="year" [class.is-valid]="year?.valid"
                        [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year">
-                <div class="invalid-feedback">
+                <div id="invalid-feedback-year" class="invalid-feedback">
                   <span [hidden]="!year?.errors?.['max']">Max year 2100!</span>
                   <span [hidden]="!year?.errors?.['min']">Min year 1880!</span>
                   <span [hidden]="!year?.errors?.['required']">Required!</span>
@@ -159,13 +148,13 @@ model?.errors?.['required'])">
         <!--short description-->
         <div>
           <div class="row g-0">
-            <label for="shortDescription" class="form-label fs-4">Short description:</label>
-            <textarea class="form-control col-12" maxlength="151" id="shortDescription" rows="2 "
+            <label for="short-description" class="form-label fs-4">Short description:</label>
+            <textarea class="form-control col-12" maxlength="151" id="short-description" rows="2 "
                       [class.is-valid]="shortDescription?.valid&&shortDescription?.value!=null&&shortDescription?.value!=''"
                       [class.is-invalid]="shortDescription?.invalid&&shortDescription?.dirty"
                       formControlName="shortDescription" placeholder="Short description"></textarea>
 
-            <div class="invalid-feedback">
+            <div id="invalid-feedback-short-description" class="invalid-feedback">
               <span [hidden]="!shortDescription?.errors?.['maxlength']">Max length 150 symbols!</span>
               <span [hidden]="!shortDescription?.errors?.['minlength']">Min length 25 symbols!</span>
             </div>
@@ -181,7 +170,7 @@ model?.errors?.['required'])">
                       [class.is-invalid]="description?.invalid&&description?.dirty"
                       formControlName="description" placeholder="Description"></textarea>
 
-            <div class="invalid-feedback">
+            <div id="invalid-feedback-description" class="invalid-feedback">
               <span [hidden]="!description?.errors?.['maxlength']">Max length 5000 symbols!</span>
               <span [hidden]="!description?.errors?.['minlength']">Min length 50 symbols!</span>
             </div>
@@ -195,11 +184,11 @@ model?.errors?.['required'])">
           Options:
         </span>
 
-            <div *ngFor="let option of optionalList.controls;let i = index"
+            <div id="option-'{{option.value}}'" *ngFor="let option of optionalList.controls;let i = index"
                  class="col-auto d-inline-flex align-items-center">
               <div class="option-chips">
                 {{option.value}}
-                <span (click)='dropOption(i)' class="d-flex align-items-center ms-2" style="cursor: pointer">
+                <span id="delete-option-'{{option.value}}'" (click)='dropOption(i)' class="d-flex align-items-center ms-2" style="cursor: pointer">
                 <img src="../../../assets/icons/icons8-railroad-crossing-96.png" width="22">
               </span>
               </div>
@@ -220,19 +209,19 @@ model?.errors?.['required'])">
                        [class.is-invalid]="optional?.invalid&&optional?.dirty"
                        formControlName="optional" placeholder="Add option" (keydown.enter)="addOption()">
 
-                <div class="invalid-feedback">
-                  <span [hidden]="!optional?.errors?.['maxlength']">Max length 25 symbols!</span>
-                  <span [hidden]="!optional?.errors?.['minlength']">Min length 2 symbols!</span>
+                <div id="invalid-feedback-option" class="invalid-feedback">
+                  <span [hidden]="!((optional?.errors?.['maxlength'])&&(!optional?.errors?.['pattern']))">Max length 25 symbols!</span>
+                  <span [hidden]="!((optional?.errors?.['minlength'])&&(!optional?.errors?.['pattern']))">Min length 2 symbols!</span>
                   <span
-                    [hidden]="!optional?.errors?.['pattern']||(optional?.errors?.['minlength']||optional?.errors?.['maxlength'])">
-                Valid characters: numbers, latin alphabet characters, space, and hyphen!
+                    [hidden]="!optional?.errors?.['pattern']">
+                Incorrect option!
               </span>
                 </div>
               </div>
 
               <div class="col-sm-5 col-xl-2 d-flex justify-content-end">
                 <div class="text-center">
-                  <button type="button" class="btn btn-success" (click)="addOption()"
+                  <button id="add-option-button" type="button" class="btn btn-success" (click)="addOption()"
                           [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
                     <span class="d-flex align-items-center"><img src="../../../assets/icons/plus%20.png" class="me-2">Add option</span>
                   </button>
@@ -247,12 +236,12 @@ model?.errors?.['required'])">
         <!--buttons-->
         <div>
           <div class="row g-0 d-flex justify-content-end">
-            <button type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancelForm"
+            <button id="cancel-form-button" type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancelForm"
                     data-bs-toggle="modal">
               <span class="d-flex align-items-center"><img src="../../../assets/icons/close.png" class="me-2">Cancel</span>
             </button>
 
-            <button type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid">
+            <button id="add-car-button" type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid">
             <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png"
                                                          class="me-2">Save</span>
             </button>
@@ -273,11 +262,11 @@ model?.errors?.['required'])">
           and close form?</h1>
       </div>
       <div class="d-flex justify-content-center modal-footer border-0 p-3">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="location.back()">
+        <button id="confirm-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="location.back()">
           <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png" class="me-2">Yes</span>
         </button>
 
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button id="cancel-modal-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <span class="d-flex align-items-center"><img src="../../../assets/icons/ban.png" class="me-2">Cancel</span>
         </button>
       </div>

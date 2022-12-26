@@ -43,7 +43,7 @@ public class AuthenticationRestControllerTest {
     private JwtTokenProvider jwtTokenProvider;
 
     private final User userTest = new User(1L, "test"
-            , "$2a$12$lml3Rq3vDj39k/YEJUEi6erCmyWOKLJdyyzOdmCvcnnQSsl.fH.yC", Role.ADMIN, Status.ACTIVE);
+            , "$2a$12$j/uo54GHCHR/eS3/f3jHTudt/E5FOdkfQM7fBLmqR3TXLrXoULiNi", Role.ADMIN, Status.ACTIVE);
 
 
     @Test
@@ -67,7 +67,7 @@ public class AuthenticationRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"test\",\"password\":\"no\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"password\": \"password is length not from 4 to 16\"}"));
+                .andExpect(content().json("{\"password\": \"password is length not from 4 to 20\"}"));
 
         verifyNoInteractions(userRepository);
     }

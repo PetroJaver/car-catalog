@@ -15,6 +15,7 @@ import static com.implemica.model.enums.CarBodyType.*;
 import static com.implemica.model.enums.CarBrand.*;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 
 public class TestValues {
     private static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +

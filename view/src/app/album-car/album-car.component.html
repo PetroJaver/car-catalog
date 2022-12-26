@@ -4,49 +4,51 @@
   </div>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
     <div class="col" *ngFor="let car of cars;let i = index">
-      <div class="card h-100 rounded-3 text-bg-dark box-shadow ">
+      <div id="car-card-{{car.brand+'-'+car.model}}-{{car.id}}" class="card h-100 rounded-3 text-bg-dark box-shadow ">
         <div class="hover-zoom p-3 text-center card-img-top" style="width: 100%; display: block">
           <div class="d-flex align-items-center justify-content-center w-100" style="height: 200px;position: relative">
             <div *ngIf="auth.isAuthenticated()" style="position: absolute;top:0px;width: 100%" class="text-end">
-                <button type="button" class="btn btn-sm btn-warning mr-1 mr-lg-2 card-button" [routerLink]="['edit', car.id]"
-                        data-toggle="tooltip" title="Edit car">
-                <span class="d-flex align-items-center justify-content-center fw-semibold" style="height: 28px;width: 20px"><img
-                  src="assets/icons/pen-24.png" height="24"></span>
-                </button>
+              <button id="car-edit-button-{{car.brand+'-'+car.model}}-{{car.id}}" type="button" class="btn btn-warning mr-1 mr-lg-2 card-button"
+                      [routerLink]="['edit', car.id]"
+                      data-toggle="tooltip" title="Edit car">
+                <span class="d-flex align-items-center justify-content-center fw-semibold"
+                      style="height: 28px;width: 20px"><img
+                  src="assets/icons/pen-24.png"></span>
+              </button>
 
-                <button type="button" class="btn btn-sm btn-danger card-button" data-bs-toggle="modal"
-                        data-toggle="tooltip" title="Delete car" [attr.data-bs-target]="'#modal'+car.id" >
+              <button id="car-delete-button-{{car.brand+'-'+car.model}}-{{car.id}}" type="button" class="btn btn-danger card-button" data-bs-toggle="modal"
+                      data-toggle="tooltip" title="Delete car" [attr.data-bs-target]="'#modal-'+car.id">
                 <span class="d-flex align-items-center justify-content-center" style="height: 28px;width: 20px"><img
-                  src="assets/icons/trash-24.png" ></span>
-                </button>
+                  src="assets/icons/trash-24.png"></span>
+              </button>
 
             </div>
-            <img style="max-width: 100%; cursor: pointer"
+            <img id="car-image-{{car.brand+'-'+car.model}}-{{car.id}}" style="max-width: 100%; cursor: pointer"
                  [src]="'https://carcatalogimages.s3.eu-west-3.amazonaws.com/'+ car.imageName"
                  [routerLink]="['details', car.id]">
           </div>
         </div>
-        <div class="card-title text-center">
+        <div id="car-title-{{car.brand+'-'+car.model}}-{{car.id}}" class="card-title text-center">
           <h3 class="mb-0">{{car.brand.replace('_', ' ')|titlecase}} {{car.model}}</h3>
         </div>
-        <div class="card-body">
+        <div id="car-short-description-{{car.brand+'-'+car.model}}-{{car.id}}" class="card-body">
           <p class="mb-0" style="white-space: pre-wrap">{{car.shortDescription}}</p>
         </div>
 
-        <div class="modal fade" [id]="'modal'+car.id" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal fade" [id]="'modal-'+car.id" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
           <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content border-0">
               <div class="modal-header border-0">
                 <h1 class="modal-title fs-6 text-center text-dark" id="staticBackdropLabel">Are you sure you want to
-                  delete the
-                  {{car.brand+" "+car.model}}?</h1>
+                  delete the {{car.brand.replace('_', ' ')|titlecase}}
+                  {{" " + car.model}}?</h1>
               </div>
               <div class="d-flex justify-content-center modal-footer border-0 p-3">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button id="cancel-modal-button-{{car.brand+'-'+car.model}}-{{car.id}}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                   <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
                 </button>
 
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  (click)="delete(car.id)">
+                <button id="confirm-modal-button-{{car.brand+'-'+car.model}}-{{car.id}}" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete(car.id)">
                   <span class="d-flex align-items-center"><img src="assets/icons/trash.png" class="me-2">Delete</span>
                 </button>
               </div>
