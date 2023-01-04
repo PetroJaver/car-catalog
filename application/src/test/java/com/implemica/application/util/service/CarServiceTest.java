@@ -114,7 +114,7 @@ public class CarServiceTest {
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
         when(carRepository.save(EXAMPLE_CAR)).thenReturn(EXAMPLE_CAR);
 
-        assertTrue(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
+        assertEquals(carService.updateCarById(1L, EXAMPLE_CAR_DTO),EXAMPLE_CAR);
 
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).save(EXAMPLE_CAR);
@@ -126,7 +126,7 @@ public class CarServiceTest {
     public void updateCarNotExist() {
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertFalse(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
+        assertNull(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);

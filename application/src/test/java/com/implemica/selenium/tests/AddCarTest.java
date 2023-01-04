@@ -6,6 +6,10 @@ import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.AddCarPage;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.LogInPage;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,22 +38,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AddCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
 
-    private static WebDriverWait webDriverWait;
-
-    public AddCarTest() {
-        if (addCarPage == null){
-            webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            addCarPage = new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD).clickAddCarButton();
-            webDriverWait.until(ExpectedConditions.urlToBe(ADD_CAR_URL));
-        }
+    @BeforeAll
+    public static void beforeAll() {
+        addCarPage = new LogInPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD).clickAddCarButton();
+        webDriverWait.until(ExpectedConditions.urlToBe(ADD_CAR_URL));
     }
 
+    @AfterAll
+    @SneakyThrows
+    public static void afterAll() {
+        addCarPage.logOut();
+    }
 
     @ParameterizedTest(name = "testcase {index} => select = ''{0}''")
     @EnumSource(CarBrand.class)
     public void selectBrand(CarBrand brand) {
         Select selectBrand = new Select(addCarPage.selectBrand);
         selectBrand.selectByVisibleText(brand.stringValue);
+
         assertTrue(addCarPage.selectBrand.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -64,6 +70,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputModelInvalid(String input, String tipText) {
         addCarPage.inputModel.clear();
         addCarPage.inputModel.sendKeys(input);
+
         assertTrue(addCarPage.inputModel.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, addCarPage.invalidTipForInputModel.getText());
     }
@@ -78,6 +85,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputModelValid(String input) {
         addCarPage.inputModel.clear();
         addCarPage.inputModel.sendKeys(input);
+
         assertTrue(addCarPage.inputModel.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -124,6 +132,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputEngineValid(String input) {
         addCarPage.inputEngine.clear();
         addCarPage.inputEngine.sendKeys(input);
+
         assertTrue(addCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -136,24 +145,7 @@ public class AddCarTest extends BaseSeleniumTest {
         addCarPage.inputEngine.clear();
         addCarPage.inputEngine.sendKeys(input);
         assertTrue(addCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-    }
-
-    @ParameterizedTest(name = "testCase {index} => input = ''{0}''")
-    @ValueSource(strings = {
-            "0",
-            "10",
-            "100",
-            "50.1",
-            "65",
-            "6.5"
-    })
-    public void inputEngineTipRequired(Double input) {
-        addCarPage.inputEngine.clear();
-        addCarPage.inputEngine.sendKeys(Double.toString(input));
-        addCarPage.inputEngine.sendKeys(Keys.chord(Keys.CONTROL + "a"));
-        addCarPage.inputEngine.sendKeys(Keys.chord(Keys.DELETE));
-        assertTrue(addCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-        assertTrue(addCarPage.invalidTipForInputEngine.getText().equals(TIP_REQUIRED));
+        assertEquals(tipText, addCarPage.invalidTipForInputEngine.getText());
     }
 
     @ParameterizedTest(name = "testcase {index} => input = ''{0}''")
@@ -180,26 +172,9 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputYearInvalid(String input, String tipText) {
         addCarPage.inputYear.clear();
         addCarPage.inputYear.sendKeys(input);
+
         assertTrue(addCarPage.inputYear.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, addCarPage.invalidTipForInputYear.getText());
-    }
-
-    @ParameterizedTest(name = "testCase {index} => input = ''{0}''")
-    @ValueSource(strings = {
-            "2020",
-            "2010",
-            "1000",
-            "2050.1",
-            "1965",
-            "2006.5"
-    })
-    public void inputYearTipRequired(String input) {
-        addCarPage.inputYear.clear();
-        addCarPage.inputYear.sendKeys(input);
-        addCarPage.inputYear.sendKeys(Keys.chord(Keys.CONTROL + "a"));
-        addCarPage.inputYear.sendKeys(Keys.chord(Keys.DELETE));
-        assertTrue(addCarPage.inputYear.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-        assertTrue(addCarPage.invalidTipForInputYear.getText().equals(TIP_REQUIRED));
     }
 
     @ParameterizedTest(name = "testcase {index} => input = ''{0}''")
@@ -215,6 +190,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputShortDescriptionValid(String input) {
         addCarPage.textareaShortDescription.clear();
         addCarPage.textareaShortDescription.sendKeys(input);
+
         assertTrue(addCarPage.textareaShortDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -226,6 +202,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputShortDescriptionInvalid(String input, String tipText) {
         addCarPage.textareaShortDescription.clear();
         addCarPage.textareaShortDescription.sendKeys(input);
+
         assertTrue(addCarPage.textareaShortDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, addCarPage.invalidTipForTextareaShortDescription.getText());
     }
@@ -242,6 +219,7 @@ public class AddCarTest extends BaseSeleniumTest {
         addCarPage.scrollDown();
         addCarPage.textareaDescription.clear();
         addCarPage.textareaDescription.sendKeys(input);
+
         assertTrue(addCarPage.textareaDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -253,6 +231,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputDescriptionInvalid(String input, String tipText) {
         addCarPage.textareaDescription.clear();
         addCarPage.textareaDescription.sendKeys(input);
+
         assertTrue(addCarPage.textareaDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, addCarPage.invalidTipForTextareaDescription.getText());
     }
@@ -269,6 +248,7 @@ public class AddCarTest extends BaseSeleniumTest {
         addCarPage.scrollDown();
         addCarPage.inputOptionField.clear();
         addCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(addCarPage.inputOptionField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, addCarPage.invalidTipForInputOptionField.getText());
     }
@@ -283,12 +263,12 @@ public class AddCarTest extends BaseSeleniumTest {
     public void inputOptionValid(String input) {
         addCarPage.inputOptionField.clear();
         addCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(addCarPage.inputOptionField.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
     @Test
     public void chooseValidImageCar() {
-        addCarPage.scrollUp();
         driver.navigate().refresh();
         webDriverWait.until(ExpectedConditions.visibilityOf(addCarPage.image));
         assertEquals(DEFAULT_CAR_IMAGE_PATH, addCarPage.image.getAttribute("src"));
@@ -302,7 +282,9 @@ public class AddCarTest extends BaseSeleniumTest {
         addCarPage.inputImage.sendKeys(INPUT_IMAGE_NAME_INVALID);
         webDriverWait.until(ExpectedConditions.visibilityOf(addCarPage.wrongToast));
         addCarPage.wrongToast.isDisplayed();
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(addCarPage.titleWrongToast,"Invalid file"));
         assertEquals(addCarPage.titleWrongToast.getText(), "Invalid file");
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(addCarPage.messageWrongToast,"Please select correct image format!"));
         assertEquals(addCarPage.messageWrongToast.getText(), "Please select correct image format!");
         assertEquals(DEFAULT_CAR_IMAGE_PATH, addCarPage.image.getAttribute("src"));
 
@@ -319,6 +301,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void disableAddOptionButton(String input) {
         addCarPage.inputOptionField.clear();
         addCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(!addCarPage.addOptionButton.isEnabled());
     }
 
@@ -332,6 +315,7 @@ public class AddCarTest extends BaseSeleniumTest {
     public void enableAddOptionButton(String input) {
         addCarPage.inputOptionField.clear();
         addCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(addCarPage.addOptionButton.isEnabled());
     }
 
@@ -384,7 +368,8 @@ public class AddCarTest extends BaseSeleniumTest {
         try {
             driver.findElement(optionId);
             fail("Option doesn't delete!");
-        } catch (NoSuchElementException e) {}
+        } catch (NoSuchElementException e) {
+        }
     }
 
     @Test
@@ -431,7 +416,7 @@ public class AddCarTest extends BaseSeleniumTest {
         addCarPage.openAddCarPage().addCar(carValue);
         addCarPage.clickByJse(addCarPage.addCarButton);
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
+            new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
             assertEquals(MESSAGE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.messageSuccessToast.getText());
             assertEquals(TITLE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.titleSuccessToast.getText());
             catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);

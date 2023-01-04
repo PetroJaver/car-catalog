@@ -118,6 +118,10 @@
             </plugin>
         </plugins>
         </pluginManagement>
+
+        <finalName>
+            car-catalog-api
+        </finalName>
     </build>
 
     <modules>

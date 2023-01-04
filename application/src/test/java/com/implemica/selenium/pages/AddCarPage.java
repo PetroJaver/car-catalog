@@ -96,6 +96,11 @@ public class AddCarPage extends BaseSeleniumPage {
     @FindBy(how = How.ID, using = "description")
     public WebElement textareaDescription;
 
+    @FindBy(how = How.ID, using = "logout-button")
+    public WebElement logoutButtonHeader;
+
+    @FindBy(how = How.ID, using = "logout-modal-button")
+    public WebElement logoutButtonModal;
 
     @FindBy(how = How.ID, using = "invalid-feedback-description")
     public WebElement invalidTipForTextareaDescription;
@@ -128,9 +133,6 @@ public class AddCarPage extends BaseSeleniumPage {
     //region header element
     @FindBy(how = How.ID, using = "add-car-button")
     public WebElement addCarButton;
-
-    @FindBy(how = How.ID, using = "user-avatar")
-    public WebElement userAvatar;
     //endregion
 
     public AddCarPage() {
@@ -138,9 +140,20 @@ public class AddCarPage extends BaseSeleniumPage {
     }
 
     public AddCarPage openAddCarPage() {
-        driver.get(BASE_URL);
-        clickByJse(new CatalogAuthPage().addCarButton);
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        catalogAuthPage.clickByJse(catalogAuthPage.logo);
+        catalogAuthPage.clickByJse(catalogAuthPage.addCarButton);
+
         return this;
+    }
+
+    public LogInPage logOut(){
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButtonHeader));
+        clickByJse(logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButtonModal));
+        clickByJse(logoutButtonModal);
+
+        return new LogInPage();
     }
 
     public AddCarPage addCar(CarValue carValue) {
@@ -210,4 +223,12 @@ public class AddCarPage extends BaseSeleniumPage {
         return this;
     }
 
+    public AddCarPage clickSaveButton() {
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        clickByJse(addCarButton);
+        webDriverWait.until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
+        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
+
+        return this;
+    }
 }

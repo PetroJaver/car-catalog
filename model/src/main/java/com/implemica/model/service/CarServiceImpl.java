@@ -76,7 +76,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean updateCarById(Long id, CarDTO carDto) {
+    public Car updateCarById(Long id, CarDTO carDto) {
         Car oldCar = carRepository.findById(id).orElse(null);
 
         if (oldCar != null) {
@@ -84,11 +84,10 @@ public class CarServiceImpl implements CarService {
             car.setImageName(oldCar.getImageName());
             car.setId(oldCar.getId());
 
-            carRepository.save(car);
-            return true;
+            return carRepository.save(car);
         }
 
-        return false;
+        return null;
     }
 
     private Car getCarFromCarDto(CarDTO carDto) {

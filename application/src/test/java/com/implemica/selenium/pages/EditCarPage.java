@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -129,8 +130,11 @@ public class EditCarPage extends BaseSeleniumPage{
     @FindBy(how = How.ID, using = "add-car-button")
     public WebElement editCarButton;
 
-    @FindBy(how = How.ID, using = "user-avatar")
-    public WebElement userAvatar;
+    @FindBy(how = How.ID, using = "logout-button")
+    public WebElement logoutButtonHeader;
+
+    @FindBy(how = How.ID, using = "logout-modal-button")
+    public WebElement logoutButtonModal;
     //endregion
 
     public EditCarPage(){
@@ -141,7 +145,9 @@ public class EditCarPage extends BaseSeleniumPage{
         return this;
     }
     public EditCarPage openEditCarPageLastCar() {
-        driver.navigate().to(BASE_URL);
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        catalogAuthPage.clickByJse(catalogAuthPage.logo);
+
         clickByJse(driver.findElement(By.xpath(XPATH_LAST_EDIT_CAR_BUTTON)));
         return this;
     }
@@ -214,5 +220,23 @@ public class EditCarPage extends BaseSeleniumPage{
                 clickByJse(addOptionButton);
             }
         }
+    }
+
+    public LogInPage logOut(){
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButtonHeader));
+        clickByJse(logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButtonModal));
+        clickByJse(logoutButtonModal);
+
+        return new LogInPage();
+    }
+
+    public EditCarPage clickSaveButton() {
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        clickByJse(editCarButton);
+        webDriverWait.until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
+        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
+
+        return this;
     }
 }

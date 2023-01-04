@@ -6,6 +6,7 @@ import com.implemica.model.enums.CarBodyType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -40,16 +41,16 @@ public class Car {
     @ApiModelProperty(example = "911",required = true)
     private String model;
 
-    @Column(name = "body_type")
+    @Column(nullable = false,name = "body_type")
     @Enumerated(EnumType.STRING)
     @ApiModelProperty(required = true,example = "COUPE")
     private CarBodyType bodyType;
 
-    @Column(nullable = false)
+    @Column()
     @ApiModelProperty(example = "2018")
     private Integer year;
 
-    @Column(name = "transmission_type")
+    @Column()
     @Enumerated(EnumType.STRING)
     @ApiModelProperty(required = true,example = "AUTOMATIC")
     private CarTransmissionType transmissionType;
@@ -57,14 +58,14 @@ public class Car {
     @Column(scale = 1)
     @ApiModelProperty(example = "4.4",notes = "When engine is 0, it mean" +
             " car is electric")
-    private double engineSize;
+    private Double engineSize;
 
-    @Column(name = "short_description", nullable = true)
+    @Column(name = "short_description")
     @ApiModelProperty(example = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
             " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
     private String shortDescription;
 
-    @Column(length = 10000, nullable = true)
+    @Column(length = 10000)
     @ApiModelProperty(example = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
                     " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                     " Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." +
@@ -73,7 +74,6 @@ public class Car {
     private String description;
 
     @ElementCollection
-    @Column(name = "options_list")
     @ApiModelProperty(example = "[\"Any first option\",\"Any second option\"]")
     private List<String> optionsList;
 }

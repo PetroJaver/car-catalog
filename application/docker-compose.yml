@@ -1,0 +1,18 @@
+services:
+  api:
+    image: 'car-catalog-api.jar'
+    ports:
+      - "8080:8080"
+    networks:
+      - "car-catalog-network"
+  angular:
+    image: car-catalog-angular
+    depends_on:
+      - api
+    ports:
+      - "4200:4200"
+    networks:
+      - "car-catalog-network"
+networks:
+  car-catalog-network:
+    driver: "bridge"

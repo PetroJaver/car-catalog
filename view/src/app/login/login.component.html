@@ -8,12 +8,10 @@
 
           <div class="col-12 mb-2">
             <label for="username" class="form-label w-100 text-start fs-4 required">Username:</label>
-            <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty"
-                 [class.is-valid]="username?.valid">
+            <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty">
               <input class="form-control" placeholder="Username" aria-describedby="basic-addon" maxlength="21"
                      id="username" formControlName="username"
-                     [class.is-invalid]="username?.invalid&&username?.dirty" [class.is-valid]="username?.valid"
-                     #emailField>
+                     [class.is-invalid]="username?.invalid&&username?.dirty" #emailField>
               <span class="input-group-text" id="basic-addon"><img src="assets/icons/user-solid.svg" width="16"></span>
             </div>
             <div id="invalid-feedback-username" class="invalid-feedback text-start">
@@ -26,11 +24,10 @@
 
           <div class="col-12 mb-2">
             <label for="password" class="form-label w-100 text-start fs-4 required">Password:</label>
-            <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty"
-                 [class.is-valid]="password?.valid">
+            <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty">
               <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
                      id="password" formControlName="password" maxlength="21"
-                     [class.is-invalid]="password?.invalid&&password?.dirty" [class.is-valid]="password?.valid">
+                     [class.is-invalid]="password?.invalid&&password?.dirty">
               <span class="input-group-text" id="basic-addon2"><img src="assets/icons/key-solid.svg" width="16"></span>
 
             </div>

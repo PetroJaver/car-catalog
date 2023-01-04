@@ -18,6 +18,8 @@ import java.util.List;
 @ApiModel(value = "CarDTO",description = "Car data transfer object used to transfer vehicle data to a server.")
 public class CarDTO {
     @ValueOfEnum(enumClass = CarBrand.class,message = "Invalid brand")
+    @NotNull(message = "brand is null")
+    @NotEmpty(message = "brand is empty")
     @ApiModelProperty(required = true,example = "PORSCHE",
             dataType = "com.implemica.model.enums.CarBrand")
     private String brand;
@@ -30,6 +32,8 @@ public class CarDTO {
     private String model;
 
     @ValueOfEnum(enumClass = CarBodyType.class,message = "Invalid bodyType")
+    @NotNull(message = "body type is null")
+    @NotEmpty(message = "body type is empty")
     @ApiModelProperty(required = true,example = "COUPE",
             dataType = "com.implemica.model.enums.CarBodyType")
     private String bodyType;
@@ -48,7 +52,7 @@ public class CarDTO {
     @DecimalMin(value = "0", message = "engineSize less than 0")
     @ApiModelProperty(example = "4.4",notes = "When engine is 0, it mean" +
             " car is electric.")
-    private double engineSize;
+    private Double engineSize;
 
     @Size(min = 25,max = 150,message = "shortDescription is length not from 25 to 150")
     @ApiModelProperty(example = "Lorem ipsum dolor sit amet, consectetur adipiscing elit" +

@@ -11,16 +11,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Random;
 
+import static com.implemica.selenium.helpers.BaseTestValues.BASE_URL;
+
 public class BaseSeleniumPage {
     protected static WebDriver driver;
-
-    public static JavascriptExecutor jse;
-    public static Actions actions;
+    private static JavascriptExecutor jse;
+    protected static WebDriverWait webDriverWait;
 
     public static void setDriver(WebDriver webDriver){
         driver = webDriver;
-        actions = new Actions(driver);
         jse = (JavascriptExecutor) driver;
+        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     public void scrollUp() {
@@ -33,16 +34,5 @@ public class BaseSeleniumPage {
 
     public void clickByJse(WebElement element){
         jse.executeScript("arguments[0].click()", element);
-    }
-
-    public void enterDataByJse(WebElement element, String data) {
-        data = data.replaceAll("\n","\\\\n");
-        String dataPartForExucuter = data.substring(0,data.length()-1);
-        String dataPartForBrowser = Character.toString(data.charAt(data.length()-1));
-
-        String script = String.format("arguments[0].value='%s';", dataPartForExucuter);
-        jse.executeScript(script, element);
-
-        element.sendKeys(dataPartForBrowser);
     }
 }

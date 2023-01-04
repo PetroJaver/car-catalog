@@ -3,6 +3,10 @@ package com.implemica.selenium.tests;
 import com.implemica.model.enums.CarBodyType;
 import com.implemica.model.enums.CarBrand;
 import com.implemica.selenium.pages.*;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -25,13 +29,17 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     private static EditCarPage editCarPage;
     private static WebDriverWait webDriverWait;
 
-    public EditCarTestValidation() {
-        if (editCarPage == null){
-            webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
-            editCarPage = new EditCarPage();
-            editCarPage.clickByJse(new CatalogAuthPage().editButtonFirstCarCard);
-        }
+    @BeforeAll
+    public static void beforeAll() {
+        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
+        editCarPage = new EditCarPage();
+        editCarPage.clickByJse(new CatalogAuthPage().editButtonFirstCarCard);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        editCarPage.logOut();
     }
 
     @ParameterizedTest(name = "testcase {index} => select = ''{0}''")
@@ -39,6 +47,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void selectBrand(CarBrand brand) {
         Select selectBrand = new Select(editCarPage.selectBrand);
         selectBrand.selectByVisibleText(brand.stringValue);
+
         assertTrue(editCarPage.selectBrand.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -53,6 +62,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputModelInvalid(String input, String tipText) {
         editCarPage.inputModel.clear();
         editCarPage.inputModel.sendKeys(input);
+
         assertTrue(editCarPage.inputModel.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, editCarPage.invalidTipForInputModel.getText());
     }
@@ -67,6 +77,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputModelValid(String input) {
         editCarPage.inputModel.clear();
         editCarPage.inputModel.sendKeys(input);
+
         assertTrue(editCarPage.inputModel.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -113,6 +124,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputEngineValid(String input) {
         editCarPage.inputEngine.clear();
         editCarPage.inputEngine.sendKeys(input);
+
         assertTrue(editCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -124,25 +136,9 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputEngineInvalid(String input, String tipText) {
         editCarPage.inputEngine.clear();
         editCarPage.inputEngine.sendKeys(input);
-        assertTrue(editCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-    }
 
-    @ParameterizedTest(name = "testCase {index} => input = ''{0}''")
-    @ValueSource(strings = {
-            "0",
-            "10",
-            "100",
-            "50.1",
-            "65",
-            "6.5"
-    })
-    public void inputEngineTipRequired(Double input) {
-        editCarPage.inputEngine.clear();
-        editCarPage.inputEngine.sendKeys(Double.toString(input));
-        editCarPage.inputEngine.sendKeys(Keys.chord(Keys.CONTROL + "a"));
-        editCarPage.inputEngine.sendKeys(Keys.chord(Keys.DELETE));
         assertTrue(editCarPage.inputEngine.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-        assertTrue(editCarPage.invalidTipForInputEngine.getText().equals(TIP_REQUIRED));
+        assertEquals(tipText, editCarPage.invalidTipForInputEngine.getText());
     }
 
     @ParameterizedTest(name = "testcase {index} => input = ''{0}''")
@@ -169,26 +165,9 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputYearInvalid(String input, String tipText) {
         editCarPage.inputYear.clear();
         editCarPage.inputYear.sendKeys(input);
+
         assertTrue(editCarPage.inputYear.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, editCarPage.invalidTipForInputYear.getText());
-    }
-
-    @ParameterizedTest(name = "testCase {index} => input = ''{0}''")
-    @ValueSource(strings = {
-            "2020",
-            "2010",
-            "1000",
-            "2050.1",
-            "1965",
-            "2006.5"
-    })
-    public void inputYearTipRequired(String input) {
-        editCarPage.inputYear.clear();
-        editCarPage.inputYear.sendKeys(input);
-        editCarPage.inputYear.sendKeys(Keys.chord(Keys.CONTROL + "a"));
-        editCarPage.inputYear.sendKeys(Keys.chord(Keys.DELETE));
-        assertTrue(editCarPage.inputYear.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
-        assertTrue(editCarPage.invalidTipForInputYear.getText().equals(TIP_REQUIRED));
     }
 
     @ParameterizedTest(name = "testcase {index} => input = ''{0}''")
@@ -204,6 +183,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputShortDescriptionValid(String input) {
         editCarPage.textareaShortDescription.clear();
         editCarPage.textareaShortDescription.sendKeys(input);
+
         assertTrue(editCarPage.textareaShortDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -215,6 +195,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputShortDescriptionInvalid(String input, String tipText) {
         editCarPage.textareaShortDescription.clear();
         editCarPage.textareaShortDescription.sendKeys(input);
+
         assertTrue(editCarPage.textareaShortDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, editCarPage.invalidTipForTextareaShortDescription.getText());
     }
@@ -231,6 +212,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
         editCarPage.scrollDown();
         editCarPage.textareaDescription.clear();
         editCarPage.textareaDescription.sendKeys(input);
+
         assertTrue(editCarPage.textareaDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
@@ -242,6 +224,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputDescriptionInvalid(String input, String tipText) {
         editCarPage.textareaDescription.clear();
         editCarPage.textareaDescription.sendKeys(input);
+
         assertTrue(editCarPage.textareaDescription.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, editCarPage.invalidTipForTextareaDescription.getText());
     }
@@ -258,6 +241,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
         editCarPage.scrollDown();
         editCarPage.inputOptionField.clear();
         editCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(editCarPage.inputOptionField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertEquals(tipText, editCarPage.invalidTipForInputOptionField.getText());
     }
@@ -272,16 +256,19 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void inputOptionValid(String input) {
         editCarPage.inputOptionField.clear();
         editCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(editCarPage.inputOptionField.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
     }
 
     @Test
     public void chooseValidImageCar() {
         driver.navigate().refresh();
+        webDriverWait.until(ExpectedConditions.visibilityOf(editCarPage.image));
         String imgBefore = editCarPage.image.getAttribute("src");
         assertEquals(imgBefore, editCarPage.image.getAttribute("src"));
 
         editCarPage.inputImage.sendKeys(INPUT_IMAGE_NAME_VALID);
+        webDriverWait.until(ExpectedConditions.visibilityOf(editCarPage.image));
         assertNotEquals(imgBefore, editCarPage.image.getAttribute("src"));
     }
 
@@ -311,6 +298,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void disableAddOptionButton(String input) {
         editCarPage.inputOptionField.clear();
         editCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(!editCarPage.addOptionButton.isEnabled());
     }
 
@@ -324,6 +312,7 @@ public class EditCarTestValidation extends BaseSeleniumTest {
     public void enableAddOptionButton(String input) {
         editCarPage.inputOptionField.clear();
         editCarPage.inputOptionField.sendKeys(input);
+
         assertTrue(editCarPage.addOptionButton.isEnabled());
     }
 

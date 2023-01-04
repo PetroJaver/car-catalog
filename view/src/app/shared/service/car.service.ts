@@ -26,6 +26,7 @@ export class CarService {
 
   add(car: CarDto): Observable<Car> {
     const headers = {'content-type': 'application/json'}
+    console.log(JSON.stringify(car))
     return this.http.post<Car>(this.baseUrl, JSON.stringify(car),{'headers': headers});
   }
 

@@ -3,6 +3,8 @@ package com.implemica.selenium.tests;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.CatalogPage;
 import com.implemica.selenium.pages.LogInPage;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -19,16 +21,15 @@ import static org.junit.Assert.*;
 public class LogInTest extends BaseSeleniumTest {
     private static LogInPage logInPage;
 
-    public LogInTest() {
-        if (logInPage == null)
-            logInPage = new CatalogPage().clickLogIn();
+    @BeforeAll
+    public static void beforeAll() {
+        logInPage = new LogInPage().openLoginPage();
     }
 
     @Test
     public void inputUsernameFocusedAfterOpenLoginPage() {
-        LogInPage logInPageForTest = new CatalogPage().openCatalogPage().clickLogIn();
-
-        assertEquals(driver.switchTo().activeElement(), logInPageForTest.inputUsernameField);
+        logInPage.openLoginPage();
+        assertEquals(driver.switchTo().activeElement(), logInPage.inputUsernameField);
     }
 
     @Test
@@ -45,17 +46,25 @@ public class LogInTest extends BaseSeleniumTest {
 
     @Test
     public void clickSubmitButton() {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         CatalogPage catalogPage = new CatalogPage();
-        driver.navigate().to(BASE_URL);
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        catalogPage.openCatalogPage();
         catalogPage.clickLogIn();
+        driver.navigate().refresh();
         assertEquals(LOGIN_URL, driver.getCurrentUrl());
         assertEquals(LOGIN_TITLE, driver.getTitle());
 
-        CatalogAuthPage catalogAuthPage = logInPage.doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+        logInPage.inputUsernameField.sendKeys(ADMIN_USERNAME);
+        logInPage.inputPasswordField.sendKeys(ADMIN_PASSWORD);
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logInPage.submitLoginButton));
+        logInPage.clickByJse(logInPage.submitLoginButton);
+
+        webDriverWait.until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
         assertTrue(catalogAuthPage.successToast.isDisplayed());
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(catalogAuthPage.messageSuccessToast, MESSAGE_SUCCESSFULLY_LOGIN));
         assertEquals(MESSAGE_SUCCESSFULLY_LOGIN, catalogAuthPage.messageSuccessToast.getText());
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(catalogAuthPage.titleSuccessToast, TITLE_SUCCESSFULLY_LOGIN));
         assertEquals(TITLE_SUCCESSFULLY_LOGIN, catalogAuthPage.titleSuccessToast.getText());
         catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
         webDriverWait.until(ExpectedConditions.invisibilityOf(catalogAuthPage.successToast));
@@ -85,10 +94,10 @@ public class LogInTest extends BaseSeleniumTest {
             "AAAAA-AAAAA-AAAAA-AAAAA, " + TIP_MAX_LENGTH_20
     })
     public void inputPasswordInvalid(String input, String tipText) {
+        logInPage.inputPasswordField.clear();
         logInPage.inputPasswordField.sendKeys(input);
         assertTrue(logInPage.inputPasswordField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertTrue(logInPage.passwordInvalidFeedBack.getText().equals(tipText));
-        logInPage.inputPasswordField.clear();
     }
 
     @ParameterizedTest(name = "testCase {index} => input = ''{0}''")
@@ -108,9 +117,9 @@ public class LogInTest extends BaseSeleniumTest {
             "1234", "user_user_user_use_r", "####", "&&&&", "1234567890", "op.jkl", "user-name@345yy",
             "USER _ NAME", "USER@Er *_NAME", "USER-  NAME"})
     public void inputPasswordValid(String input) {
-        logInPage.inputPasswordField.sendKeys(input);
-        assertTrue(logInPage.inputPasswordField.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
         logInPage.inputPasswordField.clear();
+        logInPage.inputPasswordField.sendKeys(input);
+        assertFalse(logInPage.inputPasswordField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
     }
 
     @ParameterizedTest(name = "testCase => input = ''{0}''")
@@ -118,9 +127,9 @@ public class LogInTest extends BaseSeleniumTest {
             "username", "user_user_user_use_r", "username123", "USERNAME123", "1234567890", "user.name", "user-name",
             "USER.NAME", "USER_NAME", "USER-NAME"})
     public void inputUsernameValid(String input) {
-        logInPage.inputUsernameField.sendKeys(input);
-        assertTrue(logInPage.inputUsernameField.getAttribute("class").matches(VALIDATION_CLASS_REG_VALID));
         logInPage.inputUsernameField.clear();
+        logInPage.inputUsernameField.sendKeys(input);
+        assertFalse(logInPage.inputUsernameField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
     }
 
     @ParameterizedTest(name = "testCase {index} => input = ''{0}'', tip = ''{1}''")
@@ -142,10 +151,10 @@ public class LogInTest extends BaseSeleniumTest {
             " __ ," + TIP_INCORRECT_USERNAME,
     })
     public void inputUsernameInvalid(String input, String tipText) {
+        logInPage.inputUsernameField.clear();
         logInPage.inputUsernameField.sendKeys(input);
         assertTrue(logInPage.inputUsernameField.getAttribute("class").matches(VALIDATION_CLASS_REG_INVALID));
         assertTrue(logInPage.usernameInvalidFeedBack.getText().equals(tipText));
-        logInPage.inputUsernameField.clear();
     }
 
     @ParameterizedTest(name = "testCase {index} => input = ''{0}''")

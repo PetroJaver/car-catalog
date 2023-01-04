@@ -4,6 +4,7 @@ import {CarService} from "../shared/service/car.service";
 import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/service/auth.service";
 import {Title} from "@angular/platform-browser";
+import {Brand} from "../add-car/Brand";
 
 @Component({
   selector: 'app-album-car',
@@ -50,6 +51,15 @@ export class AlbumCarComponent implements OnInit{
         this.noCars = true;
       }
     })
+  }
+
+  getValueBrandByStringKey(key:string): any{
+    for (let i = 0; i < Object.keys(Brand).length; i++) {
+      if(Object.keys(Brand)[i] === key){
+        return Object.values(Brand)[i].toString()
+      }
+    }
+    return  "Brand not found";
   }
 }
 

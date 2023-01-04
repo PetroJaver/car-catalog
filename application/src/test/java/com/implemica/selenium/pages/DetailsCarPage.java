@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DetailsCarPage extends BaseSeleniumPage{
     @FindBy(how = How.ID, using = "brand-model")
@@ -48,5 +49,18 @@ public class DetailsCarPage extends BaseSeleniumPage{
 
     public DetailsCarPage(){
         PageFactory.initElements(driver,this);
+    }
+
+    public DetailsCarPage deleteCar(){
+        scrollDown();
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(deleteCarButton));
+        clickByJse(deleteCarButton);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(deleteCarModalButton));
+        clickByJse(deleteCarModalButton);
+        webDriverWait.until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
+        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
+        webDriverWait.until(ExpectedConditions.invisibilityOf(catalogAuthPage.successToast));
+        return this;
     }
 }

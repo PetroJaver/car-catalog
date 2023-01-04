@@ -5,9 +5,9 @@ export class  Car{
   brand:string;
   model:string;
   bodyType:string;
-  year:number;
+  year:number|null;
   transmissionType:string;
-  engineSize:number;
+  engineSize:number|null;
   shortDescription:string;
   description:string;
   optionsList:string[];

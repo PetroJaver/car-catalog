@@ -5,6 +5,7 @@ import {Car} from "../shared/models/Car";
 import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/service/auth.service";
 import {Title} from "@angular/platform-browser";
+import {Brand} from "../add-car/Brand";
 
 @Component({
   selector: 'app-car-details',
@@ -37,7 +38,8 @@ export class CarDetailsComponent {
   ngOnInit(): void {
     this.carService.get(this.id).subscribe((data) => {
       this.car = data;
-      this.titleService.setTitle(`Details ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`)}, error => {
+      console.log(data)
+      this.titleService.setTitle(`Details ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`)}, error => {
       if(error.status===404){
         this.toast.error("Car id "+this.id+" does not exist!", "Not found!", {
           progressBar: true,
@@ -49,4 +51,12 @@ export class CarDetailsComponent {
     })
   }
 
+  getValueBrandByStringKey(key:string): any{
+    for (let i = 0; i < Object.keys(Brand).length; i++) {
+      if(Object.keys(Brand)[i] === key){
+        return Object.values(Brand)[i].toString()
+      }
+    }
+    return  "Brand not found";
+  }
 }

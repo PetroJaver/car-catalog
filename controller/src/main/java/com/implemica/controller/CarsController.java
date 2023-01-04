@@ -12,6 +12,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +41,7 @@ public class CarsController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "cars", produces = "application/json")
     @PreAuthorize("hasAuthority('cars:create')")
+    @CacheEvict(value = "carsList", allEntries = true)
     public ResponseEntity<Car> create(@Parameter(name = "body", description = "To successfully receive a response from the api," +
             " you should send the body according to the example, follow the CarDTO validation.") @RequestBody @Valid CarDTO carDTO) {
         Car car = carService.saveCar(carDTO);
@@ -49,6 +54,7 @@ public class CarsController {
                     array = @ArraySchema(arraySchema = @Schema(implementation = Car.class)))),
             @ApiResponse(responseCode = "204", description = "The operation is successful. But the list of cars in the database is empty.", content = @Content)
     })
+    @Cacheable(value = "carsList")
     @GetMapping(value = "cars", produces = "application/json")
     public ResponseEntity<List<Car>> getAll() {
         final List<Car> cars = carService.findAll();
@@ -65,6 +71,7 @@ public class CarsController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Failed operation. Car by id not found.")
             })
     @GetMapping(value = "cars/{id}", produces = "application/json")
+    @Cacheable(key = "#id", value = "cars")
     public ResponseEntity<Car> get(
             @ApiParam(
                     name = "id",
@@ -73,7 +80,6 @@ public class CarsController {
                     example = "1")
             @PathVariable(name = "id") long id) {
         final Car car = carService.findCarById(id);
-
         return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -85,9 +91,11 @@ public class CarsController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "You did not pass the token in the header, or the token has expired, or the token is not valid."),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Failed operation. Car by id not found.")
     })
+    @CacheEvict(value = "carsList", allEntries = true)
+    @CachePut(key = "#id",value = "cars")
     @PutMapping(value = "cars/{id}", produces = "application/json")
     @PreAuthorize("hasAuthority('cars:update')")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<Car> update(
             @ApiParam(
                     name = "id",
                     value = "The unique identifier of the car by which the car will be updated.",
@@ -95,9 +103,8 @@ public class CarsController {
                     example = "1")
             @PathVariable Long id, @Parameter(name = "body", description = "To successfully receive a response from the api," +
             " you should send the body according to the example, follow the CarDTO validation.") @Valid @RequestBody CarDTO carDto) {
-        final boolean updated = carService.updateCarById(id, carDto);
-
-        return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        final Car car = carService.updateCarById(id, carDto);
+        return car!=null ? new ResponseEntity<>(car,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "Delete Car by id in the data base.", description = "Use this api endpoint to delete a car by id from the database. " + "For a successful operation, you need a jwt token, which must be passed in the header using the key \"Authorization\".",
@@ -107,6 +114,7 @@ public class CarsController {
                     " or the token has expired, or the token is not valid."),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Failed operation. Car by id not found.")
     })
+    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true),@CacheEvict(key = "#id", value = "cars")})
     @DeleteMapping(value = "cars/{id}", produces = "application/json")
     @PreAuthorize("hasAuthority('cars:delete')")
     public ResponseEntity<Void> delete(
@@ -130,6 +138,7 @@ public class CarsController {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Failed operation. Car by id not found.")
             })
     @PreAuthorize("hasAnyAuthority('cars:create','cars:update')")
+    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true),@CacheEvict(key = "#id", value = "cars")})
     @PostMapping(value = "cars/uploadImage/{id}", consumes = "multipart/form-data")
     public ResponseEntity<Void> uploadImage(@PathVariable @ApiParam(
             name = "id",

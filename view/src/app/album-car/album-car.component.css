@@ -19,13 +19,28 @@
     opacity: 1;
     transition: opacity 1s;
   }
-
-
 }
 
 @media (hover: none) {
   .card-button{
     display: inline-block;
     opacity: 1;
+  }
+}
+
+@media only screen and (max-device-height: 2400px) and (min-device-height: 1401px) {
+  .img-card-height {
+    height: 450px;
+  }
+}
+@media only screen and (max-device-height: 680px) and (min-device-height: 0px) {
+  .img-card-height {
+    height: 120px;
+  }
+}
+
+@media only screen and (max-device-height: 1400px) and (min-device-height: 681px) {
+  .img-card-height {
+    height: 200px;
   }
 }

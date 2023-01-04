@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,9 +45,14 @@ public class CarsControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @Before
     public void before(){
         jwtToken = jwtTokenProvider.createToken("admin", "ADMIN");
+        cacheManager.getCache("cars").clear();
+        cacheManager.getCache("carsList").clear();
     }
 
     @Test
@@ -133,7 +139,7 @@ public class CarsControllerTest {
 
     @Test
     public void updateCarStatusOk() throws Exception {
-        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenReturn(true);
+        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenReturn(EXAMPLE_CAR);
 
         mockMvc.perform(put("/cars/1")
                         .accept(APPLICATION_JSON)
@@ -148,7 +154,7 @@ public class CarsControllerTest {
 
     @Test
     public void updateCarStatusNotFound() throws Exception {
-        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenReturn(false);
+        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenReturn(null);
 
         mockMvc.perform(put("/cars/1")
                         .accept(APPLICATION_JSON)

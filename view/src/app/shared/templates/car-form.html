@@ -6,8 +6,8 @@
     <div class="row gx-0 gy-3">
       <!--image-->
       <div class="mt-0 text-center col-lg-6 order-lg-2">
-        <div style="position: absolute;bottom: 0px;width: 100%" class="text-end">
-          <label class="imageLabel ">
+        <div style="position: absolute;bottom: 0px;width: 100%;height: 44px" class="text-end">
+          <label class="imageLabel mb-0 mt-2 mt-md-0">
             <img src="../../../assets/icons/addPicture.png" style="margin-right: 6px" width="24"> Upload image
             <input class="imageInput " type="file" id="image"
                    [ngClass]="{'is-valid':file?.value!=null}" formControlName="file"
@@ -26,13 +26,13 @@
           <!--Brand-->
           <div>
             <div class="row g-0">
-              <label for="brand" class="col-sm-4 form-label fs-4 required">Brand</label>
+              <label for="brand" class="col-sm-4 form-label fs-4 required">Brand:</label>
               <div class="col-sm-8 col-md-7 col-lg-5">
-                <select class="form-select"
+                <select class="form-select" [style.color] = "colorSelectBrand()"
                         [ngClass]="{'is-valid':brand?.valid}"
                         formControlName="brand" id="brand" #selectBrand>
-                  <option *ngIf="!brand?.dirty" selected value="">Brand</option>
-                  <option *ngFor="let brand of brandChoose | keyvalue"
+                  <option hidden selected value="">Brand</option>
+                  <option style="color: #212529" *ngFor="let brand of brandChoose | keyvalue"
                           value="{{brand.key}}">{{brand.value}}</option>
                 </select>
               </div>
@@ -41,7 +41,7 @@
           <!--Model-->
           <div>
             <div class="row g-0">
-              <label for="model" class="col-sm-6 col-md-4 form-label fs-4 required">Model</label>
+              <label for="model" class="col-sm-6 col-md-4 form-label fs-4 required">Model:</label>
               <div class="col-sm-6 col-lg-5">
                 <input type="text" class="form-control" id="model" maxlength="41"
                        [ngClass]="{'is-valid':model?.valid,'is-invalid':model?.invalid&&model?.dirty}"
@@ -62,13 +62,13 @@
           <!--body-->
           <div>
             <div class="row g-0">
-              <label for="body-type" class="col-sm-6 col-md-4 form-label fs-4 required">Body</label>
+              <label for="body-type" class="col-sm-6 col-md-4 form-label fs-4 required">Body:</label>
               <div class="col-sm-6 col-lg-5">
-                <select class="form-select"
+                <select class="form-select" [style.color] = "colorSelectBody()"
                         [ngClass]="{'is-valid':bodyType?.valid}"
                         formControlName="bodyType" id="body-type">
-                  <option *ngIf="!bodyType?.dirty" selected value="">Body</option>
-                  <option *ngFor="let bodyType of bodyTypes | keyvalue"
+                  <option hidden selected value="">Body</option>
+                  <option style="color: #212529" *ngFor="let bodyType of bodyTypes | keyvalue"
                           value="{{bodyType.key}}">{{bodyType.value}}</option>
                 </select>
 
@@ -79,7 +79,7 @@
           <!--transmission-->
           <div>
             <div class="row g-0">
-              <label class="col-6 col-md-4 form-label fs-4 mb-0">Transmission</label>
+              <label class="col-6 col-md-4 form-label fs-4 mb-0">Transmission:</label>
               <div class="row col-lg-5 g-0 d-flex justify-content-between">
                 <div class="col-sm-6 form-check text-center d-flex align-items-center">
                   <input class="form-check-input" type="radio" formControlName="transmissionType"
@@ -110,8 +110,8 @@
                 <div class="input-group"
                      [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}">
                   <input type="number" step="0.1" id="engine" min="-0.1" max="10.1" class="form-control"
-                         [ngClass]="{'is-valid':engineSize?.valid,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
-                         placeholder="Engine size" formControlName="engineSize">
+                         [ngClass]="{'is-valid':engineSize?.valid&&engineSize?.value!=null,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
+                         placeholder="Engine" formControlName="engineSize">
                   <span class="input-group-text fw-semibold"><img src="../../../assets/icons/l-solid.svg" width="10"></span>
                 </div>
 
@@ -129,7 +129,7 @@
             <div class="row g-0">
               <label for="engine" class="col-6 col-md-4 form-label fs-4">Year:</label>
               <div class="col-6 col-sm-5 col-lg-3">
-                <input type="number" class="form-control" min="1879" max="2101" id="year" [class.is-valid]="year?.valid"
+                <input type="number" placeholder="Year" class="form-control" min="1879" max="2101" id="year" [class.is-valid]="year?.valid&&year?.value!=null"
                        [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year">
                 <div id="invalid-feedback-year" class="invalid-feedback">
                   <span [hidden]="!year?.errors?.['max']">Max year 2100!</span>

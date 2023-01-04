@@ -15,7 +15,7 @@ public interface CarService {
 
     List<Car> findAll();
 
-    boolean updateCarById(Long id, CarDTO carDto);
+    Car updateCarById(Long id, CarDTO carDto);
 
     boolean uploadImageCarById(Long id, MultipartFile image);
 }

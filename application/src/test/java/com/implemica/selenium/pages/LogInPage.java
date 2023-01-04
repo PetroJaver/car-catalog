@@ -31,19 +31,20 @@ public class LogInPage extends BaseSeleniumPage {
     }
 
     public LogInPage openLoginPage(){
-        driver.get(LOGIN_URL);
-        return this;
+        return new CatalogPage().openCatalogPage().clickLogIn();
     }
 
     public CatalogAuthPage doLogin(String username, String password) {
+        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        openLoginPage();
+        webDriverWait.until(ExpectedConditions.urlToBe(LOGIN_URL));
         inputUsernameField.sendKeys(username);
         inputPasswordField.sendKeys(password);
 
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(submitLoginButton));
-
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitLoginButton));
         clickByJse(submitLoginButton);
+        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
 
-        return new CatalogAuthPage();
+        return catalogAuthPage;
     }
 }

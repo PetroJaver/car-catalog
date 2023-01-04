@@ -47,9 +47,9 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       brand: ['', Validators.required],
       model: ['', [Validators.required, Validators.pattern('["\'a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
       bodyType: ['', [Validators.required]],
-      year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
+      year: [null, [Validators.max(2100), Validators.min(1880)]],
       transmissionType: ['MANUAL', [Validators.required]],
-      engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
+      engineSize: [null, [Validators.max(10), Validators.min(0)]],
       description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: ['', [Validators.minLength(25), Validators.maxLength(150)]],
       optional: ['', [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(2), Validators.maxLength(25)]],
@@ -81,8 +81,8 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       this.car = data;
       let brand:string;
       // @ts-ignore
-      this.title = `Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`
-      this.titleService.setTitle(`Edit ${this.car.brand[0].toUpperCase()+this.car.brand.slice(1).toLowerCase()} ${this.car.model}`);
+      this.title = `Edit ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`
+      this.titleService.setTitle(`Edit ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`);
       this.onReset();
     }, error => {
       if(error.status===404){
@@ -103,6 +103,20 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   }
 
   //region getter
+  public colorSelectBrand():string{
+    if(this.brand?.value==="")
+      return "#6C757D"
+    else
+      return "#212529"
+  }
+
+  public colorSelectBody():string{
+    if(this.bodyType?.value==="")
+      return "#6C757D"
+    else
+      return "#212529"
+  }
+
   get optional() {
     return this.carForm.get('optional')
   }
@@ -148,6 +162,14 @@ export class EditCarComponent implements OnInit,AfterViewInit {
   }
   //endregion
 
+  getValueBrandByStringKey(key:string): any {
+    for (let i = 0; i < Object.keys(Brand).length; i++) {
+      if(Object.keys(Brand)[i] === key){
+        return Object.values(Brand)[i].toString()
+      }
+    }
+    return  "Brand not found";
+  }
 
   addOption() {
     this.optionalList.push(this.fb.control(this.optional?.value))
@@ -194,9 +216,9 @@ export class EditCarComponent implements OnInit,AfterViewInit {
     car.brand = this.carForm.get('brand')?.value;
     car.model = this.carForm.get('model')?.value;
     car.bodyType = this.carForm.get('bodyType')?.value;
-    car.year = Math.floor(Number(this.carForm.get('year')?.value))
+    car.year = null;
     car.transmissionType = this.carForm.get('transmissionType')?.value;
-    car.engineSize = parseFloat(Number(this.carForm.get('engineSize')?.value).toFixed(1))
+    car.engineSize = null;
     car.optionsList = this.carForm.get('optionalList')?.value;
     if(this.carForm.get('description')?.value===""){
       // @ts-ignore
@@ -212,6 +234,18 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       car.shortDescription = this.carForm.get('shortDescription')?.value;
     }
 
+    if(this.engineSize?.value!=""&&!(this.engineSize?.value===null)){
+      car.engineSize = parseFloat(Number(this.engineSize?.value).toFixed(1));
+    }
+
+    if(this.engineSize?.value === 0){
+      car.engineSize = 0;
+    }
+
+    if(this.year?.value!=""&&this.year?.value!=null){
+      car.year = Math.floor(Number(this.year?.value))
+    }
+
     this.carService.update(car, this.id).subscribe(() => {
       if(this.carForm.get('file')?.value!=null){
         const dataImage:FormData = new FormData();
@@ -225,7 +259,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
           this.location.back();
         },error => {
           if(error.status==404){
-            this.toast.error("Car fail add!", "Fail", {
+            this.toast.error("Car fail update!", "Fail", {
               progressBar: true,
               timeOut: 5000,
               progressAnimation: 'increasing'
@@ -243,7 +277,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       }
     }, error => {
       if(error.status===400||error.status===404){
-        this.toast.error("Car fail add!", "Fail", {
+        this.toast.error("Car fail update!", "Fail", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'

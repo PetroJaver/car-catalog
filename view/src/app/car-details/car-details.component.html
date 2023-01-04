@@ -1,53 +1,53 @@
 <div class="container-fluid" style="padding: 1% 8%">
   <div class="container my-2 text-center w-100 ">
-    <h1 id="brand-model">{{((car.brand.replace('_', ' '))|titlecase)+" " + car?.model}}</h1>
+    <h1 id="brand-model">{{((car.brand.replace('_', ' '))|titlecase)+" " + car.model}}</h1>
   </div>
 
-  <div class="container p-5 text-bg-dark rounded-4 my-4">
+  <div class="container p-4 p-lg-5 text-bg-dark rounded-4 my-4">
     <div class="row gx-0 gy-3">
       <div class="mt-0 text-center img-top col-lg-8 order-lg-2">
-        <img id="image" style="max-width: 100%;" [src]="'https://carcatalogimages.s3.eu-west-3.amazonaws.com/'+ car?.imageName">
+        <img id="image" style="max-width: 100%;" [src]="'https://carcatalogimages.s3.eu-west-3.amazonaws.com/'+ car.imageName">
       </div>
 
       <div class="col-sm-8 col-md-6 col-lg-4 order-lg-1 pt-3">
         <div class="row gx-0 gy-4">
           <div class="row g-0">
             <h4 class="col-7 col-lg-7">Body:</h4>
-            <h4 id="body-type" class="col-5 col-lg-5 text-secondary">{{car?.bodyType|titlecase}}</h4>
+            <h4 id="body-type" class="col-5 col-lg-5 text-secondary">{{car.bodyType|titlecase}}</h4>
           </div>
 
           <div class="row g-0">
             <h4 class="col-7 col-lg-7">Transmission:</h4>
-            <h4 id="transmission" class="col-5 col-lg-5 text-secondary">{{car?.transmissionType|titlecase}}</h4>
+            <h4 id="transmission" class="col-5 col-lg-5 text-secondary">{{car.transmissionType|titlecase}}</h4>
           </div>
 
-          <div class="row g-0">
-            <h4 class="col-7 col-lg-7" *ngIf="car?.engineSize!=0">Engine size: </h4>
-            <h4 id="engine-electric" class="col-7 col-lg-7" *ngIf="car?.engineSize==0">Electric</h4>
-            <h4 id="engine" class="col-5 col-lg-5 text-secondary" *ngIf="car?.engineSize!=0">{{car?.engineSize|number}}L</h4>
+          <div *ngIf="car.engineSize!=null" class="row g-0">
+            <h4 class="col-7 col-lg-7" *ngIf="car.engineSize!=0">Engine size: </h4>
+            <h4 id="engine-electric" class="col-7 col-lg-7" *ngIf="car.engineSize==0">Electric</h4>
+            <h4 id="engine" class="col-5 col-lg-5 text-secondary" *ngIf="car.engineSize!=0">{{car.engineSize|number}}L</h4>
           </div>
 
-          <div class="row g-0">
+          <div *ngIf="car.year!=null" class="row g-0">
             <h4 class="col-7 col-lg-7">Year:</h4>
-            <h4 id="year" class="col-5 col-lg-5 text-secondary">{{car?.year}}</h4>
+            <h4 id="year" class="col-5 col-lg-5 text-secondary">{{car.year}}</h4>
           </div>
 
-          <div *ngIf="car?.shortDescription!=null" class="col-12 d-none d-lg-block" style="word-wrap: break-word; white-space: pre-wrap">
+          <div *ngIf="car.shortDescription!=null" class="col-12 d-none d-lg-block" style="word-wrap: break-word; white-space: pre-wrap">
             <h4>Short description:</h4>
-            <p id = "short-description" class="text-secondary" style="font-size: 24px">{{car?.shortDescription}}</p>
+            <p id = "short-description" class="text-secondary" style="font-size: 24px">{{car.shortDescription}}</p>
           </div>
         </div>
       </div>
 
       <div class="d-flex w-100 row gx-0 gy-3 order-lg-3 mt-0">
-        <div *ngIf="car?.description!=null" class="col-12 d-inline" style="word-wrap: break-word; white-space: pre-wrap">
+        <div *ngIf="car.description!=null" class="col-12 d-inline" style="word-wrap: break-word; white-space: pre-wrap">
           <h4>Description:</h4>
-          <p id = "description" class="text-secondary" style="font-size: 24px">{{car?.description}}</p>
+          <p id = "description" class="text-secondary" style="font-size: 24px">{{car.description}}</p>
         </div>
 
         <h4>Optional list:</h4>
         <ul class="ps-3 row g-0">
-          <li *ngFor="let option of car?.optionsList" class="col-md-6 col-lg-4 m-0"><h5 id = "option-{{option}}"
+          <li *ngFor="let option of car.optionsList" class="col-md-6 col-lg-4 m-0"><h5 id = "option-{{option}}"
             class="text-secondary">{{option}}</h5></li>
         </ul>
 

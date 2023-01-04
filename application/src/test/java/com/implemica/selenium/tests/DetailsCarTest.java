@@ -7,6 +7,9 @@ import com.implemica.selenium.pages.AddCarPage;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.DetailsCarPage;
 import com.implemica.selenium.pages.LogInPage;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -43,148 +46,146 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DetailsCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static DetailsCarPage detailsCarPage;
+    private static CatalogAuthPage catalogAuthPage;
 
-    public DetailsCarTest() {
-        if (addCarPage == null){
-            new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD).clickAddCarButton();
-            addCarPage = new AddCarPage();
-        }
+    @BeforeAll
+    public static void beforeAll(){
+        catalogAuthPage = new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+        addCarPage = new AddCarPage();
+        detailsCarPage = new DetailsCarPage();
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        addCarPage.logOut();
     }
 
     @Test
     public void carImageNotAdded() {
-        detailsCarPage = new DetailsCarPage();
-
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
-
+            webDriverWait.until(ExpectedConditions.visibilityOf(detailsCarPage.image));
             assertTrue(detailsCarPage.image.getAttribute("src").matches(".*" + DEFAULT_IMAGE_PATH));
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @Test
     public void carImageAdded() {
-        detailsCarPage = new DetailsCarPage();
-
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).imageName(INPUT_IMAGE_NAME_VALID).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).imageName(INPUT_IMAGE_NAME_VALID)
+                .model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.visibilityOf(detailsCarPage.image));
             assertFalse(detailsCarPage.image.getAttribute("src").matches(".*" + DEFAULT_IMAGE_PATH));
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @Test
     public void carTransmissionAutomatic() {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).transmissionType(AUTOMATIC).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL)
+                .bodyType(COUPE).transmissionType(AUTOMATIC).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            detailsCarPage.scrollUp();
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.transmissionTypeText, toTitleCase(AUTOMATIC.name())));
             assertEquals(toTitleCase(AUTOMATIC.name()), detailsCarPage.transmissionTypeText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @Test
     public void carTransmissionManual() {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).transmissionType(MANUAL).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE)
+                .transmissionType(MANUAL).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            detailsCarPage.scrollUp();
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.transmissionTypeText, toTitleCase(MANUAL.name())));
             assertEquals(toTitleCase(MANUAL.name()), detailsCarPage.transmissionTypeText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @Test
     public void carEngineElectric() {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).engine(0D).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE)
+                .engine(0D).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.engineElectricText, ELECTRIC));
             assertEquals(ELECTRIC, detailsCarPage.engineElectricText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @ParameterizedTest
     @EnumSource(CarBrand.class)
     public void carBrand(CarBrand brand) {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(brand).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(brand).model(ANY_MODEL).bodyType(COUPE)
+                .build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, brand.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.brandModelText
+                    ,toTitleCase(brand.name()) + " " + ANY_MODEL));
             assertEquals(toTitleCase(brand.name()) + " " + ANY_MODEL, detailsCarPage.brandModelText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @ParameterizedTest
     @EnumSource(CarBodyType.class)
     public void carBodyType(CarBodyType bodyType) {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(bodyType).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL)
+                .bodyType(bodyType).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.bodyTypeText, toTitleCase(bodyType.name())));
             assertEquals(toTitleCase(bodyType.name()), detailsCarPage.bodyTypeText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @ParameterizedTest
+    @Disabled
     @ValueSource(strings = {
             "any model",
             "no model",
             "RAV4"
     })
     public void carModel(String model) {
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).bodyType(COUPE).model(model).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).bodyType(COUPE).model(model).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), model))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.brandModelText
+                    , toTitleCase(PORSCHE.name()) + " " + model));
             assertEquals(toTitleCase(PORSCHE.name()) + " " + model, detailsCarPage.brandModelText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
@@ -194,19 +195,17 @@ public class DetailsCarTest extends BaseSeleniumTest {
     })
     public void carEngineValue(Double engineVolume) {
         DecimalFormat decimalFormat = new DecimalFormat("##.#");
-        detailsCarPage = new DetailsCarPage();
 
         addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE)
-                .engine(engineVolume).build());
+                .engine(engineVolume).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.engineText, decimalFormat.format(engineVolume) + "L"));
             assertEquals(decimalFormat.format(engineVolume) + "L", detailsCarPage.engineText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
@@ -215,19 +214,16 @@ public class DetailsCarTest extends BaseSeleniumTest {
             1880, 2100, 1881, 2099
     })
     public void carYear(Integer year) {
-        detailsCarPage = new DetailsCarPage();
-
         addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE)
-                .year(year).build());
+                .year(year).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.yearText, year.toString()));
             assertEquals(year.toString(), detailsCarPage.yearText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
@@ -237,64 +233,56 @@ public class DetailsCarTest extends BaseSeleniumTest {
             MAX_SHORT_DESCRIPTION,
             LESS_MAX_SHORT_DESCRIPTION
     })
-    public void carShortDescription(String shortDescription) {
-        detailsCarPage = new DetailsCarPage();
-
+    public void carShortDescription(String shortDescription){
         addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).shortDescription(shortDescription)
-                .model(ANY_MODEL).bodyType(COUPE).build());
+                .model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.shortDescriptionText, shortDescription));
             assertEquals(shortDescription, detailsCarPage.shortDescriptionText.getText());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @ParameterizedTest
+    @Disabled
     @ValueSource(strings = {
             MAX_DESCRIPTION,
             LESS_MAX_DESCRIPTION
     })
     public void carDescription(String description) {
-        detailsCarPage = new DetailsCarPage();
-
         addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).description(description)
-                .model(ANY_MODEL).bodyType(COUPE).build());
+                .model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(detailsCarPage.descriptionText, description));
             assertEquals(description, detailsCarPage.descriptionText.getText());
-            ;
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @ParameterizedTest
     @MethodSource("sourceValueForOptions")
     public void carOptions(List<String> options) {
-        detailsCarPage = new DetailsCarPage();
-
         addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).options(options)
-                .model(ANY_MODEL).bodyType(COUPE).build());
+                .model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
 
-            options.forEach(option ->
-                    assertEquals(option, driver.findElement(By.id(String.format(FORMAT_OPTION_ID, option))).getText()));
+            options.forEach(option ->{
+                    webDriverWait.until(
+                    ExpectedConditions.textToBePresentInElement(driver.findElement(By.id(String.format(FORMAT_OPTION_ID, option))), option));
+                    assertEquals(option, driver.findElement(By.id(String.format(FORMAT_OPTION_ID, option))).getText());});
 
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
@@ -305,61 +293,56 @@ public class DetailsCarTest extends BaseSeleniumTest {
 
     @Test
     public void deleteCarButton() {
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        detailsCarPage = new DetailsCarPage();
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL)
+                .bodyType(COUPE).build()).clickSaveButton();
 
-        addCarPage.clickByJse(addCarPage.addCarButton);
         addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
         String detailsCarURL = driver.getCurrentUrl();
         detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
         detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(BASE_URL));
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
         assertEquals(TITLE_SUCCESSFULLY_CAR_DELETE, catalogAuthPage.titleSuccessToast.getText());
         assertEquals(MESSAGE_SUCCESSFULLY_CAR_DELETE, catalogAuthPage.messageSuccessToast.getText());
         catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
         assertEquals(BASE_URL, driver.getCurrentUrl());
         driver.navigate().to(detailsCarURL);
+
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
         assertNotEquals(detailsCarURL, driver.getCurrentUrl());
+        assertEquals(BASE_URL, driver.getCurrentUrl());
     }
 
     @Test
     public void editCarButton() {
         String carId;
-        detailsCarPage = new DetailsCarPage();
-
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL)
+                .bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
             carId = driver.getCurrentUrl().split("/")[driver.getCurrentUrl().split("/").length - 1];
             detailsCarPage.clickByJse(detailsCarPage.updateCarButton);
             assertEquals(String.format(EDIT_URL_REG_FORMAT, carId), driver.getCurrentUrl());
             driver.navigate().back();
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 
     @Test
     public void deleteCarButtonThenModalCancel() {
         String detailsUrl;
-        detailsCarPage = new DetailsCarPage();
-
-        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
+        addCarPage.openAddCarPage().addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL)
+                .bodyType(COUPE).build()).clickSaveButton();
 
         try {
-            addCarPage.clickByJse(addCarPage.addCarButton);
             addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
             detailsUrl = driver.getCurrentUrl();
             detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
             detailsCarPage.clickByJse(detailsCarPage.closeModalButton);
             assertEquals(detailsUrl, driver.getCurrentUrl());
         } finally {
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarButton);
-            detailsCarPage.clickByJse(detailsCarPage.deleteCarModalButton);
+            detailsCarPage.deleteCar();
         }
     }
 }

@@ -35,9 +35,9 @@ export class AddCarComponent implements OnInit,AfterViewInit {
       brand: [null, Validators.required],
       model: [null, [Validators.required, Validators.pattern('["\'a-zA-Z0-9-\\s]*'), Validators.minLength(2), Validators.maxLength(40)]],
       bodyType: [null, [Validators.required]],
-      year: [null, [Validators.max(2100), Validators.min(1880), Validators.required]],
+      year: [null, [Validators.max(2100), Validators.min(1880)]],
       transmissionType: [null, [Validators.required]],
-      engineSize: [null, [Validators.max(10), Validators.min(0), Validators.required]],
+      engineSize: [null, [Validators.max(10), Validators.min(0)]],
       description: [null, [Validators.minLength(50), Validators.maxLength(5000)]],
       shortDescription: [null, [Validators.minLength(25), Validators.maxLength(150)]],
       optional: [null, [Validators.pattern('[a-zA-Z0-9-\\s\']*'), Validators.minLength(2), Validators.maxLength(25)]],
@@ -69,6 +69,21 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   }
 
   //region getters
+  public colorSelectBrand():string{
+    if(this.brand?.value==="")
+      return "#6C757D"
+    else
+      return "#212529"
+  }
+
+  public colorSelectBody():string{
+    if(this.bodyType?.value==="")
+      return "#6C757D"
+    else
+      return "#212529"
+  }
+
+
   get optional() {
     return this.carForm.get('optional')
   }
@@ -148,11 +163,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
     this.carForm.patchValue({
       transmissionType: 'MANUAL',
       brand: '',
-      bodyType: '',
-      year: new Date().getFullYear(),
-      engineSize: '1',
-      description: null,
-      shortDescription: null
+      bodyType: ''
     })
   }
 
@@ -161,27 +172,37 @@ export class AddCarComponent implements OnInit,AfterViewInit {
     car.brand = this.carForm.get('brand')?.value;
     car.model = this.carForm.get('model')?.value;
     car.bodyType = this.carForm.get('bodyType')?.value;
-    car.year = Math.floor(Number(this.carForm.get('year')?.value))
     car.transmissionType = this.carForm.get('transmissionType')?.value;
-    car.engineSize = parseFloat(Number(this.carForm.get('engineSize')?.value).toFixed(1))
     car.optionsList = this.carForm.get('optionalList')?.value;
+    car.year = null;
+    car.engineSize = null;
 
 
     if(this.description?.value!=""){
-      car.description = this.carForm.get('description')?.value;
+      car.description = this.description?.value;
     }
 
     if(this.shortDescription?.value!=""){
-      car.shortDescription = this.carForm.get('shortDescription')?.value;
+      car.shortDescription = this.shortDescription?.value;
+    }
+
+    if(this.engineSize?.value!=""&&!(this.engineSize?.value === null)){
+      car.engineSize = parseFloat(Number(this.engineSize?.value).toFixed(1));
+    }
+
+    if(this.engineSize?.value === 0){
+      car.engineSize = 0;
+    }
+
+    if(this.year?.value!=""&&this.year?.value!=null){
+      car.year = Math.floor(Number(this.year?.value))
     }
 
     this.carService.add(car).subscribe((data) => {
-
-
       if(this.carForm.get('file')?.value!=null){
         const dataImage:FormData = new FormData();
         dataImage.append('image', this.carForm.get('file')?.value);
-        console.log(data.id)
+
         this.carService.uploadImage(dataImage, data.id).subscribe(()=>{
           this.toast.success("Car successful added!", "Success", {
             progressBar: true,
@@ -189,6 +210,15 @@ export class AddCarComponent implements OnInit,AfterViewInit {
             progressAnimation: 'increasing'
           });
           this.location.back();
+        },error => {
+          if(error.status==404){
+            this.toast.error("Car fail added!", "Fail", {
+              progressBar: true,
+              timeOut: 5000,
+              progressAnimation: 'increasing'
+            })
+            this.router.navigate(['/'])
+          }
         })
       }else{
         this.toast.success("Car successful added!", "Success", {
@@ -199,6 +229,15 @@ export class AddCarComponent implements OnInit,AfterViewInit {
         this.router.navigate(['/'])
       }
 
+    },error => {
+      if(error.status==404){
+        this.toast.error("Car fail added!", "Fail", {
+          progressBar: true,
+          timeOut: 5000,
+          progressAnimation: 'increasing'
+        })
+        this.router.navigate(['/'])
+      }
     })
   }
 

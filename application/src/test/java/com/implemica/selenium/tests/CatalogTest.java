@@ -1,9 +1,11 @@
 package com.implemica.selenium.tests;
 
+import com.implemica.model.entity.Car;
 import com.implemica.model.enums.CarBodyType;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
 import org.junit.Assert;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,11 +32,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CatalogTest extends BaseSeleniumTest{
-    private WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+    private CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+    private CatalogPage catalogPage = new CatalogPage();
+    private LogInPage logInPage = new LogInPage();
+
+    private DetailsCarPage detailsCarPage = new DetailsCarPage();
+    private AddCarPage addCarPage = new AddCarPage();
     @Test
     public void loginButton(){
-        CatalogPage catalogPage = new CatalogPage();
+        driver.navigate().refresh();
         catalogPage.openCatalogPage();
         assertEquals(BASE_URL, driver.getCurrentUrl());
         assertEquals(BASE_TITLE, driver.getTitle());
@@ -45,38 +52,31 @@ public class CatalogTest extends BaseSeleniumTest{
 
     @Test
     public void addCarButton(){
-        new CatalogPage().openCatalogPage().clickLogIn();
-        new LogInPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        driver.navigate().refresh();
+        catalogPage.openCatalogPage().clickLogIn();
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
         webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
         assertEquals(BASE_URL, driver.getCurrentUrl());
         assertEquals(BASE_TITLE, driver.getTitle());
-        assertTrue(catalogAuthPage.successToast.isDisplayed());
-        assertEquals(TITLE_SUCCESSFULLY_LOGIN, catalogAuthPage.titleSuccessToast.getText());
-        assertEquals(MESSAGE_SUCCESSFULLY_LOGIN, catalogAuthPage.messageSuccessToast.getText());
-        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
+
         catalogAuthPage.clickAddCarButton();
         webDriverWait.until(ExpectedConditions.urlToBe(ADD_CAR_URL));
         assertEquals(ADD_CAR_URL, driver.getCurrentUrl());
         assertEquals(ADD_CAR_TITLE, driver.getTitle());
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logo));
         catalogAuthPage.clickByJse(catalogAuthPage.logo);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 
     @Test
     public void logoutButton(){
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        new CatalogPage().openCatalogPage().clickLogIn();
-        new LogInPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
-
-        Assert.assertTrue(catalogAuthPage.successToast.isDisplayed());
-        Assert.assertEquals(MESSAGE_SUCCESSFULLY_LOGIN, catalogAuthPage.messageSuccessToast.getText());
-        Assert.assertEquals(TITLE_SUCCESSFULLY_LOGIN, catalogAuthPage.titleSuccessToast.getText());
-        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(catalogAuthPage.successToast));
-        assertFalse(catalogAuthPage.successToast.isDisplayed());
+        driver.navigate().refresh();
+        catalogPage.clickLogIn();
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
 
         Assert.assertEquals(BASE_URL, driver.getCurrentUrl());
         Assert.assertEquals(BASE_TITLE, driver.getTitle());
@@ -86,7 +86,9 @@ public class CatalogTest extends BaseSeleniumTest{
         Assert.assertTrue(catalogAuthPage.editButtonFirstCarCard.isEnabled());
         Assert.assertTrue(catalogAuthPage.deleteButtonFirstCarCard.isEnabled());
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
 
         Assert.assertEquals(LOGIN_URL, driver.getCurrentUrl());
@@ -96,13 +98,11 @@ public class CatalogTest extends BaseSeleniumTest{
     @ParameterizedTest
     @MethodSource("sourceValueForAddCar")
     public void carCard(CarValue carValue){
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        AddCarPage addCarPage = new AddCarPage();
-        new CatalogPage().openCatalogPage().clickLogIn();
-        new LogInPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
-        addCarPage.clickByJse(catalogAuthPage.addCarButton);
-        addCarPage.addCar(carValue).clickByJse(addCarPage.addCarButton);
+        driver.navigate().refresh();
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD).clickAddCarButton();
+        addCarPage.addCar(carValue).clickSaveButton();
         try{
+            webDriverWait.until(ExpectedConditions.textToBe(By.xpath(String.format(XPATH_FOR_TITLE_ADDED_CAR, carValue.brand, carValue.model)), toTitleCase(carValue.brand.stringValue) + " " + carValue.model));
             assertEquals(toTitleCase(carValue.brand.stringValue)+" "+carValue.model,
                     driver.findElement(By.xpath(String.format(XPATH_FOR_TITLE_ADDED_CAR, carValue.brand,carValue.model))).getText());
             assertEquals(carValue.shortDescription,driver.findElement(By.xpath(String.format(XPATH_FOR_BODY_ADDED_CAR, carValue.brand,carValue.model))).getText());
@@ -113,7 +113,9 @@ public class CatalogTest extends BaseSeleniumTest{
             catalogAuthPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FOR_CONFIRM_DELETE_MODAL, carValue.brand,carValue.model))));
         }
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 
@@ -126,13 +128,9 @@ public class CatalogTest extends BaseSeleniumTest{
 
     @Test
     public void deleteCarButton() {
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        DetailsCarPage detailsCarPage = new DetailsCarPage();
-        AddCarPage addCarPage = new AddCarPage();
-        new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
-        addCarPage.clickByJse(catalogAuthPage.addCarButton);
-        addCarPage.addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
-        addCarPage.clickByJse(addCarPage.addCarButton);
+        driver.navigate().refresh();
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD).clickAddCarButton();
+        addCarPage.addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build()).clickSaveButton();
 
         addCarPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FORMAT_FOR_IMG_ADDED_CAR, PORSCHE.name(), ANY_MODEL))));
         String detailsCarURL = driver.getCurrentUrl();
@@ -141,26 +139,31 @@ public class CatalogTest extends BaseSeleniumTest{
         webDriverWait.until(ExpectedConditions.invisibilityOf(catalogAuthPage.successToast));
         catalogAuthPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FOR_DELETE_ADDED_CAR, PORSCHE.name(),ANY_MODEL))));
         catalogAuthPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FOR_CONFIRM_DELETE_MODAL, PORSCHE.name(),ANY_MODEL))));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(BASE_URL));
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(catalogAuthPage.titleSuccessToast, TITLE_SUCCESSFULLY_CAR_DELETE));
         assertEquals(TITLE_SUCCESSFULLY_CAR_DELETE, catalogAuthPage.titleSuccessToast.getText());
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(catalogAuthPage.messageSuccessToast, MESSAGE_SUCCESSFULLY_CAR_DELETE));
         assertEquals(MESSAGE_SUCCESSFULLY_CAR_DELETE, catalogAuthPage.messageSuccessToast.getText());
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.closeButtonSuccessToast));
         catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
         assertEquals(BASE_URL, driver.getCurrentUrl());
         driver.navigate().to(detailsCarURL);
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
         assertNotEquals(detailsCarURL, driver.getCurrentUrl());
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logo));
         catalogAuthPage.clickByJse(catalogAuthPage.logo);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 
     @Test
     public void editCarButton() {
+        driver.navigate().refresh();
         String carId;
-        DetailsCarPage detailsCarPage = new DetailsCarPage();
-        AddCarPage addCarPage = new AddCarPage();
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
         addCarPage.clickByJse(catalogAuthPage.addCarButton);
         addCarPage.addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
 
@@ -177,18 +180,19 @@ public class CatalogTest extends BaseSeleniumTest{
             catalogAuthPage.clickByJse(driver.findElement(By.xpath(String.format(XPATH_FOR_CONFIRM_DELETE_MODAL, PORSCHE.name(), ANY_MODEL))));
         }
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logo));
         catalogAuthPage.clickByJse(catalogAuthPage.logo);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 
     @Test
     public void deleteCarButtonThenModalCancel() {
+        driver.navigate().refresh();
         String detailsUrl;
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        DetailsCarPage detailsCarPage = new DetailsCarPage();
-        AddCarPage addCarPage = new AddCarPage();
-        new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
         addCarPage.clickByJse(catalogAuthPage.addCarButton);
         addCarPage.addCar(CarValue.builder().brand(PORSCHE).model(ANY_MODEL).bodyType(COUPE).build());
 
@@ -206,8 +210,11 @@ public class CatalogTest extends BaseSeleniumTest{
             catalogAuthPage.clickByJse(detailsCarPage.deleteCarModalButton);
         }
 
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logo));
         catalogAuthPage.clickByJse(catalogAuthPage.logo);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 
@@ -217,15 +224,17 @@ public class CatalogTest extends BaseSeleniumTest{
             LOGIN_URL
     })
     public void logo(String url){
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
+        driver.navigate().refresh();
+        logInPage.doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
         driver.get(url);
-        new LogInPage().openLoginPage().doLogin(ADMIN_USERNAME,ADMIN_PASSWORD);
         webDriverWait.until(ExpectedConditions.urlToBe(url));
         assertEquals(url, driver.getCurrentUrl());
         catalogAuthPage.clickByJse(catalogAuthPage.logo);
         webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
         assertEquals(BASE_URL, driver.getCurrentUrl());
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonHeader));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonHeader);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(catalogAuthPage.logoutButtonModal));
         catalogAuthPage.clickByJse(catalogAuthPage.logoutButtonModal);
     }
 }

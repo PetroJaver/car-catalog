@@ -49,12 +49,8 @@ public class CatalogAuthPage extends BaseSeleniumPage {
     }
 
     public AddCarPage clickAddCarButton() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {}
-
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(addCarButton));
-        addCarButton.click();
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(addCarButton));
+        clickByJse(addCarButton);
         return new AddCarPage();
     }
 }
