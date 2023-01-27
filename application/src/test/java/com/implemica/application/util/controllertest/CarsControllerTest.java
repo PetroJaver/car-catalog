@@ -1,7 +1,6 @@
 package com.implemica.application.util.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.implemica.model.dto.CarDTO;
 import com.implemica.model.service.CarServiceImpl;
 import com.implemica.security.JwtAuthenticationException;
 import com.implemica.security.JwtTokenProvider;
@@ -214,7 +213,7 @@ public class CarsControllerTest {
 
         when(carService.uploadImageCarById(eq(1L),any(MultipartFile.class))).thenReturn(true);
 
-        mockMvc.perform(multipart("/cars/uploadImage/1")
+        mockMvc.perform(multipart("/cars/1/uploadImage/")
                         .file(image)
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwtToken))
@@ -226,7 +225,7 @@ public class CarsControllerTest {
 
     @Test
     public void uploadImageCarByIdStatusBadRequest() throws Exception{
-        mockMvc.perform(multipart("/cars/uploadImage/1")
+        mockMvc.perform(multipart("/cars/1/uploadImage/")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwtToken))
                 .andExpect(status().isBadRequest());

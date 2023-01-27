@@ -15,11 +15,10 @@ public class CarValue {
     public String model;
     public CarBodyType bodyType;
     public CarTransmissionType transmissionType;
-    public Double engine;
-    public Integer year;
+    public String engine;
+    public String year;
     public String imageName;
     public String shortDescription;
     public String description;
     public List<String> options;
-    public Boolean isValid;
 }

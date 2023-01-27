@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {BodyType} from "../add-car/BodyType";
-import {TransmissionType} from "../add-car/TransmissionType";
+import {BodyType} from "../shared/enums/BodyType";
+import {TransmissionType} from "../shared/enums/TransmissionType";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CarService} from "../shared/service/car.service";
+import {CarService} from "../shared/services/car.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Car} from "../shared/models/Car";
-import {AuthService} from "../shared/service/auth.service";
+import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
-import {Brand} from "../add-car/Brand";
+import {Brand} from "../shared/enums/Brand";
 import {Location} from '@angular/common'
 import {CarDto} from "../shared/models/CarDto";
 
@@ -276,13 +276,21 @@ export class EditCarComponent implements OnInit,AfterViewInit {
           this.location.back();
       }
     }, error => {
-      if(error.status===400||error.status===404){
+      if(error.status===404){
         this.toast.error("Car fail update!", "Fail", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'
         })
         this.router.navigate(['/'])
+      }
+
+      if(error.status==409){
+        this.toast.info("Car already exist!", "Fail", {
+          progressBar: true,
+          timeOut: 5000,
+          progressAnimation: 'increasing'
+        })
       }
     })
   }
@@ -318,5 +326,10 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
       this.isUploadImage = false;
     }
+  }
+
+  isYearInt():boolean{
+    let num:number = this.year?.value;
+    return (num % 1 === 0);
   }
 }

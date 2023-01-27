@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Car} from "../models/Car";
-import {catchError, Observable, throwError} from "rxjs";
+import {Observable} from "rxjs";
 import {CarDto} from "../models/CarDto";
 
 @Injectable({
@@ -36,6 +36,6 @@ export class CarService {
   }
 
   uploadImage(body: FormData, id: number): Observable<void>{
-    return this.http.post<void>(`${this.baseUrl}uploadImage/${id}`, body);
+    return this.http.post<void>(`${this.baseUrl}${id}/uploadImage`, body);
   }
 }

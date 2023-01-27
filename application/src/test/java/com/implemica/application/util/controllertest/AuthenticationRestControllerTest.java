@@ -74,7 +74,7 @@ public class AuthenticationRestControllerTest {
 
     @Test
     public void authenticateUserNotExistTest() throws Exception {
-        when(userRepository.findByUsername(eq("notExistAdmin"))).thenThrow(new UsernameNotFoundException("User doesn't exists"));
+        when(userRepository.findByUsername(eq("notexistadmin"))).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -82,7 +82,7 @@ public class AuthenticationRestControllerTest {
                 .andExpect(status().isForbidden())
                 .andExpect(content().string("Invalid email/password combination"));
 
-        verify(userRepository, times(1)).findByUsername(eq("notExistAdmin"));
+        verify(userRepository, times(1)).findByUsername(eq("notexistadmin"));
         verifyNoMoreInteractions(userRepository);
     }
 

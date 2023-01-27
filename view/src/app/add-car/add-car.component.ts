@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {BodyType} from "./BodyType";
+import {BodyType} from "../shared/enums/BodyType";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CarService} from "../shared/service/car.service";
+import {CarService} from "../shared/services/car.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {Brand} from "./Brand";
+import {Brand} from "../shared/enums/Brand";
 import {Title} from "@angular/platform-browser";
-import {OptionType} from "./OptionType";
+import {OptionType} from "../shared/enums/OptionType";
 import {CarDto} from "../shared/models/CarDto";
 import {Location} from "@angular/common";
 
@@ -230,13 +230,12 @@ export class AddCarComponent implements OnInit,AfterViewInit {
       }
 
     },error => {
-      if(error.status==404){
-        this.toast.error("Car fail added!", "Fail", {
+      if(error.status==409){
+        this.toast.info("Car already exist!", "Fail", {
           progressBar: true,
           timeOut: 5000,
           progressAnimation: 'increasing'
         })
-        this.router.navigate(['/'])
       }
     })
   }
@@ -268,6 +267,11 @@ export class AddCarComponent implements OnInit,AfterViewInit {
       })
       this.pathImage = "../../assets/add-image.png"
     }
+  }
+
+  isYearInt():boolean{
+    let num:number = this.year?.value;
+    return (num % 1 === 0);
   }
 }
 

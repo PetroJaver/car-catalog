@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Car} from "../shared/models/Car";
-import {CarService} from "../shared/service/car.service";
+import {CarService} from "../shared/services/car.service";
 import {ToastrService} from "ngx-toastr";
-import {AuthService} from "../shared/service/auth.service";
+import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
-import {Brand} from "../add-car/Brand";
+import {Brand} from "../shared/enums/Brand";
 
 @Component({
   selector: 'app-album-car',

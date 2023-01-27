@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../shared/service/auth.service";
+import {AuthService} from "../shared/services/auth.service";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
 import {Location} from "@angular/common";

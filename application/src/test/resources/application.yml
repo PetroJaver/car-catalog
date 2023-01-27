@@ -1,0 +1,25 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA25NFHZZ5O47EOJGQ
+      secret-key: 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
+    region:
+      static: eu-west-3
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: carcatalogimages
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+server:
+  port: 8080

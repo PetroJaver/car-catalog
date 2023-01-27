@@ -41,6 +41,7 @@ public class CarServiceTest {
         assertEquals(EXAMPLE_CAR, returnedCar);
 
         verify(carRepository, times(1)).save(any(Car.class));
+
         verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
@@ -135,29 +136,41 @@ public class CarServiceTest {
 
     @Test
     public void findAllNotEmpty() {
-        when(carRepository.findAllByOrderById()).thenReturn(CAR_LIST);
+        when(carRepository.findAllByOrderByIdDesc()).thenReturn(CAR_LIST);
 
         assertEquals(CAR_LIST,carService.findAll());
 
-        verify(carRepository, times(1)).findAllByOrderById();
+        verify(carRepository, times(1)).findAllByOrderByIdDesc();
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }
 
     @Test
     public void findAllEmpty() {
-        when(carRepository.findAllByOrderById()).thenReturn(null);
+        when(carRepository.findAllByOrderByIdDesc()).thenReturn(null);
 
         assertNull(carService.findAll());
 
-        verify(carRepository, times(1)).findAllByOrderById();
+        verify(carRepository, times(1)).findAllByOrderByIdDesc();
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
     }
 
     @Test
     public void uploadImageExistCarByIdWithDefaultImage() {
-        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
+        Car car = new Car(EXAMPLE_CAR.getId(),
+                EXAMPLE_CAR.getImageName(),
+                EXAMPLE_CAR.getBrand(),
+                EXAMPLE_CAR.getModel(),
+                EXAMPLE_CAR.getBodyType(),
+                EXAMPLE_CAR.getYear(),
+                EXAMPLE_CAR.getTransmissionType(),
+                EXAMPLE_CAR.getEngineSize(),
+                EXAMPLE_CAR.getShortDescription(),
+                EXAMPLE_CAR.getDescription(),
+                EXAMPLE_CAR.getOptionsList());
+
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
         when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
                 .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
         when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
@@ -169,8 +182,6 @@ public class CarServiceTest {
         verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(storageService);
-
-        EXAMPLE_CAR.setImageName(DEFAULT_IMAGE_PATH);
     }
 
     @Test

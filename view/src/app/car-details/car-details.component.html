@@ -1,6 +1,6 @@
 <div class="container-fluid" style="padding: 1% 8%">
   <div class="container my-2 text-center w-100 ">
-    <h1 id="brand-model">{{((car.brand.replace('_', ' '))|titlecase)+" " + car.model}}</h1>
+    <h1 id="brand-model">{{getValueBrandByStringKey(car.brand)}} {{car.model}}</h1>
   </div>
 
   <div class="container p-4 p-lg-5 text-bg-dark rounded-4 my-4">
@@ -13,7 +13,7 @@
         <div class="row gx-0 gy-4">
           <div class="row g-0">
             <h4 class="col-7 col-lg-7">Body:</h4>
-            <h4 id="body-type" class="col-5 col-lg-5 text-secondary">{{car.bodyType|titlecase}}</h4>
+            <h4 id="body-type" class="col-5 col-lg-5 text-secondary">{{getValueBodyTypeByStringKey(car.bodyType)}}</h4>
           </div>
 
           <div class="row g-0">
@@ -23,8 +23,8 @@
 
           <div *ngIf="car.engineSize!=null" class="row g-0">
             <h4 class="col-7 col-lg-7" *ngIf="car.engineSize!=0">Engine size: </h4>
-            <h4 id="engine-electric" class="col-7 col-lg-7" *ngIf="car.engineSize==0">Electric</h4>
-            <h4 id="engine" class="col-5 col-lg-5 text-secondary" *ngIf="car.engineSize!=0">{{car.engineSize|number}}L</h4>
+            <h4 class="col-7 col-lg-7" *ngIf="car.engineSize==0">Engine: </h4>
+            <h4 id="engine" class="col-5 col-lg-5 text-secondary">{{car.engineSize==0?'Electric':((car.engineSize|number) + 'L')}}</h4>
           </div>
 
           <div *ngIf="car.year!=null" class="row g-0">
@@ -47,13 +47,13 @@
 
         <h4>Optional list:</h4>
         <ul class="ps-3 row g-0">
-          <li *ngFor="let option of car.optionsList" class="col-md-6 col-lg-4 m-0"><h5 id = "option-{{option}}"
-            class="text-secondary">{{option}}</h5></li>
+          <li *ngFor="let option of car.optionsList" class="col-md-6 col-lg-4 m-0"><h5 id = "option-'{{option}}'"
+            class="text-secondary option-item">{{option}}</h5></li>
         </ul>
 
         <div *ngIf="auth.isAuthenticated()" class="d-flex justify-content-end">
           <div>
-            <button id="delete-car-button" type="button" class="btn btn-danger mr-3" data-bs-toggle="modal" data-bs-target="#modal">
+            <button id="delete-car-button" type="button" class="btn btn-danger mr-3" data-bs-toggle="modal" data-bs-target="#delete-car-modal">
               <span class="d-flex align-items-center"><img src="assets/icons/trash.png" class="me-2">Delete</span>
             </button>
 
@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="delete-car-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0">
@@ -80,7 +80,7 @@
           <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
         </button>
 
-        <button id="delete-car-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()">
+        <button id="confirm-car-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()">
           <span class="d-flex align-items-center"><img src="assets/icons/trash.png" class="me-2">Delete</span>
         </button>
       </div>

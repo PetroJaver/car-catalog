@@ -8,6 +8,10 @@ import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.model.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,13 +29,16 @@ public class CarServiceImpl implements CarService {
     String defaultImagePath;
 
     @Override
+    @CacheEvict(value = "carsList", allEntries = true)
     public Car saveCar(CarDTO carDto) {
         Car car = getCarFromCarDto(carDto);
+
         car.setImageName(defaultImagePath);
         return carRepository.save(car);
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public boolean deleteCarById(Long id) {
         if (carRepository.existsById(id)) {
             String imageName = carRepository.findById(id).orElseThrow().getImageName();
@@ -47,16 +54,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @Cacheable(key = "#id", value = "cars", unless = "#result == null")
     public Car findCarById(Long id) {
         return carRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Cacheable(value = "carsList", unless = "#result == null")
     public List<Car> findAll() {
-        return carRepository.findAllByOrderById();
+        return carRepository.findAllByOrderByIdDesc();
     }
 
     @Override
+    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public boolean uploadImageCarById(Long id, MultipartFile newImage) {
         Car oldCar = carRepository.findById(id).orElse(null);
 
@@ -76,6 +86,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    @CachePut(key = "#id", value = "cars")
+    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public Car updateCarById(Long id, CarDTO carDto) {
         Car oldCar = carRepository.findById(id).orElse(null);
 

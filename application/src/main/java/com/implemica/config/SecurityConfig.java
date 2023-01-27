@@ -28,7 +28,8 @@ public class SecurityConfig{
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/v3/api-docs",
-            "/webjars/**"
+            "/webjars/**",
+            "/h2-console/**"
     };
 
     @Bean
@@ -42,6 +43,7 @@ public class SecurityConfig{
                 .permitAll()
                 .and()
                 .apply(jwtConfigurer);
+        http.headers().frameOptions().disable();
 
         return http.build();
     }

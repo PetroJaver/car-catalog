@@ -1,66 +1,181 @@
 package com.implemica.selenium.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class DetailsCarPage extends BaseSeleniumPage{
-    @FindBy(how = How.ID, using = "brand-model")
-    public WebElement brandModelText;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    @FindBy(how = How.ID, using = "image")
-    public WebElement image;
+import static com.implemica.selenium.helpers.BaseTestValues.*;
 
-    @FindBy(how = How.ID, using = "body-type")
-    public WebElement bodyTypeText;
+public class DetailsCarPage extends BaseSeleniumPage {
+    @FindBy(id = "logo")
+    private WebElement logo;
 
-    @FindBy(how = How.ID, using = "transmission")
-    public WebElement transmissionTypeText;
+    @FindBy(id = "brand-model")
+    private WebElement brandModelText;
 
-    @FindBy(how = How.ID, using = "engine-electric")
-    public WebElement engineElectricText;
+    @FindBy(id = "image")
+    private WebElement image;
 
-    @FindBy(how = How.ID, using = "engine")
-    public  WebElement engineText;
+    @FindBy(id = "body-type")
+    private WebElement bodyTypeText;
 
-    @FindBy(how = How.ID, using = "year")
-    public WebElement yearText;
+    @FindBy(id = "transmission")
+    private WebElement transmissionTypeText;
 
-    @FindBy(how = How.ID, using = "short-description")
-    public WebElement shortDescriptionText;
+    @FindBy(id = "engine")
+    private WebElement engineText;
 
-    @FindBy(how = How.ID, using = "description")
-    public WebElement descriptionText;
+    @FindBy(id = "year")
+    private WebElement yearText;
 
-    @FindBy(how = How.ID, using = "delete-car-button")
-    public WebElement deleteCarButton;
+    @FindBy(id = "short-description")
+    private WebElement shortDescriptionText;
 
-    @FindBy(how = How.ID, using = "update-car-button")
-    public WebElement updateCarButton;
+    @FindBy(id = "description")
+    private WebElement descriptionText;
 
-    @FindBy(how = How.ID, using = "delete-car-modal-button")
-    public WebElement deleteCarModalButton;
+    @FindBy(id = "delete-car-button")
+    private WebElement deleteCarButton;
 
-    @FindBy(how = How.ID, using = "cancel-modal-button")
-    public WebElement closeModalButton;
+    @FindBy(id = "update-car-button")
+    private WebElement editCarButton;
+
+    @FindBy(id = "confirm-car-modal-button")
+    private WebElement confirmDeleteCarModalButton;
+
+    @FindBy(id = "cancel-modal-button")
+    private WebElement cancelDeleteCarModalButton;
+
+    @FindBy(id = "delete-car-modal")
+    private WebElement deleteCarModal;
 
 
-    public DetailsCarPage(){
-        PageFactory.initElements(driver,this);
+    public DetailsCarPage() {
+        PageFactory.initElements(driver, this);
     }
 
-    public DetailsCarPage deleteCar(){
-        scrollDown();
-        CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(deleteCarButton));
+    public String getTitleCar(String waitedValue) {
+        webDriverWait.until(ExpectedConditions.textToBePresentInElement(brandModelText, waitedValue));
+
+        return brandModelText.getText();
+    }
+
+    public String getEngineCar(String waitedValue) {
+        String engine = null;
+
+        if (waitedValue != null) {
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(engineText, waitedValue));
+            engine = engineText.getText();
+        }
+
+        return engine;
+    }
+
+    public String getBodyTypeCar(String waitedValue) {
+        String bodyType = null;
+
+        if (waitedValue != null) {
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(bodyTypeText, waitedValue));
+            bodyType = bodyTypeText.getText();
+        }
+
+        return bodyType;
+    }
+
+    public String getTransmissionTypeCar(String waitedValue) {
+        String transmissionType = null;
+        if (waitedValue != null) {
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(transmissionTypeText, waitedValue));
+            transmissionType = transmissionTypeText.getText();
+        }
+        return transmissionType;
+    }
+
+    public String getImageSrc() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(image));
+
+        return image.getAttribute("src");
+    }
+
+    public String getShortDescriptionCar(String waitedValue) {
+        String shortDescription = null;
+
+        if (waitedValue != null) {
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(shortDescriptionText, waitedValue));
+            shortDescription = shortDescriptionText.getText();
+        }
+
+        return shortDescription;
+    }
+
+    public String getDescriptionCar(String waitedValue) {
+        String description = null;
+
+        if (waitedValue != null) {
+            webDriverWait.until(ExpectedConditions.textToBePresentInElement(descriptionText, waitedValue));
+            description = descriptionText.getText();
+        }
+
+        return description;
+    }
+
+    public List<String> getAllOptions() {
+        List<String> listOptions = driver.findElements(By.className("option-item"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
+        return listOptions.isEmpty() ? null : listOptions;
+    }
+
+    public DetailsCarPage clickDeleteButton() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(deleteCarButton));
         clickByJse(deleteCarButton);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(deleteCarModalButton));
-        clickByJse(deleteCarModalButton);
-        webDriverWait.until(ExpectedConditions.visibilityOf(catalogAuthPage.successToast));
-        catalogAuthPage.clickByJse(catalogAuthPage.closeButtonSuccessToast);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(catalogAuthPage.successToast));
+        webDriverWait.until(ExpectedConditions.visibilityOf(deleteCarModal));
+
+        return this;
+    }
+
+    public EditCarPage clickEditButton() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(editCarButton));
+        clickByJse(editCarButton);
+        webDriverWait.until(ExpectedConditions.urlMatches(EDIT_URL_MATCHES));
+        webDriverWait.until(ExpectedConditions.titleContains(TITLE_PART_EDIT));
+
+        return new EditCarPage();
+    }
+
+    public CatalogAuthPage clickConfirmDeleteCarModal() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(confirmDeleteCarModalButton));
+        clickByJse(confirmDeleteCarModalButton);
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(deleteCarModal));
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
+
+        return new CatalogAuthPage();
+    }
+
+    public CatalogAuthPage clickLogo() {
+        scrollUp();
+        webDriverWait.until(ExpectedConditions.visibilityOf(logo));
+        clickByJse(logo);
+        webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
+        webDriverWait.until(ExpectedConditions.titleContains(TITLE_BASE_PAGE));
+
+        return new CatalogAuthPage();
+    }
+
+    public DetailsCarPage clickCancelDeleteCarModal() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(cancelDeleteCarModalButton));
+        clickByJse(cancelDeleteCarModalButton);
+        webDriverWait.until(ExpectedConditions.invisibilityOf(deleteCarModal));
+        webDriverWait.until(ExpectedConditions.urlMatches(DETAILS_URL_MATCHES));
+
         return this;
     }
 }

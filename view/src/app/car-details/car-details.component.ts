@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {CarService} from "../shared/service/car.service";
+import {CarService} from "../shared/services/car.service";
 import {Car} from "../shared/models/Car";
 import {ToastrService} from "ngx-toastr";
-import {AuthService} from "../shared/service/auth.service";
+import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
-import {Brand} from "../add-car/Brand";
+import {Brand} from "../shared/enums/Brand";
+import {BodyType} from "../shared/enums/BodyType";
 
 @Component({
   selector: 'app-car-details',
@@ -55,6 +56,15 @@ export class CarDetailsComponent {
     for (let i = 0; i < Object.keys(Brand).length; i++) {
       if(Object.keys(Brand)[i] === key){
         return Object.values(Brand)[i].toString()
+      }
+    }
+    return  "Brand not found";
+  }
+
+  getValueBodyTypeByStringKey(key:string): any{
+    for (let i = 0; i < Object.keys(BodyType).length; i++) {
+      if(Object.keys(BodyType)[i] === key){
+        return Object.values(BodyType)[i].toString()
       }
     }
     return  "Brand not found";

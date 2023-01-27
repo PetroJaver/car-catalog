@@ -1,0 +1,1 @@
+insert into users values ('1','$2a$12$cbmOf7FHs4AyyY8khwUQ4eeBQVpcGqGA1u6oRokRzx784u3jOxEP6','ADMIN','ACTIVE','admin');

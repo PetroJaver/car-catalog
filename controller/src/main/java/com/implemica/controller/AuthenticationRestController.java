@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@Api(tags = "Authentication", description = "Operation with admin")
+@Api(tags = "Authentication", description = "Operation with admin", protocols = "http")
 public class AuthenticationRestController {
 
     private final AuthenticationManager authenticationManager;
@@ -52,8 +52,9 @@ public class AuthenticationRestController {
             " you should send the body following the example with the login email and the correct password.")
                                                                   @RequestBody() @Valid AuthenticationRequestDTO body) {
         try {
+            body.setUsername(body.getUsername().toLowerCase());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword()));
-            User user = userRepository.findByUsername(body.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+             User user = userRepository.findByUsername(body.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
             String token = jwtTokenProvider.createToken(body.getUsername(), user.getRole().name());
             AuthorizationResponse authorizationResponse = AuthorizationResponse.builder().username(body.getUsername()).token(token).build();
             return new ResponseEntity<>(authorizationResponse, HttpStatus.OK);

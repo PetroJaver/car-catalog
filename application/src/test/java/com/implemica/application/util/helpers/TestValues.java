@@ -18,7 +18,7 @@ import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 
 public class TestValues {
-    private static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +
+    public static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +
             "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
             "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
             "It has survived not only five centuries, but also the leap into electronic typesetting, " +
@@ -26,7 +26,7 @@ public class TestValues {
             "sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like " +
             "Aldus PageMaker including versions of Lorem Ipsum.";
 
-    private static final String SHORT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+    public static final String SHORT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Etiam pharetra sagittis elit, non efficitur arcu mollis porttitor.";
 
     public static final String DEFAULT_IMAGE_PATH = "defaultImageCar.png";
@@ -78,7 +78,7 @@ public class TestValues {
     static {
         MultipartFile initialTestCarImage;
         try{
-            initialTestCarImage = new MockMultipartFile(NOT_DEFAULT_IMAGE_PATH, FileUtils.readFileToByteArray(new File("src/test/resources/files/testCarImage.png")));
+            initialTestCarImage = new MockMultipartFile(NOT_DEFAULT_IMAGE_PATH, FileUtils.readFileToByteArray(new File("src/test/resources/files/testCarImagePorshe911.png")));
         }catch (IOException e){
             initialTestCarImage = null;
         }

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {User} from "../interface/user";
+import {User} from "../interfaces/user";
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {Location} from "@angular/common";

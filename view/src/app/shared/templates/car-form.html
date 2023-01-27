@@ -129,12 +129,12 @@
             <div class="row g-0">
               <label for="engine" class="col-6 col-md-4 form-label fs-4">Year:</label>
               <div class="col-6 col-sm-5 col-lg-3">
-                <input type="number" placeholder="Year" class="form-control" min="1879" max="2101" id="year" [class.is-valid]="year?.valid&&year?.value!=null"
-                       [class.is-invalid]="year?.invalid&&year?.dirty" formControlName="year">
+                <input type="number" placeholder="Year" class="form-control" min="1880" max="2101" id="year" [class.is-valid]="year?.valid&&year?.value!=null&&isYearInt()"
+                       [class.is-invalid]="(year?.invalid||!isYearInt())&&year?.dirty" formControlName="year">
                 <div id="invalid-feedback-year" class="invalid-feedback">
+                  <span [hidden]="year?.invalid">Year must be integer!</span>
                   <span [hidden]="!year?.errors?.['max']">Max year 2100!</span>
                   <span [hidden]="!year?.errors?.['min']">Min year 1880!</span>
-                  <span [hidden]="!year?.errors?.['required']">Required!</span>
                 </div>
               </div>
             </div>
@@ -236,12 +236,12 @@
         <!--buttons-->
         <div>
           <div class="row g-0 d-flex justify-content-end">
-            <button id="cancel-form-button" type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancelForm"
+            <button id="cancel-form-button" type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancel-form-modal"
                     data-bs-toggle="modal">
               <span class="d-flex align-items-center"><img src="../../../assets/icons/close.png" class="me-2">Cancel</span>
             </button>
 
-            <button id="add-car-button" type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid">
+            <button id="add-car-button" type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid||!isYearInt()">
             <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png"
                                                          class="me-2">Save</span>
             </button>
@@ -254,7 +254,7 @@
 </div>
 
 
-<div class="modal fade" id="cancelForm" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="cancel-form-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0">

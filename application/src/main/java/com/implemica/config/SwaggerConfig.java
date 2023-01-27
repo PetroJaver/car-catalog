@@ -22,7 +22,9 @@ public class SwaggerConfig {
                         "In api there is a standard user who has read-only access, " +
                         "and there is an admin who has more functionality: delete a car, " +
                         "update cars, add. The api has 7 endpoints with which you can work with it. " +
-                        "Follow the instructions of the endpoints to successfully work with the api.")
+                        "Follow the instructions of the endpoints to successfully work with the api.\n\n" +
+                        "Api has 2 controllers for admin authorization and crud operations with car catalog.\n\n" +
+                        "To read cars from the catalog no authorization is needed, and to add and edit is necessary.")
                 .title("Car catalog")
                 .version("1.0")
                 .contact(new Contact("Petro Sliusarenko","","petslu23@gmail.com"))
@@ -41,7 +43,6 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-
 
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");
