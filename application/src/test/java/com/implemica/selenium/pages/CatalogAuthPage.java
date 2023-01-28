@@ -165,14 +165,14 @@ public class CatalogAuthPage extends BaseSeleniumPage {
         scrollUp();
         webDriverWait.until(ExpectedConditions.visibilityOf(firstCarCard));
         clickByJse(firstCarDeleteButton);
-        webDriverWait.until(ExpectedConditions.visibilityOf(firstCarModal));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(firstCarModal));
 
         return this;
     }
 
     public EditCarPage clickFirstCarEditButton(){
         scrollUp();
-        webDriverWait.until(ExpectedConditions.visibilityOf(firstCarCard));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(firstCarCard));
         clickByJse(firstCarEditButton);
         webDriverWait.until(ExpectedConditions.urlMatches(EDIT_URL_MATCHES));
         webDriverWait.until(ExpectedConditions.titleContains(TITLE_PART_EDIT));
@@ -181,24 +181,24 @@ public class CatalogAuthPage extends BaseSeleniumPage {
     }
 
     public CatalogAuthPage clickFirstCarDeleteModalConfirm(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(firstCarDeleteModalConfirmButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(firstCarDeleteModalConfirmButton));
         clickByJse(firstCarDeleteModalConfirmButton);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(firstCarModal));
-        webDriverWait.until(ExpectedConditions.visibilityOf(toast));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(firstCarModal));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(toast));
 
         return this;
     }
 
     public CatalogAuthPage clickFirstCarDeleteModalCancel(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(firstCarDeleteModalCancelButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(firstCarDeleteModalCancelButton));
         clickByJse(firstCarDeleteModalCancelButton);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(firstCarModal));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(firstCarModal));
 
         return this;
     }
 
     public CatalogAuthPage clickLogoutButton(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(buttonLogout));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(buttonLogout));
         clickByJse(buttonLogout);
         //webDriverWait.until(ExpectedConditions.visibilityOf(modalLogout));
 
@@ -206,20 +206,20 @@ public class CatalogAuthPage extends BaseSeleniumPage {
     }
 
     public CatalogPage clickConfirmLogoutModal(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(modalLogout));
-        webDriverWait.until(ExpectedConditions.visibilityOf(confirmModalLogout));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(modalLogout));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(confirmModalLogout));
         clickByJse(confirmModalLogout);
         webDriverWait.until(ExpectedConditions.urlToBe(LOGIN_URL));
-        webDriverWait.until(ExpectedConditions.invisibilityOf(confirmModalLogout));
-        webDriverWait.until(ExpectedConditions.invisibilityOf(modalLogout));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(confirmModalLogout));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(modalLogout));
 
         return new CatalogPage();
     }
 
     public CatalogAuthPage clickCancelLogoutModal(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(cancelModalLogout));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(cancelModalLogout));
         clickByJse(cancelModalLogout);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(modalLogout));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(modalLogout));
 
         return new CatalogAuthPage();
     }

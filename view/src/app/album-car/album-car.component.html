@@ -10,18 +10,14 @@
           <div class="d-flex align-items-center justify-content-center w-100 img-card-height"
                style="position: relative">
             <div *ngIf="auth.isAuthenticated()" style="position: absolute;top:0px;width: 100%" class="text-end">
-              <button [id]="'car-edit-button-' + i" type="button"
-                      class="btn btn-warning mr-1 mr-lg-2 card-button"
-                      [routerLink]="['edit', car.id]"
-                      data-toggle="tooltip" title="Edit car">
-                <span class="d-flex align-items-center justify-content-center fw-semibold"
-                      style="height: 28px;width: 20px"><img
-                  src="assets/icons/pen-24.png"></span>
+              <button [id]="'car-edit-button-' + i" type="button" class="btn btn-warning me-1 me-lg-2 card-button" [routerLink]="['edit', car.id]"
+                      ngbTooltip="Edit car" placement="top">
+                <span class="d-flex align-items-center justify-content-center fw-semibold" style="height: 28px;width: 20px"><img src="assets/icons/pen-24.png"></span>
               </button>
 
               <button [id]="'car-delete-button-'+i" type="button"
-                      class="btn btn-danger card-button" data-bs-toggle="modal"
-                      data-toggle="tooltip" title="Delete car" [attr.data-bs-target]="'#modal-'+i">
+                      class="btn btn-danger card-button" (click)="open(carModal)"
+                      ngbTooltip="Delete car" placement="top" [attr.data-bs-target]="'#modal-'+i">
                 <span class="d-flex align-items-center justify-content-center" style="height: 28px;width: 20px"><img
                   src="assets/icons/trash-24.png"></span>
               </button>
@@ -41,7 +37,7 @@
           <p class="mb-0" style="white-space: pre-wrap">{{car.shortDescription}}</p>
         </div>
 
-        <div class="modal fade" [id]="'modal-'+i" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<!--        <div class="modal fade" [id]="'modal-'+i" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
           <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content border-0">
               <div class="modal-header border-0">
@@ -61,8 +57,24 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
 
+
+        <ng-template #carModal let-modal>
+          <div class="modal-header border-0 d-flex justify-content-center">
+            <h6 class="modal-title text-center" id="modal-basic-title">Are you sure you want to
+              delete the {{getValueBrandByStringKey(car.brand)}} {{car.model}}?</h6>
+          </div>
+          <div [id]="'modal-'+i" class="d-flex justify-content-center modal-footer border-0 p-3">
+            <button [id]="'cancel-modal-button-'+i" id="confirm-modal-button" type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">
+              <span class="d-flex align-items-center"><img src="../../../assets/icons/ban.png" class="me-2">Cancel</span>
+            </button>
+
+            <button [id]="'confirm-modal-button-'+i" type="button" class="btn btn-danger" (click)="modal.close('Save click');delete(car.id)">
+              <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png" class="me-2">Delete</span>
+            </button>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

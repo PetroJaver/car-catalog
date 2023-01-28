@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
 import {Brand} from "../shared/enums/Brand";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-album-car',
@@ -17,19 +18,36 @@ export class AlbumCarComponent implements OnInit{
 
   noCars: boolean = false;
 
-  constructor(public carService: CarService, private toast: ToastrService, public auth: AuthService,private titleService: Title) {
+  constructor(private modalService:NgbModal, public carService: CarService, private toast: ToastrService, public auth: AuthService,private titleService: Title) {
     this.titleService.setTitle('Car catalog');
   }
 
   ngOnInit(): void {
     this.getCar()
+  }
 
-    // @ts-ignore
-    $(document).ready(function() {
+  // @ts-ignore
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm"}).result.then((result) => {
       // @ts-ignore
-      $('body').tooltip({ selector: '[data-toggle=tooltip]', trigger : 'hover',delay: {"show": 800, "hide": 100}})
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // @ts-ignore
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
 
+  private getDismissReason(reason: any): string {
+    // @ts-ignore
+    if (reason === ModalOfDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else { // @ts-ignore
+      if (reason === ModalOfDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
   }
 
   delete(id: number): void {

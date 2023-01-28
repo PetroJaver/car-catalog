@@ -11,6 +11,7 @@ import {Title} from "@angular/platform-browser";
 import {Brand} from "../shared/enums/Brand";
 import {Location} from '@angular/common'
 import {CarDto} from "../shared/models/CarDto";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-edit-car',
@@ -57,17 +58,11 @@ export class EditCarComponent implements OnInit,AfterViewInit {
     }
   );
 
-  constructor(private auth: AuthService,public location: Location, private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService, private titleService: Title) {
+  constructor(private auth: AuthService,private modalService:NgbModal,public location: Location, private activateRoute: ActivatedRoute, private fb: FormBuilder, private carService: CarService, private router: Router, private toast: ToastrService, private titleService: Title) {
     this.id = activateRoute.snapshot.params['id'];
   }
 
   ngOnInit(): void {
-    // @ts-ignore
-    $(document).ready(function() {
-      // @ts-ignore
-      $('.tooltip').not(this).hide();
-    });
-
     window.addEventListener('storage', (event) => {
       if (event.storageArea == localStorage) {
         let token = localStorage.getItem('auth-token');
@@ -95,6 +90,30 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       }
 
     })
+  }
+
+  // @ts-ignore
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm"}).result.then((result) => {
+      // @ts-ignore
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // @ts-ignore
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    // @ts-ignore
+    if (reason === ModalOfDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else { // @ts-ignore
+      if (reason === ModalOfDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
   }
 
   ngAfterViewInit() {

@@ -242,14 +242,14 @@ public class LogInTest extends BaseSeleniumTest {
         whenNotSuccessfulLoginCase("adminn", "admin");
         whenNotSuccessfulLoginCase("petro", "petroo");
 
-        whenNotSuccessfulLoginCase(dataFactory.getFirstName(), dataFactory.getRandomChars(4));
-        whenNotSuccessfulLoginCase(dataFactory.getFirstName(), dataFactory.getFirstName());
+        whenNotSuccessfulLoginCase(getFirstNameMore4Chars(), dataFactory.getRandomChars(4));
+        whenNotSuccessfulLoginCase(getFirstNameMore4Chars(), getFirstNameMore4Chars());
         whenNotSuccessfulLoginCase(dataFactory.getRandomChars(4), dataFactory.getLastName());
         whenNotSuccessfulLoginCase(dataFactory.getRandomChars(4), dataFactory.getRandomChars(4));
         whenNotSuccessfulLoginCase(dataFactory.getRandomChars(20), dataFactory.getRandomChars(4));
         whenNotSuccessfulLoginCase(dataFactory.getLastName(), dataFactory.getRandomChars(20));
-        whenNotSuccessfulLoginCase(dataFactory.getFirstName(), dataFactory.getRandomWord(4, 20));
-        whenNotSuccessfulLoginCase(dataFactory.getFirstName(), dataFactory.getRandomChars(4, 20));
+        whenNotSuccessfulLoginCase(getFirstNameMore4Chars(), dataFactory.getRandomWord(4, 20));
+        whenNotSuccessfulLoginCase(getFirstNameMore4Chars(), dataFactory.getRandomChars(4, 20));
         whenNotSuccessfulLoginCase(dataFactory.getRandomChars(4, 20), dataFactory.getRandomChars(4, 20));
         //endregion
     }

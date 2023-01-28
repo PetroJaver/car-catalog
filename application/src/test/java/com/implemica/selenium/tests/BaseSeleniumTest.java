@@ -250,6 +250,10 @@ public class BaseSeleniumTest {
         return isImagesEquals;
     }
 
+    public String getFirstNameMore4Chars(){
+        return Stream.generate(() -> dataFactory.getFirstName()).filter(name -> name.length() > 4).findFirst().orElseThrow();
+    }
+
     public Boolean isImagesEqualsByUrl(String expectedImageUrl, String actualImageUrl) {
         Boolean isImagesEquals = false;
         try {

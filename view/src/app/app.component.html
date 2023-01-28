@@ -8,14 +8,14 @@
           <img src="../assets/logo.svg" height="47" width="168" class="d-inline-block align-middle me-2" style="cursor: pointer">
         </a>
 
-        <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-                class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div id="navbarSupportedContent" class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav mb-2 mb-lg-0">
 
-            <li id="user-avatar" class="nav-item d-flex align-items-center py-2 ms-1" *ngIf="auth.isAuthenticated()">
+            <li id="user-avatar" class="nav-item d-flex align-items-center py-2 ms-1 " *ngIf="auth.isAuthenticated()">
               <span class="d-flex align-items-center">
                 <img src="assets/icons/user.png" width="30" class="me-2">
                 <h6 class="d-inline-block mt-2">Petro</h6>
@@ -27,7 +27,7 @@
                 <span class="d-flex align-items-center"><img src="assets/icons/plus%20.png" class="me-2">Add car</span>
               </button>
 
-              <button id="logout-button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-logout">
+              <button id="logout-button" class="btn btn-danger" (click)="open(logoutmodal)">
                 <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
               </button>
             </li>
@@ -58,7 +58,7 @@
        style="position: fixed;bottom: 60px" width="30">
 </div>
 
-<div class="modal fade" id="modal-logout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="modal-logout" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0 d-flex justify-content-center">
@@ -75,5 +75,21 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
+
+
+<ng-template #logoutmodal let-modal>
+  <div class="modal-header border-0 d-flex justify-content-center">
+    <h6 class="modal-title" id="modal-basic-title">Are you sure you want to logout?</h6>
+  </div>
+  <div id="modal-logout" class="d-flex justify-content-center modal-footer border-0 p-3">
+    <button id="cancel-modal-logout" type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">
+      <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
+    </button>
+
+    <button id="confirm-modal-logout" type="button" class="btn btn-danger" routerLink="login" (click)="auth.logout();modal.close('Save click')">
+      <span class="d-flex align-items-center"><img src="assets/icons/logout.png" class="me-2">Logout</span>
+    </button>
+  </div>
+</ng-template>
 

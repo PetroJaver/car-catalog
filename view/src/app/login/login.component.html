@@ -2,11 +2,10 @@
   <div class="text-center">
     <div class="container-md text-bg-dark rounded-3 col-lg-3 col-sm-6 col-12 p-4">
       <div class="form-signin w-100">
-        <form [formGroup]="user" (ngSubmit)="onSubmit()">
-          <img src="../../assets/logo.svg" alt="" width="100">
-          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-          <div class="col-12 mb-2">
+        <img src="../../assets/logo.svg" alt="" width="100">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <form [formGroup]="user" (ngSubmit)="onSubmit()" class="row gy-3">
+          <div class="px-4">
             <label for="username" class="form-label w-100 text-start fs-4 required">Username:</label>
             <div class="input-group" [class.is-invalid]="username?.invalid&&username?.dirty">
               <input class="form-control" placeholder="Username" aria-describedby="basic-addon" maxlength="21"
@@ -22,7 +21,7 @@
             </div>
           </div>
 
-          <div class="col-12 mb-2">
+          <div class="px-4">
             <label for="password" class="form-label w-100 text-start fs-4 required">Password:</label>
             <div class="input-group" [class.is-invalid]="password?.invalid&&password?.dirty">
               <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2"
@@ -38,14 +37,20 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-end pe-3 mt-3">
-            <button id="cancel-button" type="button" class="btn btn-danger col-auto me-3" (click)="location.back()">
-              <span class="d-flex align-items-center"><img src="assets/icons/close.png" class="me-2">Cancel</span>
-            </button>
-
-            <button id="submit-button" type="submit" class="btn btn-success col-auto" style="margin-right: -1px" [disabled]="!user.valid">
-              <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Login</span>
-            </button>
+          <div class="px-4">
+            <div class="row g-0 d-flex justify-content-end">
+              <div class="col-6 col-sm-6 d-flex justify-content-start">
+                <button id="cancel-button" type="button" class="btn btn-danger" (click)="location.back()">
+                  <span class="d-flex align-items-center"><img src="assets/icons/close.png" class="me-2">Cancel</span>
+                </button>
+              </div>
+              <div class="col-6 col-sm-4 d-flex justify-content-end">
+                <button id="submit-button" type="submit" class="btn btn-success" style="margin-right: -1px"
+                        [disabled]="!user.valid">
+                  <span class="d-flex align-items-center"><img src="assets/icons/check.png" class="me-2">Login</span>
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>

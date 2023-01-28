@@ -53,13 +53,12 @@
 
         <div *ngIf="auth.isAuthenticated()" class="d-flex justify-content-end">
           <div>
-            <button id="delete-car-button" type="button" class="btn btn-danger mr-3" data-bs-toggle="modal" data-bs-target="#delete-car-modal">
+            <button id="delete-car-button" type="button" class="btn btn-danger me-3" (click)="open(deleteByIdmodal)">
               <span class="d-flex align-items-center"><img src="assets/icons/trash.png" class="me-2">Delete</span>
             </button>
 
             <button id="update-car-button" type="button" class="btn btn-warning" [routerLink]="['/edit', car.id]">
-            <span class="d-flex align-items-center fw-semibold"><img src="assets/icons/pen.png"
-                                                                     class="me-2">Edit</span>
+            <span class="d-flex align-items-center fw-semibold"><img src="assets/icons/pen.png" class="me-2">Edit</span>
             </button>
           </div>
         </div>
@@ -69,7 +68,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="delete-car-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="delete-car-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0">
@@ -86,4 +85,19 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
+
+<ng-template #deleteByIdmodal let-modal>
+  <div class="modal-header border-0 d-flex justify-content-center">
+    <h6 class="modal-title text-center" id="modal-basic-title">Are you sure you want to delete the car?</h6>
+  </div>
+  <div id="delete-car-modal" class="d-flex justify-content-center modal-footer border-0 p-3">
+    <button id="cancel-modal-button" type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">
+      <span class="d-flex align-items-center"><img src="assets/icons/ban.png" class="me-2">Cancel</span>
+    </button>
+
+    <button id="confirm-car-modal-button" type="button" class="btn btn-danger" (click)="delete();modal.close('Save click')">
+      <span class="d-flex align-items-center"><img src="assets/icons/trash.png" class="me-2">Delete</span>
+    </button>
+  </div>
+</ng-template>

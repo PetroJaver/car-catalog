@@ -9,6 +9,7 @@ import {Title} from "@angular/platform-browser";
 import {OptionType} from "../shared/enums/OptionType";
 import {CarDto} from "../shared/models/CarDto";
 import {Location} from "@angular/common";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-add-car',
@@ -46,7 +47,7 @@ export class AddCarComponent implements OnInit,AfterViewInit {
   )
 
   constructor(private fb: FormBuilder, private carService: CarService, private router: Router,
-              private toast: ToastrService, private titleService: Title, public location:Location) {
+              private toast: ToastrService, private titleService: Title, public location:Location,private modalService:NgbModal) {
 
     this.titleService.setTitle('Add car')
     this.onReset()
@@ -61,6 +62,30 @@ export class AddCarComponent implements OnInit,AfterViewInit {
         }
       }
     }, false);
+  }
+
+  // @ts-ignore
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm"}).result.then((result) => {
+      // @ts-ignore
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // @ts-ignore
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    // @ts-ignore
+    if (reason === ModalOfDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else { // @ts-ignore
+      if (reason === ModalOfDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
   }
 
   ngAfterViewInit() {

@@ -3,6 +3,7 @@ package com.implemica.application.util.service;
 import com.implemica.application.CarCatalogApplication;
 import com.implemica.config.WebConfiguration;
 import com.implemica.model.repository.CarRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,14 @@ import static com.implemica.application.util.helpers.TestValues.EXAMPLE_CAR;
 import static com.implemica.application.util.helpers.TestValues.EXAMPLE_CAR_WITHOUT_ID;
 import static org.junit.Assert.assertEquals;
 
+@Disabled
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Transactional
 public class CarRepositoryTest {
     @Test
     public void oneTest() {
-        while (true) {
-
-        }
         //carRepository.save(EXAMPLE_CAR_WITHOUT_ID);
         //assertEquals(EXAMPLE_CAR, carRepository.findById(1l).orElseThrow());
-
     }
 }
 

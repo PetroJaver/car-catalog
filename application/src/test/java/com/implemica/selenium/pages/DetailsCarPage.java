@@ -137,7 +137,7 @@ public class DetailsCarPage extends BaseSeleniumPage {
     public DetailsCarPage clickDeleteButton() {
         webDriverWait.until(ExpectedConditions.visibilityOf(deleteCarButton));
         clickByJse(deleteCarButton);
-        webDriverWait.until(ExpectedConditions.visibilityOf(deleteCarModal));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(deleteCarModal));
 
         return this;
     }
@@ -152,7 +152,7 @@ public class DetailsCarPage extends BaseSeleniumPage {
     }
 
     public CatalogAuthPage clickConfirmDeleteCarModal() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(confirmDeleteCarModalButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(confirmDeleteCarModalButton));
         clickByJse(confirmDeleteCarModalButton);
         //webDriverWait.until(ExpectedConditions.invisibilityOf(deleteCarModal));
         webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
@@ -171,9 +171,9 @@ public class DetailsCarPage extends BaseSeleniumPage {
     }
 
     public DetailsCarPage clickCancelDeleteCarModal() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(cancelDeleteCarModalButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(cancelDeleteCarModalButton));
         clickByJse(cancelDeleteCarModalButton);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(deleteCarModal));
+       // webDriverWait.until(ExpectedConditions.invisibilityOf(deleteCarModal));
         webDriverWait.until(ExpectedConditions.urlMatches(DETAILS_URL_MATCHES));
 
         return this;

@@ -2,10 +2,10 @@
   <div class="container my-2 text-center w-100">
     <h1>{{title}}</h1>
   </div>
-  <form class="container p-5 text-bg-dark rounded-4 fw-semibold my-4" [formGroup]="carForm" (ngSubmit)="onSubmit()">
+  <form class="container p-4 p-lg-5 text-bg-dark rounded-4 fw-semibold my-4" [formGroup]="carForm" (ngSubmit)="onSubmit()">
     <div class="row gx-0 gy-3">
       <!--image-->
-      <div class="mt-0 text-center col-lg-6 order-lg-2">
+      <div class="mt-0 text-center col-lg-6 order-lg-2 position-relative">
         <div style="position: absolute;bottom: 0px;width: 100%;height: 44px" class="text-end">
           <label class="imageLabel mb-0 mt-2 mt-md-0">
             <img src="../../../assets/icons/addPicture.png" style="margin-right: 6px" width="24"> Upload image
@@ -28,7 +28,7 @@
             <div class="row g-0">
               <label for="brand" class="col-sm-4 form-label fs-4 required">Brand:</label>
               <div class="col-sm-8 col-md-7 col-lg-5">
-                <select class="form-select" [style.color] = "colorSelectBrand()"
+                <select class="form-select" [style.color]="colorSelectBrand()"
                         [ngClass]="{'is-valid':brand?.valid}"
                         formControlName="brand" id="brand" #selectBrand>
                   <option hidden selected value="">Brand</option>
@@ -64,7 +64,7 @@
             <div class="row g-0">
               <label for="body-type" class="col-sm-6 col-md-4 form-label fs-4 required">Body:</label>
               <div class="col-sm-6 col-lg-5">
-                <select class="form-select" [style.color] = "colorSelectBody()"
+                <select class="form-select" [style.color]="colorSelectBody()"
                         [ngClass]="{'is-valid':bodyType?.valid}"
                         formControlName="bodyType" id="body-type">
                   <option hidden selected value="">Body</option>
@@ -82,7 +82,7 @@
               <label class="col-6 col-md-4 form-label fs-4 mb-0">Transmission:</label>
               <div class="row col-lg-5 g-0 d-flex justify-content-between">
                 <div class="col-sm-6 form-check text-center d-flex align-items-center">
-                  <input class="form-check-input" type="radio" formControlName="transmissionType"
+                  <input class="form-check-input me-2" type="radio" formControlName="transmissionType"
                          value="MANUAL" id="MANUAL">
                   <label class="form-check-label fs-5" for="MANUAL">
                     Manual
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="col-sm-6 form-check text-center d-flex align-items-center">
-                  <input class="form-check-input" type="radio" formControlName="transmissionType"
+                  <input class="form-check-input me-2" type="radio" formControlName="transmissionType"
                          value="AUTOMATIC" id="AUTOMATIC">
                   <label class="form-check-label fs-5 text-end" for="AUTOMATIC">
                     Automatic
@@ -112,7 +112,8 @@
                   <input type="number" step="0.1" id="engine" min="-0.1" max="10.1" class="form-control"
                          [ngClass]="{'is-valid':engineSize?.valid&&engineSize?.value!=null,'is-invalid':engineSize?.invalid&&engineSize?.dirty}"
                          placeholder="Engine" formControlName="engineSize">
-                  <span class="input-group-text fw-semibold"><img src="../../../assets/icons/l-solid.svg" width="10"></span>
+                  <span class="input-group-text fw-semibold"><img src="../../../assets/icons/l-solid.svg"
+                                                                  width="10"></span>
                 </div>
 
                 <div id="invalid-feedback-engine" class="invalid-feedback">
@@ -129,7 +130,8 @@
             <div class="row g-0">
               <label for="engine" class="col-6 col-md-4 form-label fs-4">Year:</label>
               <div class="col-6 col-sm-5 col-lg-3">
-                <input type="number" placeholder="Year" class="form-control" min="1880" max="2101" id="year" [class.is-valid]="year?.valid&&year?.value!=null&&isYearInt()"
+                <input type="number" placeholder="Year" class="form-control" min="1880" max="2101" id="year"
+                       [class.is-valid]="year?.valid&&year?.value!=null&&isYearInt()"
                        [class.is-invalid]="(year?.invalid||!isYearInt())&&year?.dirty" formControlName="year">
                 <div id="invalid-feedback-year" class="invalid-feedback">
                   <span [hidden]="year?.invalid">Year must be integer!</span>
@@ -188,7 +190,8 @@
                  class="col-auto d-inline-flex align-items-center">
               <div class="option-chips">
                 {{option.value}}
-                <span id="delete-option-'{{option.value}}'" (click)='dropOption(i)' class="d-flex align-items-center ms-2" style="cursor: pointer">
+                <span id="delete-option-'{{option.value}}'" (click)='dropOption(i)'
+                      class="d-flex align-items-center ms-2" style="cursor: pointer">
                 <img src="../../../assets/icons/icons8-railroad-crossing-96.png" width="22">
               </span>
               </div>
@@ -219,7 +222,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-5 col-xl-2 d-flex justify-content-end">
+              <div class="col-sm-5 col-xl-4 d-flex justify-content-end">
                 <div class="text-center">
                   <button id="add-option-button" type="button" class="btn btn-success" (click)="addOption()"
                           [disabled]="optional?.invalid||optional?.value===''||optional?.value===null">
@@ -232,16 +235,16 @@
           </div>
         </div>
 
-
         <!--buttons-->
         <div>
           <div class="row g-0 d-flex justify-content-end">
-            <button id="cancel-form-button" type="button" class="btn btn-danger col-auto me-3" data-bs-target="#cancel-form-modal"
-                    data-bs-toggle="modal">
-              <span class="d-flex align-items-center"><img src="../../../assets/icons/close.png" class="me-2">Cancel</span>
+            <button id="cancel-form-button" type="button" class="btn btn-danger col-auto me-3" (click)="open(cancelModal)">
+              <span class="d-flex align-items-center"><img src="../../../assets/icons/close.png"
+                                                           class="me-2">Cancel</span>
             </button>
 
-            <button id="add-car-button" type="submit" class="btn btn-success col-auto" [disabled]="!carForm.valid||!isYearInt()">
+            <button id="add-car-button" type="submit" class="btn btn-success col-auto"
+                    [disabled]="!carForm.valid||!isYearInt()">
             <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png"
                                                          class="me-2">Save</span>
             </button>
@@ -253,8 +256,7 @@
   </form>
 </div>
 
-
-<div class="modal fade" id="cancel-form-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+<!--<div class="modal fade" id="cancel-form-modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content border-0">
       <div class="modal-header border-0">
@@ -262,7 +264,8 @@
           and close form?</h1>
       </div>
       <div class="d-flex justify-content-center modal-footer border-0 p-3">
-        <button id="confirm-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="location.back()">
+        <button id="confirm-modal-button" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="location.back()">
           <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png" class="me-2">Yes</span>
         </button>
 
@@ -272,4 +275,19 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
+
+<ng-template #cancelModal let-modal>
+  <div class="modal-header border-0 d-flex justify-content-center">
+    <h6 class="modal-title text-center" id="modal-basic-title">Are you sure you want to undo your changes, and close form?</h6>
+  </div>
+  <div id="cancel-form-modal" class="d-flex justify-content-center modal-footer border-0 p-3">
+    <button id="confirm-modal-button" type="button" class="btn btn-danger" (click)="modal.close('Save click');location.back()">
+      <span class="d-flex align-items-center"><img src="../../../assets/icons/check.png" class="me-2">Yes</span>
+    </button>
+
+    <button id="cancel-modal-button" type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">
+      <span class="d-flex align-items-center"><img src="../../../assets/icons/ban.png" class="me-2">Cancel</span>
+    </button>
+  </div>
+</ng-template>

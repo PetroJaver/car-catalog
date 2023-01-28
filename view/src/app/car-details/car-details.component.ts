@@ -7,6 +7,7 @@ import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
 import {Brand} from "../shared/enums/Brand";
 import {BodyType} from "../shared/enums/BodyType";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-car-details',
@@ -20,8 +21,32 @@ export class CarDetailsComponent {
   id: number;
 
   constructor(public auth: AuthService, private activateRoute: ActivatedRoute, private carService: CarService,
-              private toast: ToastrService, private router: Router, private titleService: Title) {
+              private toast: ToastrService, private router: Router, private titleService: Title, private modalService:NgbModal) {
     this.id = activateRoute.snapshot.params['id'];
+  }
+
+  // @ts-ignore
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm"}).result.then((result) => {
+      // @ts-ignore
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // @ts-ignore
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    // @ts-ignore
+    if (reason === ModalOfDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else { // @ts-ignore
+      if (reason === ModalOfDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
   }
 
   delete(): void {

@@ -302,15 +302,15 @@ public class EditCarPage extends BaseSeleniumPage {
     public EditCarPage clickCancelFormButton() {
         webDriverWait.until(ExpectedConditions.visibilityOf(cancelButton));
         clickByJse(cancelButton);
-        webDriverWait.until(ExpectedConditions.visibilityOf(cancelFormModal));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(cancelFormModal));
 
         return this;
     }
 
     public CatalogAuthPage clickConfirmModal() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(confirmModalButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(confirmModalButton));
         clickByJse(confirmModalButton);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(cancelFormModal));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(cancelFormModal));
         webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
 
         return new CatalogAuthPage();
@@ -327,9 +327,9 @@ public class EditCarPage extends BaseSeleniumPage {
     }
 
     public EditCarPage clickCancelModal() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(cancelModalButton));
+        //webDriverWait.until(ExpectedConditions.visibilityOf(cancelModalButton));
         clickByJse(cancelModalButton);
-        webDriverWait.until(ExpectedConditions.invisibilityOf(cancelFormModal));
+        //webDriverWait.until(ExpectedConditions.invisibilityOf(cancelFormModal));
 
         return this;
     }

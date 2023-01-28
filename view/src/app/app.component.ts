@@ -2,19 +2,44 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./shared/services/auth.service";
 import {Router} from "@angular/router";
 import {Title} from "@angular/platform-browser";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   scrolled:boolean = false;
 
   firstName: string|null = localStorage.getItem('first-name');
 
-  constructor(public auth: AuthService, private router: Router, private titleService: Title) {
+  constructor(public auth: AuthService, private router: Router, private titleService: Title, private modalService:NgbModal) {
     this.titleService.setTitle('car-catalog');
+  }
+
+  // @ts-ignore
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm"}).result.then((result) => {
+      // @ts-ignore
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      // @ts-ignore
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    // @ts-ignore
+    if (reason === ModalOfDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else { // @ts-ignore
+      if (reason === ModalOfDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+          } else {
+            return  `with: ${reason}`;
+          }
+    }
   }
 
   ngOnInit() {
