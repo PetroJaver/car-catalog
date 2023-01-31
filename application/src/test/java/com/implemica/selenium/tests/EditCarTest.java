@@ -845,6 +845,7 @@ public class EditCarTest extends BaseSeleniumTest {
         String carBodyType = carValue.bodyType.stringValue;
         String carTransmission = carValue.transmissionType.stringValue;
         String carEngine = getEngineDetailsPage(carValue.engine);
+        List<String> carOptions = sortOptions(carValue.options);
 
         //Editing a car
         editCarPage.openEditFirstCarPage();
@@ -873,7 +874,7 @@ public class EditCarTest extends BaseSeleniumTest {
         assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
         assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
         assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
-        assertEquals(carValue.options, detailsCarPage.getAllOptions());
+        assertEquals(carOptions, detailsCarPage.getAllOptions());
     }
 
     private void editCarWithCarExistData(CarValue carValue) {
@@ -935,6 +936,7 @@ public class EditCarTest extends BaseSeleniumTest {
         String carBodyType = carValue.bodyType.stringValue;
         String carTransmission = carValue.transmissionType.stringValue;
         String carEngine = getEngineDetailsPage(carValue.engine);
+        List<String> carOptions = sortOptions(carValue.options);
 
         //Editing a car
         editCarPage.openEditFirstCarPage();
@@ -967,6 +969,6 @@ public class EditCarTest extends BaseSeleniumTest {
         assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
         assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
         assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
-        assertEquals(carValue.options, detailsCarPage.getAllOptions());
+        assertEquals(carOptions, detailsCarPage.getAllOptions());
     }
 }

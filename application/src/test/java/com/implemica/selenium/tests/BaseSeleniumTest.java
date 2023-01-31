@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -81,7 +82,7 @@ public class BaseSeleniumTest {
     protected static java.util.List<String> getOptionsDetailsPage(java.util.List<String> addedOptions) {
 
         return addedOptions != null ? Stream.concat(DEFAULT_OPTIONS.stream(), addedOptions.stream())
-                .collect(Collectors.toList()) : DEFAULT_OPTIONS;
+                .sorted(String::compareTo).collect(Collectors.toList()) : DEFAULT_OPTIONS.stream().sorted(String::compareTo).collect(Collectors.toList());
     }
 
     public String getEditUrlByDetailsUrl(String detailsUrl) {
@@ -298,5 +299,9 @@ public class BaseSeleniumTest {
         }
 
         return isImagesEquals;
+    }
+
+    public List<String> sortOptions(java.util.List<String> optionsList){
+        return optionsList.stream().sorted(String::compareTo).collect(Collectors.toList());
     }
 }

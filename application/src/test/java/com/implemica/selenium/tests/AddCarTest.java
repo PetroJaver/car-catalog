@@ -10,16 +10,13 @@ import com.implemica.selenium.pages.LogInPage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.NoSuchElementException;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.implemica.model.enums.CarBodyType.*;
 import static com.implemica.model.enums.CarBrand.*;
-import static com.implemica.model.enums.CarTransmissionType.*;
+import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
+import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -593,7 +590,7 @@ public class AddCarTest extends BaseSeleniumTest {
 
     @Test
     public void addCarTest() {
-        /*        addCarWithImageCase(
+                addCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_MERCEDES_GLA)
                         .brand(MERCEDES)
@@ -775,7 +772,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .shortDescription(getRandomText(26))
                         .description(getRandomText(51))
                         .options(List.of(getRandomText(3)))
-                        .build());*/
+                        .build());
 
         addCarWithImageCase(
                 CarValue.builder()

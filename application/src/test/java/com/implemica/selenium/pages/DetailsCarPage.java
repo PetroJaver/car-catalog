@@ -129,6 +129,7 @@ public class DetailsCarPage extends BaseSeleniumPage {
         List<String> listOptions = driver.findElements(By.className("option-item"))
                 .stream()
                 .map(WebElement::getText)
+                .sorted(String::compareTo)
                 .collect(Collectors.toList());
 
         return listOptions.isEmpty() ? null : listOptions;

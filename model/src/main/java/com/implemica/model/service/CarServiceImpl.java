@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -56,7 +57,16 @@ public class CarServiceImpl implements CarService {
     @Override
     @Cacheable(key = "#id", value = "cars", unless = "#result == null")
     public Car findCarById(Long id) {
-        return carRepository.findById(id).orElse(null);
+        Car car = carRepository.findById(id).orElse(null);
+
+        if(car != null){
+            List<String> optionsList = car.getOptionsList();
+            optionsList = optionsList.stream().sorted(String::compareTo).collect(Collectors.toList());
+
+            car.setOptionsList(optionsList);
+        }
+
+        return car;
     }
 
     @Override

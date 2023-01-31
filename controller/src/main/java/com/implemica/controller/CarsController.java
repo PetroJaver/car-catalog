@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -110,11 +109,6 @@ public class CarsController {
         }catch (DataIntegrityViolationException e){
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-
-
-
-
-        //return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @Operation(summary = "Delete Car by identifier in the database.", description = "Use this api endpoint to delete a car by identifier from the database. " + "For a successful operation, you need a jwt token, which must be passed in the header using the key \"Authorization\".",
