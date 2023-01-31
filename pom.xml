@@ -131,6 +131,7 @@
         <module>controller</module>
         <module>model</module>
         <module>application</module>
+        <module>swagger</module>
     </modules>
 
 </project>
