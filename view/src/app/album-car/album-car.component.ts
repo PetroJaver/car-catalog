@@ -6,6 +6,8 @@ import {AuthService} from "../shared/services/auth.service";
 import {Title} from "@angular/platform-browser";
 import {Brand} from "../shared/enums/Brand";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+// @ts-ignore
+import AOS from "aos";
 
 @Component({
   selector: 'app-album-car',
@@ -23,6 +25,7 @@ export class AlbumCarComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    AOS.init();
     this.getCar()
   }
 
