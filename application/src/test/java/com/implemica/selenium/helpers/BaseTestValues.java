@@ -9,20 +9,20 @@ import java.util.List;
 
 public interface BaseTestValues {
     //http://car-catalog-view.s3-website.eu-west-3.amazonaws.com
-    String BASE_URL = "http://localhost:4200/";
-    String LOGIN_URL = "http://localhost:4200/login";
-    String EDIT_URL_MATCHES = "http://localhost:4200/edit/\\d*";
+    String BASE_URL = "https://cars-peter-s.implemica.com/";
+    String LOGIN_URL = "https://cars-peter-s.implemica.com/login";
+    String EDIT_URL_MATCHES = "https://cars-peter-s.implemica.com/edit/\\d*";
     String EDIT_TITLE_MATCHES = "Edit .*";
     String DETAILS_TITLE_MATCHES = "Details .*";
-    String EDIT_URL_REG_FORMAT = "http://localhost:4200/edit/%s";
-    String DETAILS_URL_MATCHES = "http://localhost:4200/details/\\d*";
+    String EDIT_URL_REG_FORMAT = "https://cars-peter-s.implemica.com/edit/%s";
+    String DETAILS_URL_MATCHES = "https://cars-peter-s.implemica.com/details/\\d*";
     String TITLE_PART_DETAILS = "Details";
     String TITLE_PART_EDIT = "Edit";
     String TITLE_BASE_PAGE = "Car catalog";
     String LOGIN_TITLE = "Login";
     String BASE_TITLE = "Car catalog";
 
-    String ADD_CAR_URL = "http://localhost:4200/add";
+    String ADD_CAR_URL = "https://cars-peter-s.implemica.com/add";
 
     String ADD_CAR_TITLE = "Add car";
 
@@ -122,7 +122,7 @@ public interface BaseTestValues {
     String TIP_YEAR_NOT_INTEGER = "Year must be integer!";
     String MESSAGE_SUCCESSFULLY_CAR_ADD = "Car successful added!";
     String TITLE_SUCCESSFULLY_CAR_ADD = "Success";
-    String ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH = "http://localhost:4200/assets/add-image.png";
-    String DEFAULT_CAR_IMAGE_SRC = "https://carcatalogimages.s3.eu-west-3.amazonaws.com/defaultImageCar.png";
+    String ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH = "https://cars-peter-s.implemica.com/assets/add-image.png";
+    String DEFAULT_CAR_IMAGE_SRC = "https://s3.amazonaws.com/cars-storage-peter-s.implemica.com/defaultImageCar.png";
     String IMAGE_NAME_INVALID = new File("./src/test/resources/files/invalidImageFile.txt").getAbsolutePath();
 }

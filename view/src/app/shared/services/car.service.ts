@@ -8,7 +8,7 @@ import {CarDto} from "../models/CarDto";
   providedIn: "root"
 })
 export class CarService {
-  baseUrl: string = "http://localhost:8080/cars/";
+  baseUrl: string = "https://cars-peter-s-spring.implemica.com/cars/";
   constructor(private http: HttpClient) {
   }
 

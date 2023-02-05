@@ -111,14 +111,14 @@
                         </goals>
 
                         <configuration>
-                            <inputSpec>src/main/resources/car-catalog-swagger.json</inputSpec>
+                            <inputSpec>swagger/src/main/resources/car-catalog-swagger.json</inputSpec>
                             <language>java</language>
                             <library>resttemplate</library>
-                            <modelPackage>com.swagger.implemica.client.codegen.rest.model</modelPackage>
-                            <apiPackage>com.swagger.implemica.client.codegen.rest.api</apiPackage>
-                            <invokerPackage>com.swagger.implemica.client.codegen.rest.invoker</invokerPackage>
+                            <modelPackage>com.implemica.swagger.client.codegen.rest.model</modelPackage>
+                            <apiPackage>com.implemica.swagger.client.codegen.rest.api</apiPackage>
+                            <invokerPackage>com.implemica.swagger.client.codegen.rest.invoker</invokerPackage>
                             <configOptions>
-                                <sourceFolder>src/main/java</sourceFolder>
+                                <sourceFolder>swagger/src/main/java</sourceFolder>
                                 <dateLibrary>java8</dateLibrary>
                             </configOptions>
                         </configuration>

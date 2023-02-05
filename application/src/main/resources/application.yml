@@ -1,16 +1,17 @@
 cloud:
-  aws:
-    credentials:
-      access-key: AKIA25NFHZZ5O47EOJGQ
-      secret-key: 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
+#  aws:
+#    credentials:
+#      access-key: AKIA25NFHZZ5O47EOJGQ
+#      secret-key: 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
     region:
-      static: eu-west-3
+#      static: eu-west-3
     stack:
       auto: false
 
 application:
   bucket:
-    name: carcatalogimages
+    name: cars-storage-peter-s.implemica.com
+#    name: carcatalogimages
 
 
 spring:
@@ -22,4 +23,4 @@ spring:
       max-request-size: 10MB
 
 server:
-  port: 8080
+  port: 8090

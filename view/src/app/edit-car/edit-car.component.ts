@@ -30,7 +30,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
   id: number;
 
-  pathPart: string = 'https://carcatalogimages.s3.eu-west-3.amazonaws.com/';
+  pathPart: string = 'https://s3.amazonaws.com/cars-storage-peter-s.implemica.com/';
 
   pathImage: string;
 
