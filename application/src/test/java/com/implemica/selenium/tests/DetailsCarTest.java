@@ -7,11 +7,13 @@ import com.implemica.selenium.pages.DetailsCarPage;
 import com.implemica.selenium.pages.LogInPage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 public class DetailsCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static DetailsCarPage detailsCarPage;

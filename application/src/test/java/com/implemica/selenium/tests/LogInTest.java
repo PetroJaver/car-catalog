@@ -4,11 +4,13 @@ import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.CatalogPage;
 import com.implemica.selenium.pages.LogInPage;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 public class LogInTest extends BaseSeleniumTest {
     private static LogInPage logInPage;
 

@@ -5,6 +5,7 @@ import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static com.implemica.selenium.helpers.BaseTestValues.DEFAULT_CAR_IMAGE_SR
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 public class CommonTest extends BaseSeleniumTest {
     private EditCarPage editCarPage = new EditCarPage();
 

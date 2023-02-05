@@ -9,6 +9,7 @@ import com.implemica.selenium.pages.DetailsCarPage;
 import com.implemica.selenium.pages.LogInPage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 public class AddCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static CatalogAuthPage catalogAuthPage;

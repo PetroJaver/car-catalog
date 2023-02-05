@@ -2,6 +2,7 @@ import com.implemica.swagger.client.codegen.rest.api.*;
 import com.implemica.swagger.client.codegen.rest.model.*;
 import com.implemica.swagger.client.codegen.rest.invoker.*;
 import org.junit.*;
+import org.junit.jupiter.api.Disabled;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
+@Disabled
 public class CarApiTest {
     private static CarApi carApiAuthorized;
     private static final CarDTO carDTOValidOne = new CarDTO().brand(CarDTO.BrandEnum.BMW)

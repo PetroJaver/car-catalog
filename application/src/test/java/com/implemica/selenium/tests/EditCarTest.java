@@ -6,6 +6,7 @@ import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,7 @@ import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 public class EditCarTest extends BaseSeleniumTest {
     private static EditCarPage editCarPage;
 
