@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 public class DetailsCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static DetailsCarPage detailsCarPage;

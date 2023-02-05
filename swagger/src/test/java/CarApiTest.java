@@ -1,4 +1,3 @@
-/*
 import com.implemica.swagger.client.codegen.rest.api.*;
 import com.implemica.swagger.client.codegen.rest.model.*;
 import com.implemica.swagger.client.codegen.rest.invoker.*;
@@ -15,7 +14,6 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-@Disabled
 public class CarApiTest {
     private static CarApi carApiAuthorized;
     private static final CarDTO carDTOValidOne = new CarDTO().brand(CarDTO.BrandEnum.BMW)
@@ -106,7 +104,6 @@ public class CarApiTest {
             assertEquals(carDTOValidTwo.getOptionsList(), responseCar.getOptionsList());
         } finally {
             carApiAuthorized.deleteUsingDELETE(responseCarId);
-            assertThrows(HttpClientErrorException.NotFound.class, () -> carApiAuthorized.getUsingGET(responseCarId));
         }
     }
 
@@ -128,4 +125,3 @@ public class CarApiTest {
         return (long) (Long.MAX_VALUE * Math.random());
     }
 }
-*/

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 public class LogInTest extends BaseSeleniumTest {
     private static LogInPage logInPage;
 

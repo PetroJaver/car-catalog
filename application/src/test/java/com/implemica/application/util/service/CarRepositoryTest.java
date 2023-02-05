@@ -22,10 +22,6 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Transactional
 public class CarRepositoryTest {
-    @Test
-    public void oneTest() {
-        //carRepository.save(EXAMPLE_CAR_WITHOUT_ID);
-        //assertEquals(EXAMPLE_CAR, carRepository.findById(1l).orElseThrow());
-    }
+
 }
 

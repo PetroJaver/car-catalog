@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@Disabled
+
 public class BaseSeleniumTest {
     protected static WebDriver driver;
     protected static WebDriverWait webDriverWait;

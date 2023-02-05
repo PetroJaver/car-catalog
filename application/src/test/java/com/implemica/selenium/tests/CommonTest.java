@@ -16,7 +16,7 @@ import static com.implemica.selenium.helpers.BaseTestValues.DEFAULT_CAR_IMAGE_SR
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
+
 public class CommonTest extends BaseSeleniumTest {
     private EditCarPage editCarPage = new EditCarPage();
 

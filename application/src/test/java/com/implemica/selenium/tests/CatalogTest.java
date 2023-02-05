@@ -14,7 +14,7 @@ import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+
 public class CatalogTest extends BaseSeleniumTest {
 
     private CatalogAuthPage catalogAuthPage = new CatalogAuthPage();
