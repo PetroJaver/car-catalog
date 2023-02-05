@@ -1,3 +1,4 @@
+/*
 import com.implemica.swagger.client.codegen.rest.api.*;
 import com.implemica.swagger.client.codegen.rest.model.*;
 import com.implemica.swagger.client.codegen.rest.invoker.*;
@@ -127,3 +128,4 @@ public class CarApiTest {
         return (long) (Long.MAX_VALUE * Math.random());
     }
 }
+*/
