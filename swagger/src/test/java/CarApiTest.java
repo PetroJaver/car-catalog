@@ -1,6 +1,7 @@
 import com.implemica.swagger.client.codegen.rest.api.*;
 import com.implemica.swagger.client.codegen.rest.model.*;
 import com.implemica.swagger.client.codegen.rest.invoker.*;
+
 import org.junit.*;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.http.HttpStatus;
