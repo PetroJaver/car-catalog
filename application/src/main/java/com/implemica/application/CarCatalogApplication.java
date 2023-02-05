@@ -19,6 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaRepositories(basePackages = "com.implemica")
 @EntityScan(basePackages = "com.implemica")
 public class CarCatalogApplication {
+    //push on bitbucket
     public static void main(String[] args) {
         SpringApplication.run(CarCatalogApplication.class, args);
     }
