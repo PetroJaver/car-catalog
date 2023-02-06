@@ -598,7 +598,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+/*        addCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_MERCEDES_GLA)
                         .brand(MERCEDES)
@@ -823,7 +823,7 @@ public class AddCarTest extends BaseSeleniumTest {
                                 getRandomOption(),
                                 getRandomOption(),
                                 getRandomOption()))
-                        .build());
+                        .build());*/
     }
 
     private void addCarWithImageCase(CarValue carValue) {

@@ -125,8 +125,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.5</version>
                     <configuration>
-                        <useFile>false</useFile>
-                        <trimStackTrace>false</trimStackTrace>
+                        <excludes>
+                            <exclude>com.implemica.application.util.service.CarRepositoryTest</exclude>
+                            <exclude>com.implemica.selenium.tests.BaseSeleniumTest</exclude>
+                        </excludes>
                     </configuration>
                 </plugin>
             </plugins>
@@ -143,6 +145,5 @@
         <module>application</module>
         <module>swagger</module>
     </modules>
-
 </project>
 

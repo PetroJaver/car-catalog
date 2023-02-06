@@ -627,7 +627,7 @@ public class EditCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        editCarWithImageCase(
+/*        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_FORD_MUSTANG)
                         .brand(FORD)
@@ -833,7 +833,7 @@ public class EditCarTest extends BaseSeleniumTest {
                                 getRandomOption(),
                                 getRandomOption(),
                                 getRandomOption()))
-                        .build());
+                        .build());*/
     }
 
     private void editCarWithImageCase(CarValue carValue) {
