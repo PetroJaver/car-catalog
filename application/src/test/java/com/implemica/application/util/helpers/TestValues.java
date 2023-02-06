@@ -3,20 +3,20 @@ package com.implemica.application.util.helpers;
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.implemica.model.enums.CarBodyType.*;
 import static com.implemica.model.enums.CarBrand.*;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
-import static org.apache.commons.lang3.RandomStringUtils.random;
 
+@Ignore
 public class TestValues {
     public static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +
             "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +

@@ -6,12 +6,9 @@ import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.selenium.pages.BaseSeleniumPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.fluttercode.datafactory.impl.DataFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,15 +25,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
-
+@Ignore
 public class BaseSeleniumTest {
     protected static WebDriver driver;
     protected static WebDriverWait webDriverWait;
     protected static final DataFactory dataFactory = new DataFactory();
 
-    @BeforeAll
+    @BeforeClass
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -51,7 +48,7 @@ public class BaseSeleniumTest {
         webDriverWait.until(ExpectedConditions.urlToBe(BASE_URL));
     }
 
-    @AfterAll
+    @AfterClass
     public static void close() {
         driver.close();
         driver.quit();

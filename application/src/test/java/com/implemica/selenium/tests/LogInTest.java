@@ -1,14 +1,12 @@
 package com.implemica.selenium.tests;
 
+import org.junit.*;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.CatalogPage;
 import com.implemica.selenium.pages.LogInPage;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.*;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LogInTest extends BaseSeleniumTest {
     private static LogInPage logInPage;
@@ -17,7 +15,7 @@ public class LogInTest extends BaseSeleniumTest {
 
     private static CatalogAuthPage catalogAuthPage;
 
-    @BeforeAll
+    @BeforeClass
     public static void beforeAll() {
         catalogPage = new CatalogPage();
         catalogAuthPage = new CatalogAuthPage();

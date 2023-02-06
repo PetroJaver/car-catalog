@@ -7,10 +7,7 @@ import com.implemica.selenium.pages.AddCarPage;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.DetailsCarPage;
 import com.implemica.selenium.pages.LogInPage;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ import static com.implemica.model.enums.CarBrand.*;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class AddCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
@@ -27,14 +24,14 @@ public class AddCarTest extends BaseSeleniumTest {
 
     private static DetailsCarPage detailsCarPage;
 
-    @BeforeAll
+    @BeforeClass
     public static void beforeAll() {
         detailsCarPage = new DetailsCarPage();
         catalogAuthPage = new LogInPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
         addCarPage = catalogAuthPage.clickAddCarButton();
     }
 
-    @AfterAll
+    @AfterClass
     public static void afterAll() {
         catalogAuthPage.doLogout();
     }

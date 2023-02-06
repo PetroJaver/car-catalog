@@ -4,10 +4,7 @@ import com.implemica.model.enums.CarBodyType;
 import com.implemica.model.enums.CarBrand;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,11 +14,10 @@ import java.util.List;
 
 import static com.implemica.model.enums.CarBodyType.*;
 import static com.implemica.model.enums.CarBrand.*;
-import static com.implemica.model.enums.CarBrand.GENESIS;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class EditCarTest extends BaseSeleniumTest {
     private static EditCarPage editCarPage;
@@ -32,7 +28,7 @@ public class EditCarTest extends BaseSeleniumTest {
 
     private static AddCarPage addCarPage;
 
-    @BeforeAll
+    @BeforeClass
     public static void beforeAll() {
         detailsCarPage = new DetailsCarPage();
         addCarPage = new AddCarPage();
@@ -49,7 +45,7 @@ public class EditCarTest extends BaseSeleniumTest {
         editCarPage = catalogAuthPage.clickFirstCarEditButton();
     }
 
-    @AfterAll
+    @AfterClass
     public static void afterAll() {
         editCarPage.clickLogo()
                 .clickFirstCarDeleteButton()

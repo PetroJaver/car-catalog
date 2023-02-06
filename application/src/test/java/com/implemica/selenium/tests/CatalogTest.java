@@ -3,17 +3,13 @@ package com.implemica.selenium.tests;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
 import org.junit.Assert;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
+import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
 
 import java.time.Duration;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.*;
 
 public class CatalogTest extends BaseSeleniumTest {
 

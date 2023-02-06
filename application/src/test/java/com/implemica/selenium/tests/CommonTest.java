@@ -5,16 +5,12 @@ import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static com.implemica.selenium.helpers.BaseTestValues.DEFAULT_CAR_IMAGE_SRC;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 
 
 public class CommonTest extends BaseSeleniumTest {

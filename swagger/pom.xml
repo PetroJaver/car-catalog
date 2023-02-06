@@ -25,13 +25,6 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>5.3.4</version>
@@ -72,12 +65,6 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -98,7 +85,7 @@
         </dependency>
     </dependencies>
 
-<!--    <build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>io.swagger</groupId>
@@ -126,5 +113,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 </project>

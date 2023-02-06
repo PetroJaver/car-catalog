@@ -5,27 +5,24 @@ import com.implemica.selenium.pages.AddCarPage;
 import com.implemica.selenium.pages.CatalogAuthPage;
 import com.implemica.selenium.pages.DetailsCarPage;
 import com.implemica.selenium.pages.LogInPage;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import static com.implemica.selenium.helpers.BaseTestValues.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class DetailsCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static DetailsCarPage detailsCarPage;
     private static CatalogAuthPage catalogAuthPage;
 
-    @BeforeAll
+    @BeforeClass
     public static void beforeAll() {
         catalogAuthPage = new LogInPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
         addCarPage = new AddCarPage();
         detailsCarPage = new DetailsCarPage();
     }
 
-    @AfterAll
+    @AfterClass
     public static void afterAll() {
         catalogAuthPage.doLogout();
     }
