@@ -3,7 +3,6 @@ package com.implemica.application.util.helpers;
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
 import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,7 @@ import static com.implemica.model.enums.CarBrand.*;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 
-public class TestValues {
+public class Values {
     public static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +
             "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
             "when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +

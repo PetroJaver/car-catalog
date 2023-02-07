@@ -13,7 +13,7 @@ import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
 
-public class CommonTest extends BaseSeleniumTest {
+public class Common extends BaseSelenium {
     private EditCarPage editCarPage = new EditCarPage();
 
     private CatalogPage catalogPage = new CatalogPage();

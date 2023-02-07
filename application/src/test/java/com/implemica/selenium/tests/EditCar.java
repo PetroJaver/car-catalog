@@ -3,12 +3,13 @@ package com.implemica.selenium.tests;
 import com.implemica.model.enums.CarBodyType;
 import com.implemica.model.enums.CarBrand;
 import com.implemica.selenium.helpers.CarValue;
-import com.implemica.selenium.pages.AddCarPage;
-import com.implemica.selenium.pages.CatalogAuthPage;
-import com.implemica.selenium.pages.DetailsCarPage;
-import com.implemica.selenium.pages.LogInPage;
+import com.implemica.selenium.pages.*;
 import org.junit.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import static com.implemica.model.enums.CarBodyType.*;
@@ -18,33 +19,50 @@ import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
-public class AddCarTest extends BaseSeleniumTest {
-    private static AddCarPage addCarPage;
+public class EditCar extends BaseSelenium {
+    private static EditCarPage editCarPage;
+
     private static CatalogAuthPage catalogAuthPage;
 
     private static DetailsCarPage detailsCarPage;
 
+    private static AddCarPage addCarPage;
+
     @BeforeClass
     public static void beforeAll() {
         detailsCarPage = new DetailsCarPage();
-        catalogAuthPage = new LogInPage().doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
-        addCarPage = catalogAuthPage.clickAddCarButton();
+        addCarPage = new AddCarPage();
+
+        catalogAuthPage = new LogInPage()
+                .openLoginPage()
+                .doLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        catalogAuthPage.clickAddCarButton()
+                .fillForm(STANDARD_CAR)
+                .clickSaveButton()
+                .clickCloseToastButton();
+
+        editCarPage = catalogAuthPage.clickFirstCarEditButton();
     }
 
     @AfterClass
     public static void afterAll() {
-        catalogAuthPage.doLogout();
+        editCarPage.clickLogo()
+                .clickFirstCarDeleteButton()
+                .clickFirstCarDeleteModalConfirm()
+                .clickCloseToastButton()
+                .doLogout();
     }
 
     @Test
-    public void selectBrandFocusedAfterOpenAddCarPageTest() {
-        addCarPage.openAddCarPage();
-        assertTrue(addCarPage.isSelectBrandActive());
+    public void selectBrandFocusedAfterOpenEditCarPageTest() {
+        editCarPage.openEditFirstCarPage();
+        assertTrue(editCarPage.isSelectBrandActive());
     }
 
     @Test
     public void selectBrandTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         selectBrandCase(AUDI);
         selectBrandCase(ACURA);
@@ -120,15 +138,15 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void selectBrandCase(CarBrand brand) {
-        addCarPage.fillForm(CarValue.builder().brand(brand).build());
+        editCarPage.fillForm(CarValue.builder().brand(brand).build());
 
-        assertTrue(addCarPage.getClassBrand().matches(VALIDATION_CLASS_REG_VALID));
-        assertEquals(brand.name(), addCarPage.getValueBrand(brand.name()));
+        assertTrue(editCarPage.getClassBrand().matches(VALIDATION_CLASS_REG_VALID));
+        assertEquals(brand.name(), editCarPage.getValueBrand(brand.name()));
     }
 
     @Test
     public void inputModelValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid model
         inputModelValidCase("aa");
@@ -164,28 +182,28 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputModelInvalidCase(String model, String expectedTextTip) {
-        addCarPage.fillForm(CarValue.builder().model(model).build());
+        editCarPage.fillForm(CarValue.builder().model(model).build());
 
-        assertTrue(addCarPage.getClassModel().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getModelTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassModel().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getModelTipText(expectedTextTip));
     }
 
     private void inputModelValidCase(String model) {
-        addCarPage.fillForm(CarValue.builder().model(model).build());
+        editCarPage.fillForm(CarValue.builder().model(model).build());
 
-        assertTrue(addCarPage.getClassModel().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassModel().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     private void inputModelTipRequiredCase(String model) {
-        addCarPage.fillForm(CarValue.builder().model(model).build()).clearModel();
+        editCarPage.fillForm(CarValue.builder().model(model).build()).clearModel();
 
-        assertTrue(addCarPage.getClassModel().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(TIP_REQUIRED, addCarPage.getModelTipText(TIP_REQUIRED));
+        assertTrue(editCarPage.getClassModel().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(TIP_REQUIRED, editCarPage.getModelTipText(TIP_REQUIRED));
     }
 
     @Test
     public void selectBodyTypeTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         selectBodyTypeCase(HATCHBACK);
         selectBodyTypeCase(SEDAN);
@@ -200,27 +218,27 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void selectBodyTypeCase(CarBodyType bodyType) {
-        addCarPage.fillForm(CarValue.builder().bodyType(bodyType).build());
+        editCarPage.fillForm(CarValue.builder().bodyType(bodyType).build());
 
-        assertTrue(addCarPage.getClassBodyType().matches(VALIDATION_CLASS_REG_VALID));
-        assertEquals(bodyType.name(), addCarPage.getValueBodyType(bodyType.name()));
+        assertTrue(editCarPage.getClassBodyType().matches(VALIDATION_CLASS_REG_VALID));
+        assertEquals(bodyType.name(), editCarPage.getValueBodyType(bodyType.name()));
     }
 
     @Test
     public void selectTransmissionAutomaticTest() {
-        addCarPage.openAddCarPage().clickTransmissionAutomatic();
-        assertTrue(addCarPage.isTransmissionButtonAutomaticSelected());
+        editCarPage.openEditFirstCarPage().clickTransmissionAutomatic();
+        assertTrue(editCarPage.isTransmissionButtonAutomaticSelected());
     }
 
     @Test
     public void selectTransmissionManualTest() {
-        addCarPage.openAddCarPage().clickTransmissionManual();
-        assertTrue(addCarPage.isTransmissionManualButtonSelected());
+        editCarPage.openEditFirstCarPage().clickTransmissionManual();
+        assertTrue(editCarPage.isTransmissionManualButtonSelected());
     }
 
     @Test
     public void inputEngineValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid engine
         inputEngineValidCase("0");
@@ -240,21 +258,21 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputEngineValidCase(String engine) {
-        addCarPage.fillForm(CarValue.builder().engine(engine).build());
+        editCarPage.fillForm(CarValue.builder().engine(engine).build());
 
-        assertTrue(addCarPage.getClassEngine().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassEngine().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     private void inputEngineInvalidCase(String engine, String expectedTextTip) {
-        addCarPage.fillForm(CarValue.builder().engine(engine).build());
+        editCarPage.fillForm(CarValue.builder().engine(engine).build());
 
-        assertTrue(addCarPage.getClassEngine().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getEngineTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassEngine().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getEngineTipText(expectedTextTip));
     }
 
     @Test
     public void inputYearValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid year
         inputYearValidCase("2000");
@@ -280,21 +298,21 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputYearValidCase(String year) {
-        addCarPage.fillForm(CarValue.builder().year(year).build());
+        editCarPage.fillForm(CarValue.builder().year(year).build());
 
-        assertTrue(addCarPage.getClassYear().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassYear().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     private void inputYearInvalidCase(String year, String expectedTextTip) {
-        addCarPage.fillForm(CarValue.builder().year(year).build());
+        editCarPage.fillForm(CarValue.builder().year(year).build());
 
-        assertTrue(addCarPage.getClassYear().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getYearTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassYear().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getYearTipText(expectedTextTip));
     }
 
     @Test
     public void inputShortDescriptionValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid short description
         inputShortDescriptionValidCase("sadlkadsf klkads hfjhdsa f hakldshfkhdsakf hlkdsalh fjldsaf kjlhdsaf k");
@@ -318,21 +336,21 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputShortDescriptionValidCase(String shortDescription) {
-        addCarPage.fillForm(CarValue.builder().shortDescription(shortDescription).build());
+        editCarPage.fillForm(CarValue.builder().shortDescription(shortDescription).build());
 
-        assertTrue(addCarPage.getClassShortDescription().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassShortDescription().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     private void inputShortDescriptionInvalidCase(String shortDescription, String expectedTextTip) {
-        addCarPage.fillForm(CarValue.builder().shortDescription(shortDescription).build());
+        editCarPage.fillForm(CarValue.builder().shortDescription(shortDescription).build());
 
-        assertTrue(addCarPage.getClassShortDescription().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getShortDescriptionTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassShortDescription().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getShortDescriptionTipText(expectedTextTip));
     }
 
     @Test
     public void inputDescriptionValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid description
         inputDescriptionValidCase(LESS_MAX_DESCRIPTION);
@@ -350,21 +368,21 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputDescriptionValidCase(String description) {
-        addCarPage.fillForm(CarValue.builder().description(description).build());
+        editCarPage.fillForm(CarValue.builder().description(description).build());
 
-        assertTrue(addCarPage.getClassDescription().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassDescription().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     private void inputDescriptionInvalidCase(String description, String expectedTextTip) {
-        addCarPage.fillForm(CarValue.builder().description(description).build());
+        editCarPage.fillForm(CarValue.builder().description(description).build());
 
-        assertTrue(addCarPage.getClassDescription().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getDescriptionTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassDescription().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getDescriptionTipText(expectedTextTip));
     }
 
     @Test
     public void inputOptionValidationTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage();
 
         //region valid option
         inputOptionValidCase("Any option");
@@ -389,16 +407,16 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void inputOptionInvalidCase(String option, String expectedTextTip) {
-        addCarPage.inputOption(option);
+        editCarPage.inputOption(option);
 
-        assertTrue(addCarPage.getClassOptionField().matches(VALIDATION_CLASS_REG_INVALID));
-        assertEquals(expectedTextTip, addCarPage.getOptionTipText(expectedTextTip));
+        assertTrue(editCarPage.getClassOptionField().matches(VALIDATION_CLASS_REG_INVALID));
+        assertEquals(expectedTextTip, editCarPage.getOptionTipText(expectedTextTip));
     }
 
     private void inputOptionValidCase(String option) {
-        addCarPage.inputOption(option);
+        editCarPage.inputOption(option);
 
-        assertTrue(addCarPage.getClassOptionField().matches(VALIDATION_CLASS_REG_VALID));
+        assertTrue(editCarPage.getClassOptionField().matches(VALIDATION_CLASS_REG_VALID));
     }
 
     @Test
@@ -418,29 +436,31 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void chooseValidImageCase(String imagePath) {
-        addCarPage.openAddCarPage();
-        assertEquals(ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH, addCarPage.getSrcImage());
+        String oldImageSrc;
+        editCarPage.openEditFirstCarPage();
+        oldImageSrc = editCarPage.getSrcImage();
 
-        addCarPage.fillForm(CarValue.builder().imageName(imagePath).build());
-        assertNotEquals(ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH, addCarPage.getSrcImage());
+        editCarPage.fillForm(CarValue.builder().imageName(imagePath).build());
+        assertNotEquals(oldImageSrc, editCarPage.getSrcImage());
     }
 
     private void chooseInvalidImageCase(String imagePath) {
-        addCarPage.openAddCarPage();
-        assertEquals(ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH, addCarPage.getSrcImage());
+        String oldImageSrc;
+        editCarPage.openEditFirstCarPage();
+        oldImageSrc = editCarPage.getSrcImage();
 
-        addCarPage.fillForm(CarValue.builder().imageName(imagePath).build());
-        assertTrue(addCarPage.isToastDisplayed());
-        assertEquals(TITLE_INVALID_FILE, addCarPage.getTitleToast(TITLE_INVALID_FILE));
-        assertEquals(MESSAGE_INVALID_FILE, addCarPage.getMessageToast(MESSAGE_INVALID_FILE));
+        editCarPage.fillForm(CarValue.builder().imageName(imagePath).build());
+        assertTrue(editCarPage.isToastDisplayed());
+        assertEquals(TITLE_INVALID_FILE, editCarPage.getTitleToast(TITLE_INVALID_FILE));
+        assertEquals(MESSAGE_INVALID_FILE, editCarPage.getMessageToast(MESSAGE_INVALID_FILE));
         catalogAuthPage.clickCloseToastButton();
 
-        assertEquals(ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH, addCarPage.getSrcImage());
+        assertEquals(oldImageSrc, editCarPage.getSrcImage());
     }
 
     @Test
     public void enableAddOptionButtonTest() {
-        addCarPage.openAddCarPage();
+        editCarPage.openEditFirstCarPage().deleteAllOptions();
 
         //region enable add option button
         enableAddOptionButtonCase("Any option");
@@ -464,20 +484,20 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void disableAddOptionButtonCase(String option) {
-        addCarPage.inputOption(option);
+        editCarPage.inputOption(option);
 
-        assertFalse(addCarPage.isAddOptionButtonEnable());
+        assertFalse(editCarPage.isAddOptionButtonEnable());
     }
 
     private void enableAddOptionButtonCase(String option) {
-        addCarPage.inputOption(option);
+        editCarPage.inputOption(option);
 
-        assertTrue(addCarPage.isAddOptionButtonEnable());
+        assertTrue(editCarPage.isAddOptionButtonEnable());
     }
 
     @Test
     public void optionTest() {
-        addCarPage.openAddCarPage().deleteAllOptions();
+        editCarPage.deleteAllOptions();
 
         //region delete option
         addAndDeleteOptionCase("Any option");
@@ -494,20 +514,20 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void addAndDeleteOptionCase(String option) {
-        addCarPage.fillForm(CarValue.builder().options(List.of(option)).build());
-        assertEquals(List.of(option), addCarPage.getAllOptions());
-        addCarPage.clickDeleteOption(option);
+        editCarPage.fillForm(CarValue.builder().options(List.of(option)).build());
+        assertEquals(List.of(option), editCarPage.getAllOptions());
+        editCarPage.clickDeleteOption(option);
 
-        assertTrue(addCarPage.getAllOptions().isEmpty());
+        assertTrue(editCarPage.getAllOptions().isEmpty());
     }
 
     @Test
     public void clickCancelButtonModalConfirmTest() {
-        addCarPage.openAddCarPage();
-        assertEquals(ADD_CAR_URL, getCurrentUrl());
-        assertEquals(ADD_CAR_TITLE, getCurrentTitle());
+        editCarPage.openEditFirstCarPage();
+        assertTrue(getCurrentUrl().matches(EDIT_URL_MATCHES));
+        assertTrue(getCurrentTitle().matches(EDIT_TITLE_MATCHES));
 
-        addCarPage.clickCancelFormButton().clickConfirmModal();
+        editCarPage.clickCancelFormButton().clickConfirmModal();
 
         assertEquals(BASE_URL, getCurrentUrl());
         assertEquals(BASE_TITLE, getCurrentTitle());
@@ -515,14 +535,14 @@ public class AddCarTest extends BaseSeleniumTest {
 
     @Test
     public void clickCancelButtonModalCancelTest() {
-        addCarPage.openAddCarPage();
-        assertEquals(ADD_CAR_URL, getCurrentUrl());
-        assertEquals(ADD_CAR_TITLE, getCurrentTitle());
+        editCarPage.openEditFirstCarPage();
+        assertTrue(getCurrentUrl().matches(EDIT_URL_MATCHES));
+        assertTrue(getCurrentTitle().matches(EDIT_TITLE_MATCHES));
 
-        addCarPage.clickCancelFormButton().clickCancelModal();
+        editCarPage.clickCancelFormButton().clickCancelModal();
 
-        assertEquals(ADD_CAR_URL, getCurrentUrl());
-        assertEquals(ADD_CAR_TITLE, getCurrentTitle());
+        assertTrue(getCurrentUrl().matches(EDIT_URL_MATCHES));
+        assertTrue(getCurrentTitle().matches(EDIT_TITLE_MATCHES));
     }
 
     @Test
@@ -575,30 +595,20 @@ public class AddCarTest extends BaseSeleniumTest {
     }
 
     private void enableSaveCarButtonCase(CarValue carValue) {
-        addCarPage.openAddCarPage().fillForm(carValue);
+        editCarPage.openEditFirstCarPage().fillForm(carValue);
 
-        assertTrue(addCarPage.isSaveCarButtonEnable());
+        assertTrue(editCarPage.isSaveCarButtonEnable());
     }
 
     private void disableSaveCarButtonCase(CarValue carValue) {
-        addCarPage.openAddCarPage().fillForm(carValue);
+        editCarPage.openEditFirstCarPage().fillForm(carValue);
 
-        assertFalse(addCarPage.isSaveCarButtonEnable());
+        assertFalse(editCarPage.isSaveCarButtonEnable());
     }
 
     @Test
-    public void addCarTest() {
-        addCarWithImageCase(
-                CarValue.builder()
-                        .imageName(IMAGE_NAME_MERCEDES_GLA)
-                        .brand(MERCEDES)
-                        .transmissionType(AUTOMATIC)
-                        .model("GLA")
-                        .bodyType(SUV)
-                        .build()
-        );
-
-        addCarWithImageCase(
+    public void editCarTest() {
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_MERCEDES_GLA)
                         .brand(MERCEDES)
@@ -617,7 +627,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_FORD_MUSTANG)
                         .brand(FORD)
@@ -636,7 +646,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_PORSHE_911)
                         .brand(PORSCHE)
@@ -655,7 +665,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_TOYOTA_HILUX)
                         .brand(TOYOTA)
@@ -674,7 +684,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ASTON_MARTIN_VANTAGE_DB_11)
                         .brand(ASTON_MARTIN)
@@ -693,7 +703,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .brand(TESLA)
@@ -712,7 +722,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build()
         );
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .brand(TOYOTA)
@@ -727,7 +737,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .options(List.of(getRandomText(24)))
                         .build());
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .transmissionType(MANUAL)
@@ -742,7 +752,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .options(List.of(getRandomText(25)))
                         .build());
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .transmissionType(MANUAL)
@@ -757,7 +767,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .options(List.of(getRandomText(2)))
                         .build());
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .brand(KIA)
@@ -772,7 +782,7 @@ public class AddCarTest extends BaseSeleniumTest {
                         .options(List.of(getRandomText(3)))
                         .build());
 
-        addCarWithImageCase(
+        editCarWithImageCase(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_PORSHE_911)
                         .brand(getRandomBrand())
@@ -790,7 +800,7 @@ public class AddCarTest extends BaseSeleniumTest {
                                 getRandomOption()))
                         .build());
 
-        addCarWithoutImageCase(
+        editCarImageNotAddedCase(
                 CarValue.builder()
                         .brand(getRandomBrand())
                         .model(getRandomModel())
@@ -807,7 +817,7 @@ public class AddCarTest extends BaseSeleniumTest {
                                 getRandomOption()))
                         .build());
 
-        addExistCar(
+        editCarWithCarExistData(
                 CarValue.builder()
                         .imageName(IMAGE_NAME_ANY_CAR)
                         .brand(getRandomBrand())
@@ -826,66 +836,59 @@ public class AddCarTest extends BaseSeleniumTest {
                         .build());
     }
 
-    private void addCarWithImageCase(CarValue carValue) {
+    private void editCarWithImageCase(CarValue carValue) {
+        String oldImageUrl;
         String carTitle = getTitleCar(carValue.brand, carValue.model);
         String carBodyType = carValue.bodyType.stringValue;
         String carTransmission = carValue.transmissionType.stringValue;
         String carEngine = getEngineDetailsPage(carValue.engine);
-        List<String> carOptions = getOptionsDetailsPage(carValue.options);
+        List<String> carOptions = sortOptions(carValue.options);
 
-        //Adding a car
-        addCarPage.openAddCarPage()
-                .fillForm(carValue)
-                .clickSaveButton();
+        //Editing a car
+        editCarPage.openEditFirstCarPage();
+        oldImageUrl = editCarPage.getSrcImage();
+        editCarPage.deleteAllOptions().fillForm(carValue).clickSaveButton();
 
-        try {
-            //Check message
-            assertTrue(catalogAuthPage.isToastDisplayed());
-            assertEquals(TITLE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.getTitleToast(TITLE_SUCCESSFULLY_CAR_ADD));
-            assertEquals(MESSAGE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.getMessageToast(MESSAGE_SUCCESSFULLY_CAR_ADD));
-            catalogAuthPage.clickCloseToastButton();
+        //Check message
+        assertTrue(catalogAuthPage.isToastDisplayed());
+        assertEquals(TITLE_SUCCESSFULLY_CAR_EDIT, catalogAuthPage.getTitleToast(TITLE_SUCCESSFULLY_CAR_EDIT));
+        assertEquals(MESSAGE_SUCCESSFULLY_CAR_EDIT, catalogAuthPage.getMessageToast(MESSAGE_SUCCESSFULLY_CAR_EDIT));
+        catalogAuthPage.clickCloseToastButton();
 
-            //Added car check in catalog
-            assertNotEquals(DEFAULT_CAR_IMAGE_SRC, catalogAuthPage.getImageSrcFirstCar());
-            assertTrue(isImagesEquals(carValue.imageName, catalogAuthPage.getImageSrcFirstCar()));
-            assertEquals(carTitle, catalogAuthPage.getTitleFirstCar(carTitle));
-            assertEquals(carValue.shortDescription, catalogAuthPage.getShortDescriptionFirstCar(carValue.shortDescription));
+        //Edited car check in catalog
+        assertNotEquals(oldImageUrl, catalogAuthPage.getImageSrcFirstCar());
+        assertTrue(isImagesEquals(carValue.imageName, catalogAuthPage.getImageSrcFirstCar()));
+        assertEquals(carTitle, catalogAuthPage.getTitleFirstCar(carTitle));
+        assertEquals(carValue.shortDescription, catalogAuthPage.getShortDescriptionFirstCar(carValue.shortDescription));
 
-            //Added car check in details page
-            catalogAuthPage.clickFirstCarImage();
-            assertNotEquals(DEFAULT_CAR_IMAGE_SRC, detailsCarPage.getImageSrc());
-            assertTrue(isImagesEquals(carValue.imageName, detailsCarPage.getImageSrc()));
-            assertEquals(carTitle, detailsCarPage.getTitleCar(carTitle));
-            assertEquals(carBodyType, detailsCarPage.getBodyTypeCar(carBodyType));
-            assertEquals(carTransmission, detailsCarPage.getTransmissionTypeCar(carTransmission));
-            assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
-            assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
-            assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
-            assertEquals(carOptions, detailsCarPage.getAllOptions());
-        } finally {
-            //Delete car from catalog
-            detailsCarPage
-                    .clickLogo()
-                    .clickFirstCarDeleteButton()
-                    .clickFirstCarDeleteModalConfirm()
-                    .clickCloseToastButton()
-                    .clickAddCarButton();
-        }
+        //Edited car check in details page
+        catalogAuthPage.clickFirstCarImage();
+        assertNotEquals(oldImageUrl, detailsCarPage.getImageSrc());
+        assertTrue(isImagesEquals(carValue.imageName, detailsCarPage.getImageSrc()));
+        assertEquals(carTitle, detailsCarPage.getTitleCar(carTitle));
+        assertEquals(carBodyType, detailsCarPage.getBodyTypeCar(carBodyType));
+        assertEquals(carTransmission, detailsCarPage.getTransmissionTypeCar(carTransmission));
+        assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
+        assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
+        assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
+        assertEquals(carOptions, detailsCarPage.getAllOptions());
     }
 
-    private void addExistCar(CarValue carValue) {
+    private void editCarWithCarExistData(CarValue carValue) {
         String oldImageUrl;
         String carTitle = getTitleCar(CAR_FOR_EXIST_CAR_TEST.brand, CAR_FOR_EXIST_CAR_TEST.model);
         String carBodyType = CAR_FOR_EXIST_CAR_TEST.bodyType.stringValue;
-        String carEngine = getEngineDetailsPage(CAR_FOR_EXIST_CAR_TEST.engine);
         String carTransmission = CAR_FOR_EXIST_CAR_TEST.transmissionType.stringValue;
-        List<String> carOptions = getOptionsDetailsPage(CAR_FOR_EXIST_CAR_TEST.options);
+        String carEngine = getEngineDetailsPage(CAR_FOR_EXIST_CAR_TEST.engine);
 
         //Adding a cars
-        addCarPage.openAddCarPage().fillForm(carValue).clickSaveButton().clickCloseToastButton();
-        addCarPage.openAddCarPage().fillForm(CAR_FOR_EXIST_CAR_TEST).clickSaveButton().clickCloseToastButton();
-        oldImageUrl = catalogAuthPage.getImageSrcFirstCar();
-        addCarPage.openAddCarPage().fillForm(carValue).clickSaveButton();
+        addCarPage.openAddCarPage().deleteAllOptions().fillForm(carValue).clickSaveButton().clickCloseToastButton();
+        addCarPage.openAddCarPage().deleteAllOptions().fillForm(CAR_FOR_EXIST_CAR_TEST).clickSaveButton().clickCloseToastButton();
+
+        //Edit a car
+        editCarPage.openEditFirstCarPage();
+        oldImageUrl = editCarPage.getSrcImage();
+        editCarPage.deleteAllOptions().fillForm(carValue).clickSaveButton();
 
         try {
             //Check message
@@ -894,25 +897,25 @@ public class AddCarTest extends BaseSeleniumTest {
             assertEquals(MESSAGE_EXIST_CAR, addCarPage.getMessageToast(MESSAGE_EXIST_CAR));
             addCarPage.clickCloseToastButton().clickLogo();
 
-            //Check car not add in catalog
+            //Edited car check in catalog
             assertEquals(oldImageUrl, catalogAuthPage.getImageSrcFirstCar());
-            assertTrue(isImagesEqualsByUrl(oldImageUrl, catalogAuthPage.getImageSrcFirstCar()));
+            assertTrue(isImagesEquals(CAR_FOR_EXIST_CAR_TEST.imageName, catalogAuthPage.getImageSrcFirstCar()));
             assertEquals(carTitle, catalogAuthPage.getTitleFirstCar(carTitle));
             assertEquals(CAR_FOR_EXIST_CAR_TEST.shortDescription, catalogAuthPage.getShortDescriptionFirstCar(CAR_FOR_EXIST_CAR_TEST.shortDescription));
 
-            //Check details page
+            //Edited car check in details page
             catalogAuthPage.clickFirstCarImage();
             assertEquals(oldImageUrl, detailsCarPage.getImageSrc());
-            assertTrue(isImagesEqualsByUrl(oldImageUrl, detailsCarPage.getImageSrc()));
+            assertTrue(isImagesEquals(CAR_FOR_EXIST_CAR_TEST.imageName, detailsCarPage.getImageSrc()));
             assertEquals(carTitle, detailsCarPage.getTitleCar(carTitle));
             assertEquals(carBodyType, detailsCarPage.getBodyTypeCar(carBodyType));
             assertEquals(carTransmission, detailsCarPage.getTransmissionTypeCar(carTransmission));
             assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
             assertEquals(CAR_FOR_EXIST_CAR_TEST.shortDescription, detailsCarPage.getShortDescriptionCar(CAR_FOR_EXIST_CAR_TEST.shortDescription));
             assertEquals(CAR_FOR_EXIST_CAR_TEST.description, detailsCarPage.getDescriptionCar(CAR_FOR_EXIST_CAR_TEST.description));
-            assertEquals(carOptions, detailsCarPage.getAllOptions());
+            assertEquals(CAR_FOR_EXIST_CAR_TEST.options, detailsCarPage.getAllOptions());
         } finally {
-            //Delete car from catalog
+            //Deleting a cars
             catalogAuthPage.clickLogo()
                     .clickFirstCarDeleteButton()
                     .clickFirstCarDeleteModalConfirm()
@@ -923,50 +926,46 @@ public class AddCarTest extends BaseSeleniumTest {
         }
     }
 
-    private void addCarWithoutImageCase(CarValue carValue) {
+    private void editCarImageNotAddedCase(CarValue carValue) {
+        String oldImageUrl;
+        BufferedImage oldImage;
         String carTitle = getTitleCar(carValue.brand, carValue.model);
-        String carEngine = getEngineDetailsPage(carValue.engine);
         String carBodyType = carValue.bodyType.stringValue;
         String carTransmission = carValue.transmissionType.stringValue;
-        List<String> carOptions = getOptionsDetailsPage(carValue.options);
+        String carEngine = getEngineDetailsPage(carValue.engine);
+        List<String> carOptions = sortOptions(carValue.options);
 
-        //Adding a car
-        addCarPage.openAddCarPage()
-                .fillForm(carValue)
-                .clickSaveButton();
-
+        //Editing a car
+        editCarPage.openEditFirstCarPage();
+        oldImageUrl = editCarPage.getSrcImage();
         try {
-            //Check message
-            assertTrue(catalogAuthPage.isToastDisplayed());
-            assertEquals(TITLE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.getTitleToast(TITLE_SUCCESSFULLY_CAR_ADD));
-            assertEquals(MESSAGE_SUCCESSFULLY_CAR_ADD, catalogAuthPage.getMessageToast(MESSAGE_SUCCESSFULLY_CAR_ADD));
-            catalogAuthPage.clickCloseToastButton();
-
-            //Added car check in catalog
-            assertEquals(DEFAULT_CAR_IMAGE_SRC, catalogAuthPage.getImageSrcFirstCar());
-            assertTrue(isImagesEqualsByUrl(DEFAULT_CAR_IMAGE_SRC, catalogAuthPage.getImageSrcFirstCar()));
-            assertEquals(carTitle, catalogAuthPage.getTitleFirstCar(carTitle));
-            assertEquals(carValue.shortDescription, catalogAuthPage.getShortDescriptionFirstCar(carValue.shortDescription));
-
-            //Added car check in details page
-            catalogAuthPage.clickFirstCarImage();
-            assertEquals(DEFAULT_CAR_IMAGE_SRC, detailsCarPage.getImageSrc());
-            assertTrue(isImagesEqualsByUrl(DEFAULT_CAR_IMAGE_SRC, detailsCarPage.getImageSrc()));
-            assertEquals(carTitle, detailsCarPage.getTitleCar(carTitle));
-            assertEquals(carBodyType, detailsCarPage.getBodyTypeCar(carBodyType));
-            assertEquals(carTransmission, detailsCarPage.getTransmissionTypeCar(carTransmission));
-            assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
-            assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
-            assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
-            assertEquals(carOptions, detailsCarPage.getAllOptions());
-        } finally {
-            //Delete car from catalog
-            detailsCarPage
-                    .clickLogo()
-                    .clickFirstCarDeleteButton()
-                    .clickFirstCarDeleteModalConfirm()
-                    .clickCloseToastButton()
-                    .clickAddCarButton();
+            oldImage = ImageIO.read(new URL(oldImageUrl));
+        } catch (IOException e) {
+            oldImage = null;
+            fail();
         }
+        editCarPage.deleteAllOptions().fillForm(carValue).clickSaveButton();
+        assertTrue(catalogAuthPage.isToastDisplayed());
+        assertEquals(TITLE_SUCCESSFULLY_CAR_EDIT, catalogAuthPage.getTitleToast(TITLE_SUCCESSFULLY_CAR_EDIT));
+        assertEquals(MESSAGE_SUCCESSFULLY_CAR_EDIT, catalogAuthPage.getMessageToast(MESSAGE_SUCCESSFULLY_CAR_EDIT));
+        catalogAuthPage.clickCloseToastButton();
+
+        //Check message
+        assertEquals(oldImageUrl, catalogAuthPage.getImageSrcFirstCar());
+        assertTrue(isImagesEquals(oldImage, catalogAuthPage.getImageSrcFirstCar()));
+        assertEquals(carTitle, catalogAuthPage.getTitleFirstCar(carTitle));
+        assertEquals(carValue.shortDescription, catalogAuthPage.getShortDescriptionFirstCar(carValue.shortDescription));
+
+        //Edited car check in catalog
+        catalogAuthPage.clickFirstCarImage();
+        assertEquals(oldImageUrl, detailsCarPage.getImageSrc());
+        assertTrue(isImagesEquals(oldImage, detailsCarPage.getImageSrc()));
+        assertEquals(carTitle, detailsCarPage.getTitleCar(carTitle));
+        assertEquals(carBodyType, detailsCarPage.getBodyTypeCar(carBodyType));
+        assertEquals(carTransmission, detailsCarPage.getTransmissionTypeCar(carTransmission));
+        assertEquals(carEngine, detailsCarPage.getEngineCar(carEngine));
+        assertEquals(carValue.shortDescription, detailsCarPage.getShortDescriptionCar(carValue.shortDescription));
+        assertEquals(carValue.description, detailsCarPage.getDescriptionCar(carValue.description));
+        assertEquals(carOptions, detailsCarPage.getAllOptions());
     }
 }
