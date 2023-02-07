@@ -107,7 +107,6 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>3.0.2</version>
                     <configuration>
                         <excludes>
                             <exclude>
@@ -124,12 +123,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.5</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>com.implemica.selenium.tests.BaseSeleniumTest</exclude>
-                        </excludes>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

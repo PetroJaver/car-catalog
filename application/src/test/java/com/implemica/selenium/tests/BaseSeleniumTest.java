@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.fail;
 
-public class BaseSeleniumTest {
+public abstract class BaseSeleniumTest {
     protected static WebDriver driver;
     protected static WebDriverWait webDriverWait;
     protected static final DataFactory dataFactory = new DataFactory();
