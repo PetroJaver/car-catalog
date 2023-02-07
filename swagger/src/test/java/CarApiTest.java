@@ -1,9 +1,11 @@
-import com.implemica.swagger.client.codegen.rest.api.*;
-import com.implemica.swagger.client.codegen.rest.model.*;
-import com.implemica.swagger.client.codegen.rest.invoker.*;
-
-import org.junit.*;
-import org.junit.jupiter.api.Disabled;
+import com.implemica.swagger.client.codegen.rest.api.AuthenticationApi;
+import com.implemica.swagger.client.codegen.rest.api.CarApi;
+import com.implemica.swagger.client.codegen.rest.invoker.ApiClient;
+import com.implemica.swagger.client.codegen.rest.model.AuthenticationRequestDTO;
+import com.implemica.swagger.client.codegen.rest.model.Car;
+import com.implemica.swagger.client.codegen.rest.model.CarDTO;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
