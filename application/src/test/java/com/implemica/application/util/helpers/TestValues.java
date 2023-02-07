@@ -16,7 +16,6 @@ import static com.implemica.model.enums.CarBrand.*;
 import static com.implemica.model.enums.CarTransmissionType.AUTOMATIC;
 import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 
-@Ignore
 public class TestValues {
     public static final String DESCRIPTION = "Lorem Ipsum is simply dummy text of the printing and " +
             "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
