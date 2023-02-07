@@ -13,7 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static com.implemica.application.util.helpers.TestValues.*;
+import static com.implemica.application.util.helpers.Values.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
