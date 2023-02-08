@@ -21,10 +21,10 @@ public class StorageService {
     @Value("${application.bucket.name}")
     private String bucketName;
 
-    @Value("application.default.name")
+    @Value("${application.default.image}")
     private String defaultImageName;
 
-    @Value("application.storage-service.meta-data.image")
+    @Value("${application.storage-service.meta-data.image}")
     private String metaDataForImages;
 
     @Autowired
@@ -52,10 +52,12 @@ public class StorageService {
 
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileInputStream, metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-
-            file.delete();
         } catch (Exception e) {
             fileName = defaultImageName;
+        }
+
+        if(file != null){
+            file.delete();
         }
 
         return fileName;
