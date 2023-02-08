@@ -48,26 +48,23 @@ public class CarServiceTest {
 
     @Test
     public void deleteExistCarWithDefaultImage() {
-        when(carRepository.existsById(1L)).thenReturn(true);
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
-
+        when(storageService.deleteFile(DEFAULT_IMAGE_PATH)).thenReturn(true);
         assertTrue(carService.deleteCarById(1L));
 
-        verify(carRepository, times(1)).existsById(1L);
         verify(carRepository, times(1)).findById(1L);
+        verify(storageService, times(1)).deleteFile(DEFAULT_IMAGE_PATH);
         verify(carRepository, times(1)).deleteById(1L);
-        verifyNoInteractions(storageService);
+        verifyNoMoreInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
 
     @Test
     public void deleteExistCarWithNotDefaultImage() {
-        when(carRepository.existsById(1L)).thenReturn(true);
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME));
-
+        when(storageService.deleteFile(NOT_DEFAULT_IMAGE_PATH)).thenReturn(true);
         assertTrue(carService.deleteCarById(1L));
 
-        verify(carRepository, times(1)).existsById(1L);
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).deleteById(1L);
         verify(storageService, times(1)).deleteFile(NOT_DEFAULT_IMAGE_PATH);
@@ -77,11 +74,11 @@ public class CarServiceTest {
 
     @Test
     public void deleteCarNotExistCar() {
-        when(carRepository.existsById(1L)).thenReturn(false);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertFalse(carService.deleteCarById(1L));
 
-        verify(carRepository, times(1)).existsById(1L);
+        verify(carRepository,times(1)).findById(1L);
         verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
@@ -173,12 +170,14 @@ public class CarServiceTest {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
         when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
                 .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        when(storageService.deleteFile(DEFAULT_IMAGE_PATH)).thenReturn(true);
         when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
 
         assertTrue(carService.uploadImageCarById(1L, MULTIPART_FILE));
 
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository,times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        verify(storageService, times(1)).deleteFile(DEFAULT_IMAGE_PATH);
         verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(storageService);
