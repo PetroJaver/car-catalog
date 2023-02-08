@@ -27,7 +27,7 @@ public class CarServiceImpl implements CarService {
     @Autowired
     CarRepository carRepository;
 
-    @Value("${default.image}")
+    @Value("${application.default.image}")
     String defaultImagePath;
 
     @Override
@@ -48,11 +48,10 @@ public class CarServiceImpl implements CarService {
             String imageName = foundCar.get().getImageName();
 
             if(storageService.deleteFile(imageName)){
-                return false;
+                carRepository.deleteById(id);
+                return true;
             }
 
-            carRepository.deleteById(id);
-            return true;
         }
 
         return false;

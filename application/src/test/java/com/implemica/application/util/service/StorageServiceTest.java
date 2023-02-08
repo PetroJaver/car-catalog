@@ -36,6 +36,10 @@ public class StorageServiceTest {
     @Value("${application.bucket.name}")
     private String bucketName;
 
+    @Value("${application.default.image}")
+    private String defaultImage;
+
+
     private final String fileName = "image";
 
     @Test
@@ -153,7 +157,7 @@ public class StorageServiceTest {
         };
         when(s3Client.putObject(any())).thenThrow(AmazonServiceException.class);
 
-        assertTrue(storageService.uploadFile(file)==null);
+        assertTrue(storageService.uploadFile(file)==defaultImage);
 
         verify(s3Client,times(1)).putObject(any());
         verifyNoMoreInteractions(s3Client);
@@ -203,7 +207,7 @@ public class StorageServiceTest {
             }
         };
 
-        assertTrue(storageService.uploadFile(file)==null);
+        assertTrue(storageService.uploadFile(file)==defaultImage);
 
         verifyNoInteractions(s3Client);
     }

@@ -52,11 +52,13 @@ public class StorageService {
 
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileInputStream, metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (IOException e) {
+
+            file.delete();
+        } catch (Exception e) {
             fileName = defaultImageName;
         }
 
-        return file.delete() ? fileName : defaultImageName;
+        return fileName;
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {
