@@ -1,691 +1,305 @@
-2023-02-06 12:58:33.594  INFO 1772 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 1772 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 12:58:33.605  INFO 1772 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 12:58:33.806  INFO 1772 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 12:58:33.807  INFO 1772 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 12:58:35.863  INFO 1772 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 12:58:35.973  INFO 1772 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 2 JPA repository interfaces.
-2023-02-06 12:58:37.273  INFO 1772 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#2862828a' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 12:58:37.292  INFO 1772 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#5f15ce5a' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 12:58:37.297  INFO 1772 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 12:58:37.297  INFO 1772 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 12:58:38.011  INFO 1772 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 12:58:38.026  INFO 1772 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 12:58:38.027  INFO 1772 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 12:58:38.220  INFO 1772 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 12:58:38.221  INFO 1772 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4412 ms
-2023-02-06 12:58:38.295  INFO 1772 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 12:58:40.593  INFO 1772 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 12:58:40.608  INFO 1772 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 12:58:40.838  INFO 1772 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 12:58:40.926  INFO 1772 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 12:58:41.205  INFO 1772 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 12:58:41.534  INFO 1772 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 12:58:44.736  INFO 1772 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 12:58:44.758  INFO 1772 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 12:58:46.730  WARN 1772 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 12:58:47.392  INFO 1772 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@10dc4d47, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@f3571ad, org.springframework.security.web.context.SecurityContextPersistenceFilter@72373a09, org.springframework.security.web.header.HeaderWriterFilter@110fd102, org.springframework.web.filter.CorsFilter@2b3d1c5, org.springframework.security.web.authentication.logout.LogoutFilter@3bbe99ac, com.implemica.security.JwtTokenFilter@55ba00bc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@948a1c2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@66eb2835, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@135b3378, org.springframework.security.web.session.SessionManagementFilter@539eb9a2, org.springframework.security.web.access.ExceptionTranslationFilter@5f924e62, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@622f9aa]
-2023-02-06 12:58:47.585  INFO 1772 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 12:58:47.948  INFO 1772 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 12:58:48.380  INFO 1772 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 16.392 seconds (JVM running for 19.111)
-2023-02-06 13:24:58.957  INFO 1772 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:24:58.964  INFO 1772 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 13:24:58.985  INFO 1772 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-02-06 13:45:05.000  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 16440 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:45:05.002  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:45:05.107  INFO 16440 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 13:45:05.108  INFO 16440 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 13:45:06.677  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:45:06.772  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 83 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:45:07.794  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#c9a6ab7' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:45:07.810  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#7c627b99' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:45:07.814  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:45:07.814  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:45:08.486  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:45:08.500  INFO 16440 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:45:08.501  INFO 16440 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:45:08.685  INFO 16440 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:45:08.685  INFO 16440 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3576 ms
-2023-02-06 13:45:08.752  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 13:45:10.966  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 13:45:10.991  INFO 16440 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:45:11.199  INFO 16440 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:45:11.270  INFO 16440 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 13:45:11.474  INFO 16440 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 13:45:11.817  INFO 16440 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:45:14.941  INFO 16440 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:45:14.966  INFO 16440 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:45:16.520  WARN 16440 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:45:17.077  INFO 16440 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2805094d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a9a0d57, org.springframework.security.web.context.SecurityContextPersistenceFilter@367a00de, org.springframework.security.web.header.HeaderWriterFilter@17230a85, org.springframework.web.filter.CorsFilter@2b55882b, org.springframework.security.web.authentication.logout.LogoutFilter@561e8053, com.implemica.security.JwtTokenFilter@1b9caca6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@986b3e7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1f5f60d6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18ca3dc8, org.springframework.security.web.session.SessionManagementFilter@2d13ba05, org.springframework.security.web.access.ExceptionTranslationFilter@5f729eb0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5ab01ced]
-2023-02-06 13:45:17.237  INFO 16440 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:45:17.544  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:45:17.926  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 14.059 seconds (JVM running for 16.137)
-2023-02-06 13:47:18.121  INFO 16440 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 38 class path changes (0 additions, 38 deletions, 0 modifications)
-2023-02-06 13:47:18.860  INFO 16440 --- [Thread-4] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:47:18.921  INFO 16440 --- [Thread-4] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:47:18.988  INFO 16440 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 13:47:19.024  INFO 16440 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-02-06 13:47:24.896  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 16440 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:47:24.897  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:47:25.772  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:47:25.775  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2023-02-06 13:47:26.160  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#77da626a' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:26.164  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#13bffe60' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:26.166  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:26.167  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:26.326  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:47:26.328  INFO 16440 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:47:26.328  INFO 16440 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:47:26.407  INFO 16440 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:47:26.408  INFO 16440 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1504 ms
-2023-02-06 13:47:26.455  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
-2023-02-06 13:47:28.341  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
-2023-02-06 13:47:28.342  INFO 16440 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:47:28.471  INFO 16440 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:47:28.506  INFO 16440 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:47:29.320  INFO 16440 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:47:29.321  INFO 16440 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:47:29.682  WARN 16440 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:47:30.402  INFO 16440 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:47:30.775  WARN 16440 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 89ef4ff4-3070-417d-986a-1d010e02df0e
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:47:30.966  INFO 16440 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@273de420, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71d7d23d, org.springframework.security.web.context.SecurityContextPersistenceFilter@42a093, org.springframework.security.web.header.HeaderWriterFilter@66802746, org.springframework.security.web.csrf.CsrfFilter@586932be, org.springframework.security.web.authentication.logout.LogoutFilter@78c29793, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5f1a82f4, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@76155a56, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7ad1e3d1, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@e517bb2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7cecfe6a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1b314ca6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7fd89bd2, org.springframework.security.web.session.SessionManagementFilter@11af9cda, org.springframework.security.web.access.ExceptionTranslationFilter@5375e4fd, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@b4baef4]
-2023-02-06 13:47:31.145  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:47:31.360  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 6.581 seconds (JVM running for 149.571)
-2023-02-06 13:47:31.373  INFO 16440 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
-
-
-==========================
-CONDITION EVALUATION DELTA
-==========================
-
-
-Positive matches:
------------------
-
-   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration matched:
-      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
-
-   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
-      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-   UserDetailsServiceAutoConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
-      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-
-Negative matches:
------------------
-
-    None
-
-
-Exclusions:
------------
-
-    None
-
-
-Unconditional classes:
-----------------------
-
-    None
-
-
-
-2023-02-06 13:47:45.185  INFO 16440 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 19 class path changes (19 additions, 0 deletions, 0 modifications)
-2023-02-06 13:47:45.603  INFO 16440 --- [Thread-7] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:47:45.624  INFO 16440 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:47:45.626  INFO 16440 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
-2023-02-06 13:47:45.649  INFO 16440 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
-2023-02-06 13:47:45.875  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 16440 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:47:45.876  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:47:46.953  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:47:46.983  INFO 16440 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:47:47.395  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#47f79cda' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:47.399  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#54dc1e5e' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:47.400  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:47.401  INFO 16440 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:47:47.572  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:47:47.574  INFO 16440 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:47:47.575  INFO 16440 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:47:47.675  INFO 16440 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:47:47.675  INFO 16440 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1786 ms
-2023-02-06 13:47:47.710  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2023-02-06 13:47:49.448  INFO 16440 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2023-02-06 13:47:49.449  INFO 16440 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:47:49.596  INFO 16440 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:47:49.631  INFO 16440 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:47:51.401  INFO 16440 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:47:51.401  INFO 16440 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:47:51.809  WARN 16440 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:47:52.050  INFO 16440 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:47:52.196  WARN 16440 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 4c60fdd5-3f90-45bd-8575-a20e7bd7e40f
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:47:52.237  INFO 16440 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@f49cc43, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6365a3cf, org.springframework.security.web.context.SecurityContextPersistenceFilter@30000076, org.springframework.security.web.header.HeaderWriterFilter@1e602abc, org.springframework.security.web.csrf.CsrfFilter@5cc6939b, org.springframework.security.web.authentication.logout.LogoutFilter@19f3deb5, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5bc80b71, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@90add09, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@786daf51, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6fb2778e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5e0fcca0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@41a53817, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@41fa9d5, org.springframework.security.web.session.SessionManagementFilter@58b21ab0, org.springframework.security.web.access.ExceptionTranslationFilter@1c7e53ed, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5b76f6cb]
-2023-02-06 13:47:52.305  INFO 16440 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:47:52.410  INFO 16440 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 6.654 seconds (JVM running for 170.621)
-2023-02-06 13:47:52.413  INFO 16440 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2023-02-06 13:48:11.736  INFO 16440 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:48:11.738  INFO 16440 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
-2023-02-06 13:48:11.752  INFO 16440 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
-2023-02-06 13:48:34.875  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:48:34.878  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:48:35.020  INFO 22304 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 13:48:35.020  INFO 22304 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 13:48:36.845  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:48:36.966  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:48:38.177  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#6c2869c5' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:48:38.198  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#139dd9a8' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:48:38.204  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:48:38.205  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:48:38.970  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:48:38.985  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:48:38.986  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:48:39.133  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:48:39.133  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4112 ms
-2023-02-06 13:48:39.184  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 13:48:41.392  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 13:48:41.412  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:48:41.644  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:48:41.727  INFO 22304 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 13:48:41.975  INFO 22304 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 13:48:42.276  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:48:45.642  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:48:45.661  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:48:47.583  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:48:48.242  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@71ebd4df, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1911a97d, org.springframework.security.web.context.SecurityContextPersistenceFilter@7eb95852, org.springframework.security.web.header.HeaderWriterFilter@229912a1, org.springframework.web.filter.CorsFilter@1fe9ef47, org.springframework.security.web.authentication.logout.LogoutFilter@767fc0f0, com.implemica.security.JwtTokenFilter@790dbfa6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3dbd61d6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4d69f62e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@669396f4, org.springframework.security.web.session.SessionManagementFilter@daeb0b4, org.springframework.security.web.access.ExceptionTranslationFilter@1a8ffc97, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@42c70b02]
-2023-02-06 13:48:48.404  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:48:48.789  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:48:49.192  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 15.809 seconds (JVM running for 18.218)
-2023-02-06 13:54:56.830  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 37 class path changes (0 additions, 33 deletions, 4 modifications)
-2023-02-06 13:54:57.150  INFO 22304 --- [Thread-4] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:54:57.187  INFO 22304 --- [Thread-4] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:54:57.194  INFO 22304 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 13:54:57.216  INFO 22304 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-02-06 13:54:57.484  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:54:57.484  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:54:58.659  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:54:58.662  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
-2023-02-06 13:54:59.105  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#14a58a08' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:54:59.108  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#3c953c39' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:54:59.110  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:54:59.111  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:54:59.299  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:54:59.301  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:54:59.302  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:54:59.415  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:54:59.416  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1924 ms
-2023-02-06 13:54:59.463  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2023-02-06 13:55:01.620  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2023-02-06 13:55:01.621  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:55:01.752  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:55:01.790  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:55:02.772  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:55:02.773  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:55:02.967  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:55:03.321  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:55:03.534  WARN 22304 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 1a87fe00-4046-43a9-b1d0-83e85f99ae79
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:55:03.640  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@60c2640e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b50d73b, org.springframework.security.web.context.SecurityContextPersistenceFilter@2567e9c0, org.springframework.security.web.header.HeaderWriterFilter@10bf5f14, org.springframework.security.web.csrf.CsrfFilter@1a95572f, org.springframework.security.web.authentication.logout.LogoutFilter@4646e509, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1a86cfa0, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5f0e6921, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@357f417b, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@44066393, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f516460, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@15fcc361, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4292a6bc, org.springframework.security.web.session.SessionManagementFilter@157be86f, org.springframework.security.web.access.ExceptionTranslationFilter@63872d69, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2e029af7]
-2023-02-06 13:55:03.777  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:55:03.950  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 6.59 seconds (JVM running for 392.976)
-2023-02-06 13:55:03.961  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
-
-
-==========================
-CONDITION EVALUATION DELTA
-==========================
-
-
-Positive matches:
------------------
-
-   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration matched:
-      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
-
-   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
-      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-   UserDetailsServiceAutoConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
-      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-
-Negative matches:
------------------
-
-    None
-
-
-Exclusions:
------------
-
-    None
-
-
-Unconditional classes:
-----------------------
-
-    None
-
-
-
-2023-02-06 13:56:25.412  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 19 class path changes (19 additions, 0 deletions, 0 modifications)
-2023-02-06 13:56:25.849  INFO 22304 --- [Thread-7] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:56:25.868  INFO 22304 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:25.870  INFO 22304 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
-2023-02-06 13:56:25.892  INFO 22304 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
-2023-02-06 13:56:26.111  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:56:26.112  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:56:27.464  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:56:27.505  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:56:27.842  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#43fffd30' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:27.845  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#2c35a855' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:27.846  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:27.847  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:28.038  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:56:28.042  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:56:28.042  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:56:28.171  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:56:28.172  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2049 ms
-2023-02-06 13:56:28.224  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
-2023-02-06 13:56:30.032  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
-2023-02-06 13:56:30.033  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:56:30.103  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:56:30.131  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:56:32.810  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:56:32.811  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:33.143  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:56:33.458  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:56:33.623  WARN 22304 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 3aaa184f-e58e-496c-9013-4d4d739011c5
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:56:33.661  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@18f986e5, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e5ba46c, org.springframework.security.web.context.SecurityContextPersistenceFilter@686a2c8, org.springframework.security.web.header.HeaderWriterFilter@7f05653b, org.springframework.security.web.csrf.CsrfFilter@169cfe89, org.springframework.security.web.authentication.logout.LogoutFilter@5534de2c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4c692ba5, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@611c8bb1, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7bea8c01, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@3e1bce1f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3967dd6e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6d1f4bc4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1be1de55, org.springframework.security.web.session.SessionManagementFilter@771f6214, org.springframework.security.web.access.ExceptionTranslationFilter@3f1019d7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@19afed63]
-2023-02-06 13:56:33.795  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:56:33.975  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 7.983 seconds (JVM running for 483.001)
-2023-02-06 13:56:33.990  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2023-02-06 13:56:35.279  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 14 class path changes (14 additions, 0 deletions, 0 modifications)
-2023-02-06 13:56:35.939  INFO 22304 --- [Thread-11] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:56:35.958  INFO 22304 --- [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:35.961  INFO 22304 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
-2023-02-06 13:56:37.440  INFO 22304 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
-2023-02-06 13:56:37.587  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:56:37.588  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:56:38.442  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:56:38.509  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:56:38.887  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#26aa3646' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:38.890  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#6c7412e9' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:38.891  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:38.891  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:39.082  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:56:39.083  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:56:39.084  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:56:39.146  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:56:39.147  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1551 ms
-2023-02-06 13:56:39.191  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2023-02-06 13:56:41.197  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2023-02-06 13:56:41.198  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:56:41.307  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:56:41.330  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:56:44.419  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:56:44.420  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:45.503  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:56:46.427  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2625e756, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@12e05420, org.springframework.security.web.context.SecurityContextPersistenceFilter@a888616, org.springframework.security.web.header.HeaderWriterFilter@1cfc946b, org.springframework.web.filter.CorsFilter@5f652aa9, org.springframework.security.web.authentication.logout.LogoutFilter@52141d7d, com.implemica.security.JwtTokenFilter@7171f435, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@26a29101, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5e850672, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@44259caa, org.springframework.security.web.session.SessionManagementFilter@79a7604b, org.springframework.security.web.access.ExceptionTranslationFilter@2900b0c6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@662fbe99]
-2023-02-06 13:56:46.663  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:56:47.026  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:56:47.208  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 9.684 seconds (JVM running for 496.234)
-2023-02-06 13:56:47.214  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
-
-
-==========================
-CONDITION EVALUATION DELTA
-==========================
-
-
-Positive matches:
------------------
-
-    None
-
-
-Negative matches:
------------------
-
-   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration:
-      Did not match:
-         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' filterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
-
-   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration:
-      Did not match:
-         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
-      Matched:
-         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
-
-   UserDetailsServiceAutoConfiguration:
-      Did not match:
-         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) found beans of type 'org.springframework.security.authentication.AuthenticationManager' authenticationManager and found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' userDetailsServiceImpl (OnBeanCondition)
-      Matched:
-         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
-
-
-Exclusions:
------------
-
-    None
-
-
-Unconditional classes:
-----------------------
-
-    None
-
-
-
-2023-02-06 13:56:53.385  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 37 class path changes (0 additions, 33 deletions, 4 modifications)
-2023-02-06 13:56:54.298  INFO 22304 --- [Thread-15] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:56:54.310  INFO 22304 --- [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:54.311  INFO 22304 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
-2023-02-06 13:56:54.413  INFO 22304 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
-2023-02-06 13:56:54.614  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:56:54.615  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:56:55.614  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:56:55.616  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2023-02-06 13:56:55.914  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#11f608e4' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:55.917  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#54b4e4ee' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:55.918  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:55.919  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:56:56.038  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:56:56.039  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:56:56.039  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:56:56.107  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:56:56.107  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1485 ms
-2023-02-06 13:56:56.142  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
-2023-02-06 13:56:57.950  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
-2023-02-06 13:56:57.951  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:56:58.060  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:56:58.097  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:56:59.039  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:56:59.040  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:56:59.305  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:56:59.639  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:56:59.865  WARN 22304 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: d8fc0108-5964-4288-9c0b-017d9f50c4ed
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:56:59.943  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@263b6255, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@81ca1b1, org.springframework.security.web.context.SecurityContextPersistenceFilter@79a9a8ab, org.springframework.security.web.header.HeaderWriterFilter@68e68a76, org.springframework.security.web.csrf.CsrfFilter@62ba8ef4, org.springframework.security.web.authentication.logout.LogoutFilter@3f7d36d4, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@24207a23, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@79338c60, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@2fca23f3, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@347e1577, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@78c154b0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24a8d4e4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b5b4ed0, org.springframework.security.web.session.SessionManagementFilter@4f52529b, org.springframework.security.web.access.ExceptionTranslationFilter@40b82a24, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7fba266d]
-2023-02-06 13:57:00.092  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:57:00.220  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 5.694 seconds (JVM running for 509.246)
-2023-02-06 13:57:00.226  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
-
-
-==========================
-CONDITION EVALUATION DELTA
-==========================
-
-
-Positive matches:
------------------
-
-   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration matched:
-      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
-
-   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
-      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-   UserDetailsServiceAutoConfiguration matched:
-      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
-      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
-
-
-Negative matches:
------------------
-
-    None
-
-
-Exclusions:
------------
-
-    None
-
-
-Unconditional classes:
-----------------------
-
-    None
-
-
-
-2023-02-06 13:57:06.592  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 19 class path changes (19 additions, 0 deletions, 0 modifications)
-2023-02-06 13:57:07.078  INFO 22304 --- [Thread-19] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:57:07.102  INFO 22304 --- [Thread-19] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:07.104  INFO 22304 --- [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
-2023-02-06 13:57:07.805  INFO 22304 --- [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
-2023-02-06 13:57:08.007  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:57:08.008  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:57:09.247  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:57:09.330  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:57:09.778  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#f08cb79' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:09.782  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#66e48166' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:09.784  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:09.784  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:09.982  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:57:09.984  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:57:09.984  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:57:10.074  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:57:10.074  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2057 ms
-2023-02-06 13:57:10.121  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
-2023-02-06 13:57:11.974  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
-2023-02-06 13:57:11.974  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:57:12.072  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:57:12.096  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:57:14.572  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:57:14.573  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:15.377  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:57:15.767  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:57:15.941  WARN 22304 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 012209be-d281-4cbf-b50e-5350202ab83a
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2023-02-06 13:57:15.997  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d17188d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@22ceeb84, org.springframework.security.web.context.SecurityContextPersistenceFilter@58da66cd, org.springframework.security.web.header.HeaderWriterFilter@792867b8, org.springframework.security.web.csrf.CsrfFilter@6c6d08be, org.springframework.security.web.authentication.logout.LogoutFilter@2d3a19b1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1313bc2d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@41968297, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@2cb2c924, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@c628840, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@12ceac4d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@28e11c0b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@348a747a, org.springframework.security.web.session.SessionManagementFilter@5c76ad05, org.springframework.security.web.access.ExceptionTranslationFilter@7fa6bf04, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@44156477]
-2023-02-06 13:57:16.115  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:57:16.268  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 8.351 seconds (JVM running for 525.294)
-2023-02-06 13:57:16.273  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2023-02-06 13:57:17.535  INFO 22304 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 14 class path changes (14 additions, 0 deletions, 0 modifications)
-2023-02-06 13:57:18.028  INFO 22304 --- [Thread-23] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2023-02-06 13:57:18.048  INFO 22304 --- [Thread-23] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:18.050  INFO 22304 --- [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
-2023-02-06 13:57:19.450  INFO 22304 --- [Thread-23] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
-2023-02-06 13:57:19.702  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22304 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:57:19.703  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:57:20.636  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:57:20.704  INFO 22304 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:57:21.003  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#a717a40' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:21.007  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#aa4787f' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:21.008  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:21.008  INFO 22304 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:21.201  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:57:21.202  INFO 22304 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:57:21.203  INFO 22304 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:57:21.290  INFO 22304 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:57:21.290  INFO 22304 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1572 ms
-2023-02-06 13:57:21.348  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
-2023-02-06 13:57:23.105  INFO 22304 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
-2023-02-06 13:57:23.107  INFO 22304 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:57:23.180  INFO 22304 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:57:23.199  INFO 22304 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:57:24.966  INFO 22304 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:57:24.966  INFO 22304 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:25.407  WARN 22304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:57:25.712  INFO 22304 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@ce793ca, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@21d390f1, org.springframework.security.web.context.SecurityContextPersistenceFilter@18c5feb3, org.springframework.security.web.header.HeaderWriterFilter@36ce7eaa, org.springframework.web.filter.CorsFilter@6b14a62f, org.springframework.security.web.authentication.logout.LogoutFilter@e021499, com.implemica.security.JwtTokenFilter@4a2c0837, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@620f07b6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2154e416, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1daaeb99, org.springframework.security.web.session.SessionManagementFilter@58281c2c, org.springframework.security.web.access.ExceptionTranslationFilter@255e8dd1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@10ee8dc]
-2023-02-06 13:57:25.799  INFO 22304 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:57:25.989  INFO 22304 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:57:26.107  INFO 22304 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 6.536 seconds (JVM running for 535.134)
-2023-02-06 13:57:26.110  INFO 22304 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
-
-
-==========================
-CONDITION EVALUATION DELTA
-==========================
-
-
-Positive matches:
------------------
-
-    None
-
-
-Negative matches:
------------------
-
-   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration:
-      Did not match:
-         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' filterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
-
-   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration:
-      Did not match:
-         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
-      Matched:
-         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
-
-   UserDetailsServiceAutoConfiguration:
-      Did not match:
-         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector,org.springframework.security.oauth2.client.registration.ClientRegistrationRepository,org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository; SearchStrategy: all) found beans of type 'org.springframework.security.authentication.AuthenticationManager' authenticationManager and found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' userDetailsServiceImpl (OnBeanCondition)
-      Matched:
-         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
-
-
-Exclusions:
------------
-
-    None
-
-
-Unconditional classes:
-----------------------
-
-    None
-
-
-
-2023-02-06 13:57:26.395  INFO 22304 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:26.398  INFO 22304 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
-2023-02-06 13:57:27.371  INFO 22304 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
-2023-02-06 13:57:32.442  INFO 22492 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 22492 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 13:57:32.444  INFO 22492 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 13:57:32.550  INFO 22492 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 13:57:32.551  INFO 22492 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 13:57:34.302  INFO 22492 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 13:57:34.438  INFO 22492 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 2 JPA repository interfaces.
-2023-02-06 13:57:35.652  INFO 22492 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#66bf84b0' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:35.672  INFO 22492 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#3b760d20' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:35.677  INFO 22492 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:35.678  INFO 22492 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 13:57:36.428  INFO 22492 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 13:57:36.442  INFO 22492 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 13:57:36.443  INFO 22492 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 13:57:36.620  INFO 22492 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 13:57:36.620  INFO 22492 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4068 ms
-2023-02-06 13:57:36.700  INFO 22492 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 13:57:39.002  INFO 22492 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 13:57:39.017  INFO 22492 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 13:57:39.247  INFO 22492 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 13:57:39.328  INFO 22492 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 13:57:39.622  INFO 22492 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 13:57:39.938  INFO 22492 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 13:57:45.506  INFO 22492 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 13:57:45.519  INFO 22492 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:47.675  WARN 22492 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 13:57:48.421  INFO 22492 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4a53ad20, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7b550e93, org.springframework.security.web.context.SecurityContextPersistenceFilter@b5d830d, org.springframework.security.web.header.HeaderWriterFilter@42512944, org.springframework.web.filter.CorsFilter@3a2eb6bb, org.springframework.security.web.authentication.logout.LogoutFilter@75fab90f, com.implemica.security.JwtTokenFilter@1320dd74, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4f223b7e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@268b5a56, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@795a4431, org.springframework.security.web.session.SessionManagementFilter@3f1fcd90, org.springframework.security.web.access.ExceptionTranslationFilter@3a967976, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@682d44d]
-2023-02-06 13:57:48.615  INFO 22492 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 13:57:48.995  INFO 22492 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 13:57:49.491  INFO 22492 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 18.201 seconds (JVM running for 20.38)
-2023-02-06 13:57:59.555  INFO 22492 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 13:57:59.562  INFO 22492 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 13:57:59.586  INFO 22492 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-02-06 14:01:08.847  INFO 23428 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 23428 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 14:01:08.849  INFO 23428 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 14:01:08.970  INFO 23428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 14:01:08.971  INFO 23428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 14:01:10.766  INFO 23428 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 14:01:10.862  INFO 23428 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 83 ms. Found 2 JPA repository interfaces.
-2023-02-06 14:01:11.917  INFO 23428 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#5a61a7f' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:01:11.932  INFO 23428 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#4612612c' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:01:11.937  INFO 23428 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:01:11.937  INFO 23428 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:01:12.681  INFO 23428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 14:01:12.692  INFO 23428 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 14:01:12.692  INFO 23428 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 14:01:12.841  INFO 23428 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 14:01:12.841  INFO 23428 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3869 ms
-2023-02-06 14:01:12.889  INFO 23428 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 14:01:15.611  INFO 23428 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 14:01:15.627  INFO 23428 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 14:01:15.851  INFO 23428 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 14:01:15.922  INFO 23428 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 14:01:16.167  INFO 23428 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 14:01:16.505  INFO 23428 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 14:01:19.599  INFO 23428 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 14:01:19.614  INFO 23428 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 14:01:21.414  WARN 23428 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 14:01:22.057  INFO 23428 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e53cfd1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71868186, org.springframework.security.web.context.SecurityContextPersistenceFilter@79b01136, org.springframework.security.web.header.HeaderWriterFilter@64b09f20, org.springframework.web.filter.CorsFilter@691f2509, org.springframework.security.web.authentication.logout.LogoutFilter@3d5e45f6, com.implemica.security.JwtTokenFilter@3a1dafa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@569e0ac6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@105fe029, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23a0d5ea, org.springframework.security.web.session.SessionManagementFilter@1ee17f32, org.springframework.security.web.access.ExceptionTranslationFilter@31c2996c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7d92739c]
-2023-02-06 14:01:22.221  INFO 23428 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 14:01:22.592  INFO 23428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 14:01:22.988  INFO 23428 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 15.433 seconds (JVM running for 17.74)
-2023-02-06 14:03:25.253  INFO 23428 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 14:03:25.259  INFO 23428 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 14:03:25.266  INFO 23428 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2023-02-06 14:03:47.306  INFO 16028 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 16028 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
-2023-02-06 14:03:47.308  INFO 16028 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
-2023-02-06 14:03:47.445  INFO 16028 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-02-06 14:03:47.446  INFO 16028 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-02-06 14:03:49.503  INFO 16028 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-02-06 14:03:49.656  INFO 16028 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 134 ms. Found 2 JPA repository interfaces.
-2023-02-06 14:03:51.209  INFO 16028 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#7291272b' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:03:51.246  INFO 16028 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#34a08289' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:03:51.256  INFO 16028 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:03:51.257  INFO 16028 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023-02-06 14:03:52.035  INFO 16028 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
-2023-02-06 14:03:52.049  INFO 16028 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2023-02-06 14:03:52.050  INFO 16028 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
-2023-02-06 14:03:52.233  INFO 16028 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2023-02-06 14:03:52.233  INFO 16028 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4786 ms
-2023-02-06 14:03:52.312  INFO 16028 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-02-06 14:03:54.469  INFO 16028 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-02-06 14:03:54.491  INFO 16028 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
-2023-02-06 14:03:54.812  INFO 16028 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-02-06 14:03:54.908  INFO 16028 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
-2023-02-06 14:03:55.172  INFO 16028 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023-02-06 14:03:55.480  INFO 16028 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
-2023-02-06 14:03:58.504  INFO 16028 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-02-06 14:03:58.522  INFO 16028 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 14:04:00.731  WARN 16028 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023-02-06 14:04:01.494  INFO 16028 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@17736638, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@516c3c60, org.springframework.security.web.context.SecurityContextPersistenceFilter@48a9d62d, org.springframework.security.web.header.HeaderWriterFilter@76bc86ad, org.springframework.web.filter.CorsFilter@74395b09, org.springframework.security.web.authentication.logout.LogoutFilter@1d830811, com.implemica.security.JwtTokenFilter@438555b6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2097e9c1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6f0b153e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23c336f6, org.springframework.security.web.session.SessionManagementFilter@13aabd58, org.springframework.security.web.access.ExceptionTranslationFilter@93c79b0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@66d8ba97]
-2023-02-06 14:04:01.664  INFO 16028 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2023-02-06 14:04:02.057  INFO 16028 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
-2023-02-06 14:04:02.543  INFO 16028 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 16.642 seconds (JVM running for 19.143)
-2023-02-06 14:05:45.323  INFO 16028 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2023-02-06 14:05:45.337  INFO 16028 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-02-06 14:05:45.356  INFO 16028 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-08 11:44:02.150  INFO 1324 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 1324 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
+2023-02-08 11:44:02.157  INFO 1324 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-02-08 11:44:02.266  INFO 1324 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-08 11:44:02.266  INFO 1324 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-08 11:44:03.939  INFO 1324 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-08 11:44:04.045  INFO 1324 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 91 ms. Found 2 JPA repository interfaces.
+2023-02-08 11:44:05.078  INFO 1324 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#5c1728e2' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:44:05.095  INFO 1324 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#67cf6072' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:44:05.099  INFO 1324 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:44:05.100  INFO 1324 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:44:05.829  INFO 1324 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-02-08 11:44:05.845  INFO 1324 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-08 11:44:05.846  INFO 1324 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-02-08 11:44:06.030  INFO 1324 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-08 11:44:06.031  INFO 1324 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3763 ms
+2023-02-08 11:44:06.111  INFO 1324 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-08 11:44:08.449  INFO 1324 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-08 11:44:08.465  INFO 1324 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
+2023-02-08 11:44:08.682  INFO 1324 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-08 11:44:08.767  INFO 1324 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2023-02-08 11:44:09.001  INFO 1324 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-08 11:44:09.332  INFO 1324 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-02-08 11:44:12.244  INFO 1324 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-08 11:44:12.283  INFO 1324 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 11:44:13.068  WARN 1324 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carsController': Unsatisfied dependency expressed through field 'carService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+2023-02-08 11:44:13.069  INFO 1324 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 11:44:13.074  INFO 1324 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-08 11:44:13.082  INFO 1324 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-08 11:44:13.085  INFO 1324 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-02-08 11:44:13.103  INFO 1324 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-02-08 11:44:13.159 ERROR 1324 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carsController': Unsatisfied dependency expressed through field 'carService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295) ~[spring-boot-2.7.4.jar:2.7.4]
+	at com.implemica.application.CarCatalogApplication.main(CarCatalogApplication.java:23) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.7.4.jar:2.7.4]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 25 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 39 common frames omitted
+Caused by: org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:76) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1339) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 53 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:262) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:73) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 56 common frames omitted
+
+2023-02-08 11:46:11.709  INFO 13888 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 13888 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
+2023-02-08 11:46:11.711  INFO 13888 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-02-08 11:46:11.805  INFO 13888 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-08 11:46:11.805  INFO 13888 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-08 11:46:13.319  INFO 13888 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-08 11:46:13.425  INFO 13888 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 2 JPA repository interfaces.
+2023-02-08 11:46:14.342  INFO 13888 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#46f618e9' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:46:14.357  INFO 13888 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#11134bf8' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:46:14.361  INFO 13888 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:46:14.361  INFO 13888 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 11:46:14.913  INFO 13888 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-02-08 11:46:14.923  INFO 13888 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-08 11:46:14.924  INFO 13888 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-02-08 11:46:15.062  INFO 13888 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-08 11:46:15.062  INFO 13888 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3256 ms
+2023-02-08 11:46:15.111  INFO 13888 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-08 11:46:17.328  INFO 13888 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-08 11:46:17.353  INFO 13888 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
+2023-02-08 11:46:17.594  INFO 13888 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-08 11:46:17.680  INFO 13888 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2023-02-08 11:46:17.880  INFO 13888 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-08 11:46:18.195  INFO 13888 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-02-08 11:46:21.135  INFO 13888 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-08 11:46:21.149  INFO 13888 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 11:46:22.905  WARN 13888 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-08 11:46:23.475  INFO 13888 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7e0ef99d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@41775b, org.springframework.security.web.context.SecurityContextPersistenceFilter@43e46d3d, org.springframework.security.web.header.HeaderWriterFilter@368fe4a9, org.springframework.web.filter.CorsFilter@7e0af417, org.springframework.security.web.authentication.logout.LogoutFilter@d492316, com.implemica.security.JwtTokenFilter@33701d7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2dedc35a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@42800ef9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ca2b1f5, org.springframework.security.web.session.SessionManagementFilter@7c5bb03a, org.springframework.security.web.access.ExceptionTranslationFilter@1b3a5b5e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@658dde97]
+2023-02-08 11:46:23.629  INFO 13888 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-02-08 11:46:23.929  INFO 13888 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2023-02-08 11:46:24.251  INFO 13888 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 13.645 seconds (JVM running for 15.584)
+2023-02-08 11:46:39.006  INFO 13888 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 11:46:39.011  INFO 13888 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-08 11:46:39.017  INFO 13888 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-08 12:02:58.653  INFO 11252 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 11252 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
+2023-02-08 12:02:58.658  INFO 11252 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-02-08 12:02:58.805  INFO 11252 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-08 12:02:58.805  INFO 11252 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-08 12:03:00.927  INFO 11252 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-08 12:03:01.069  INFO 11252 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 125 ms. Found 2 JPA repository interfaces.
+2023-02-08 12:03:02.406  INFO 11252 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#5f411790' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:03:02.426  INFO 11252 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#2a3dbd0a' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:03:02.433  INFO 11252 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:03:02.433  INFO 11252 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:03:03.507  INFO 11252 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-02-08 12:03:03.523  INFO 11252 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-08 12:03:03.523  INFO 11252 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-02-08 12:03:03.683  INFO 11252 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-08 12:03:03.684  INFO 11252 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4878 ms
+2023-02-08 12:03:03.739  INFO 11252 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-08 12:03:06.045  INFO 11252 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-08 12:03:06.066  INFO 11252 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
+2023-02-08 12:03:06.400  INFO 11252 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-08 12:03:06.480  INFO 11252 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2023-02-08 12:03:06.742  INFO 11252 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-08 12:03:07.090  INFO 11252 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-02-08 12:03:10.081  INFO 11252 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-08 12:03:10.093  INFO 11252 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 12:03:10.826  WARN 11252 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carsController': Unsatisfied dependency expressed through field 'carService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+2023-02-08 12:03:10.827  INFO 11252 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 12:03:10.832  INFO 11252 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-08 12:03:10.838  INFO 11252 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-08 12:03:10.842  INFO 11252 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-02-08 12:03:10.860  INFO 11252 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-02-08 12:03:10.918 ERROR 11252 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carsController': Unsatisfied dependency expressed through field 'carService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306) ~[spring-boot-2.7.4.jar:2.7.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295) ~[spring-boot-2.7.4.jar:2.7.4]
+	at com.implemica.application.CarCatalogApplication.main(CarCatalogApplication.java:23) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.7.4.jar:2.7.4]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carServiceImpl': Unsatisfied dependency expressed through field 'storageService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 25 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'storageService': Unsatisfied dependency expressed through field 's3Client'; nested exception is org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:659) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:639) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 39 common frames omitted
+Caused by: org.springframework.beans.ConversionNotSupportedException: Failed to convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3'; nested exception is java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:76) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1339) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:656) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 53 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot convert value of type 'java.lang.String' to required type 'com.amazonaws.services.s3.AmazonS3': no matching editors or conversion strategy found
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:262) ~[spring-beans-5.3.23.jar:5.3.23]
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:73) ~[spring-beans-5.3.23.jar:5.3.23]
+	... 56 common frames omitted
+
+2023-02-08 12:05:03.899  INFO 15420 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 15420 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
+2023-02-08 12:05:03.902  INFO 15420 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-02-08 12:05:04.020  INFO 15420 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-08 12:05:04.021  INFO 15420 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-08 12:05:05.843  INFO 15420 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-08 12:05:05.975  INFO 15420 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 115 ms. Found 2 JPA repository interfaces.
+2023-02-08 12:05:07.223  INFO 15420 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#7f75b625' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:05:07.240  INFO 15420 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#50c26771' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:05:07.245  INFO 15420 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:05:07.245  INFO 15420 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:05:08.001  INFO 15420 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-02-08 12:05:08.015  INFO 15420 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-08 12:05:08.016  INFO 15420 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-02-08 12:05:08.163  INFO 15420 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-08 12:05:08.164  INFO 15420 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4142 ms
+2023-02-08 12:05:08.220  INFO 15420 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-08 12:05:10.354  INFO 15420 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-08 12:05:10.371  INFO 15420 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
+2023-02-08 12:05:10.605  INFO 15420 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-08 12:05:10.702  INFO 15420 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2023-02-08 12:05:10.946  INFO 15420 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-08 12:05:11.272  INFO 15420 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-02-08 12:05:14.286  INFO 15420 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-08 12:05:14.300  INFO 15420 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 12:05:16.078  WARN 15420 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-08 12:05:16.860  INFO 15420 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7d14191d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@258e12ba, org.springframework.security.web.context.SecurityContextPersistenceFilter@a11139d, org.springframework.security.web.header.HeaderWriterFilter@10ba2281, org.springframework.web.filter.CorsFilter@3888d526, org.springframework.security.web.authentication.logout.LogoutFilter@5b84cbf2, com.implemica.security.JwtTokenFilter@1fb404ab, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@20ece02d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5659604a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e0128e9, org.springframework.security.web.session.SessionManagementFilter@3396ac49, org.springframework.security.web.access.ExceptionTranslationFilter@c2a87e1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@562d54a6]
+2023-02-08 12:05:17.033  INFO 15420 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-02-08 12:05:17.397  INFO 15420 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2023-02-08 12:05:17.925  INFO 15420 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 15.471 seconds (JVM running for 17.758)
+2023-02-08 12:21:31.545  INFO 15420 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 12:21:31.554  INFO 15420 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-08 12:21:31.566  INFO 15420 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-02-08 12:21:47.948  INFO 15224 --- [restartedMain] c.i.application.CarCatalogApplication    : Starting CarCatalogApplication using Java 11.0.16.1 on DESKTOP-BVPEFCE with PID 15224 (C:\Users\User\IdeaProjects\car-catalog\application\target\classes started by User in C:\Users\User\IdeaProjects\car-catalog)
+2023-02-08 12:21:47.954  INFO 15224 --- [restartedMain] c.i.application.CarCatalogApplication    : No active profile set, falling back to 1 default profile: "default"
+2023-02-08 12:21:48.269  INFO 15224 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-08 12:21:48.270  INFO 15224 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-08 12:21:51.573  INFO 15224 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-08 12:21:51.759  INFO 15224 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 161 ms. Found 2 JPA repository interfaces.
+2023-02-08 12:21:53.376  INFO 15224 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#751d049c' of type [com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:21:53.396  INFO 15224 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean '(inner bean)#ce55b89' of type [com.amazonaws.auth.profile.ProfileCredentialsProvider] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:21:53.402  INFO 15224 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [org.springframework.cloud.aws.core.credentials.CredentialsProviderFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:21:53.403  INFO 15224 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'credentialsProvider' of type [com.amazonaws.auth.AWSCredentialsProviderChain] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-08 12:21:54.239  INFO 15224 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2023-02-08 12:21:54.257  INFO 15224 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-08 12:21:54.257  INFO 15224 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-02-08 12:21:54.444  INFO 15224 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-08 12:21:54.445  INFO 15224 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6173 ms
+2023-02-08 12:21:54.516  INFO 15224 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-08 12:21:56.647  INFO 15224 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-08 12:21:56.678  INFO 15224 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars'
+2023-02-08 12:21:57.107  INFO 15224 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-08 12:21:57.274  INFO 15224 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.11.Final
+2023-02-08 12:21:57.673  INFO 15224 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-08 12:21:58.203  INFO 15224 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-02-08 12:22:02.706  INFO 15224 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-08 12:22:02.731  INFO 15224 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-08 12:22:07.145  WARN 15224 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-08 12:22:08.297  INFO 15224 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@433d5001, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3b1db981, org.springframework.security.web.context.SecurityContextPersistenceFilter@39cd8524, org.springframework.security.web.header.HeaderWriterFilter@22f038b1, org.springframework.web.filter.CorsFilter@b9458e8, org.springframework.security.web.authentication.logout.LogoutFilter@1ba56c00, com.implemica.security.JwtTokenFilter@138c9118, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@15748be5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@69279ba7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6bf99073, org.springframework.security.web.session.SessionManagementFilter@3a04349, org.springframework.security.web.access.ExceptionTranslationFilter@5471c2eb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7483bea]
+2023-02-08 12:22:08.561  INFO 15224 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-02-08 12:22:08.947  INFO 15224 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2023-02-08 12:22:09.371  INFO 15224 --- [restartedMain] c.i.application.CarCatalogApplication    : Started CarCatalogApplication in 23.174 seconds (JVM running for 25.957)

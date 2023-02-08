@@ -1,26 +1,55 @@
-cloud:
-#  aws:
-#    credentials:
-#      access-key: AKIA25NFHZZ5O47EOJGQ
-#      secret-key: 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
-    region:
-#      static: eu-west-3
-    stack:
-      auto: false
-
 application:
+  storage-service:
+    meta-data:
+      image: max-age=2592000, must-revalidate
+
+  default:
+    image: defaultImageCar.png
+
+  security:
+    jwt:
+      header: Authorization
+      secret: implemica
+      expiration: 86400
+
   bucket:
     name: cars-storage-peter-s.implemica.com
-#    name: carcatalogimages
-
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2MB
       max-file-size: 5MB
       max-request-size: 10MB
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars
+    username: postgres
+    password: implemica4u
+
+    hikari:
+      maximum-pool-size: 1
+
+  jpa:
+    show-sql: false
+
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  file:
+    name: log.txt
+    path: /
 
 server:
   port: 8090

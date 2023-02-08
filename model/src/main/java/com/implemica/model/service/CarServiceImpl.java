@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,11 +42,14 @@ public class CarServiceImpl implements CarService {
     @Override
     @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public boolean deleteCarById(Long id) {
-        if (carRepository.existsById(id)) {
-            String imageName = carRepository.findById(id).orElseThrow().getImageName();
+        Optional<Car> foundCar = carRepository.findById(id);
 
-            if (!imageName.equals(defaultImagePath))
-                storageService.deleteFile(imageName);
+        if (foundCar.isPresent()) {
+            String imageName = foundCar.get().getImageName();
+
+            if(storageService.deleteFile(imageName)){
+                return false;
+            }
 
             carRepository.deleteById(id);
             return true;
@@ -57,16 +61,18 @@ public class CarServiceImpl implements CarService {
     @Override
     @Cacheable(key = "#id", value = "cars", unless = "#result == null")
     public Car findCarById(Long id) {
-        Car car = carRepository.findById(id).orElse(null);
+        Optional<Car> foundCar = carRepository.findById(id);
 
-        if(car != null){
+        if(foundCar.isPresent()){
+            Car car = foundCar.get();
             List<String> optionsList = car.getOptionsList();
             optionsList = optionsList.stream().sorted(String::compareTo).collect(Collectors.toList());
-
             car.setOptionsList(optionsList);
+
+            return car;
         }
 
-        return car;
+        return null;
     }
 
     @Override
@@ -78,20 +84,22 @@ public class CarServiceImpl implements CarService {
     @Override
     @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public boolean uploadImageCarById(Long id, MultipartFile newImage) {
-        Car oldCar = carRepository.findById(id).orElse(null);
+        Optional<Car> foundCar = carRepository.findById(id);
 
-        if (oldCar != null) {
+        if(foundCar.isPresent()) {
+            Car oldCar = foundCar.get();
             String oldImageName = oldCar.getImageName();
 
-            if (!oldImageName.equals(defaultImagePath)) {
-                storageService.deleteFile(oldImageName);
+            if(storageService.deleteFile(oldImageName)){
+                String newImageName = storageService.uploadFile(newImage);
+                oldCar.setImageName(newImageName);
+                carRepository.save(oldCar);
+
+                return true;
             }
 
-            String newImageName = storageService.uploadFile(newImage);
-            oldCar.setImageName(newImageName);
-            carRepository.save(oldCar);
-            return true;
         }
+
         return false;
     }
 
@@ -99,10 +107,12 @@ public class CarServiceImpl implements CarService {
     @CachePut(key = "#id", value = "cars")
     @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
     public Car updateCarById(Long id, CarDTO carDto) {
-        Car oldCar = carRepository.findById(id).orElse(null);
+        Optional<Car> foundCar = carRepository.findById(id);
 
-        if (oldCar != null) {
+        if(foundCar.isPresent()){
             Car car = getCarFromCarDto(carDto);
+            Car oldCar = foundCar.get();
+
             car.setImageName(oldCar.getImageName());
             car.setId(oldCar.getId());
 
