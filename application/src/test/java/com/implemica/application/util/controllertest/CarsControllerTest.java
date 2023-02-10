@@ -1,6 +1,7 @@
 package com.implemica.application.util.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.implemica.model.service.CarService;
 import com.implemica.model.service.CarServiceImpl;
 import com.implemica.security.JwtAuthenticationException;
 import com.implemica.security.JwtTokenProvider;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.CacheManager;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -34,7 +36,7 @@ public class CarsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CarServiceImpl carService;
+    private CarService carService;
 
     private String jwtToken;
 
@@ -111,6 +113,19 @@ public class CarsControllerTest {
     }
 
     @Test
+    public void createCarStatusConflict() throws Exception {
+        when(carService.saveCar(eq(EXAMPLE_CAR_DTO))).thenThrow(DataIntegrityViolationException.class);
+
+        mockMvc.perform(post("/cars").accept(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(EXAMPLE_CAR_DTO))
+                        .contentType(APPLICATION_JSON).header("Authorization", jwtToken))
+                .andExpect(status().isConflict());
+
+        verify(carService, times(1)).saveCar(eq(EXAMPLE_CAR_DTO));
+        verifyNoMoreInteractions(carService);
+    }
+
+    @Test
     public void createCarMethodArgumentNotValidBrand() throws Exception {
         mockMvc.perform(post("/cars")
                         .accept(APPLICATION_JSON)
@@ -161,6 +176,21 @@ public class CarsControllerTest {
                         .contentType(APPLICATION_JSON)
                         .header("Authorization", jwtToken))
                 .andExpect(status().isNotFound());
+
+        verify(carService, times(1)).updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO));
+        verifyNoMoreInteractions(carService);
+    }
+
+    @Test
+    public void updateCarStatusConflict() throws Exception {
+        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenThrow(DataIntegrityViolationException.class);
+
+        mockMvc.perform(put("/cars/1")
+                        .accept(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(EXAMPLE_CAR_DTO))
+                        .contentType(APPLICATION_JSON)
+                        .header("Authorization", jwtToken))
+                .andExpect(status().isConflict());
 
         verify(carService, times(1)).updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO));
         verifyNoMoreInteractions(carService);

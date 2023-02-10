@@ -22,56 +22,59 @@ import java.util.stream.Collectors;
 @Service
 public class CarServiceImpl implements CarService {
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     @Autowired
-    CarRepository carRepository;
+    private CarRepository carRepository;
 
     @Value("${application.default.image}")
-    String defaultImagePath;
+    private String defaultImagePath;
+
 
     @Override
     @CacheEvict(value = "carsList", allEntries = true)
     public Car saveCar(CarDTO carDto) {
         Car car = getCarFromCarDto(carDto);
-
         car.setImageName(defaultImagePath);
+
         return carRepository.save(car);
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
+    @Caching(evict = {
+            @CacheEvict(value = "carsList", allEntries = true),
+            @CacheEvict(key = "#id", value = "cars")
+    })
     public boolean deleteCarById(Long id) {
-        Optional<Car> foundCar = carRepository.findById(id);
+        Car foundCar = carRepository.findById(id).orElse(null);
+        boolean isCarDeleted = false;
 
-        if (foundCar.isPresent()) {
-            String imageName = foundCar.get().getImageName();
+        if (foundCar != null) {
+            String imageName = foundCar.getImageName();
 
-            if(storageService.deleteFile(imageName)){
+            if (storageService.deleteFile(imageName)) {
                 carRepository.deleteById(id);
-                return true;
-            }
 
+                isCarDeleted = true;
+            }
         }
 
-        return false;
+        return isCarDeleted;
     }
 
     @Override
     @Cacheable(key = "#id", value = "cars", unless = "#result == null")
     public Car findCarById(Long id) {
-        Optional<Car> foundCar = carRepository.findById(id);
+        Car foundCar = carRepository.findById(id).orElse(null);
 
-        if(foundCar.isPresent()){
-            Car car = foundCar.get();
-            List<String> optionsList = car.getOptionsList();
+        if (foundCar != null) {
+            List<String> optionsList = foundCar.getOptionsList();
+
             optionsList = optionsList.stream().sorted(String::compareTo).collect(Collectors.toList());
-            car.setOptionsList(optionsList);
-
-            return car;
+            foundCar.setOptionsList(optionsList);
         }
 
-        return null;
+        return foundCar;
     }
 
     @Override
@@ -81,44 +84,47 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
+    @Caching(evict = {
+            @CacheEvict(value = "carsList", allEntries = true),
+            @CacheEvict(key = "#id", value = "cars")
+    })
     public boolean uploadImageCarById(Long id, MultipartFile newImage) {
-        Optional<Car> foundCar = carRepository.findById(id);
+        Car foundCar = carRepository.findById(id).orElse(null);
+        boolean isImageUploaded = false;
 
-        if(foundCar.isPresent()) {
-            Car oldCar = foundCar.get();
-            String oldImageName = oldCar.getImageName();
+        if (foundCar != null) {
+            String foundCarImageName = foundCar.getImageName();
 
-            if(storageService.deleteFile(oldImageName)){
+            if (storageService.deleteFile(foundCarImageName)) {
                 String newImageName = storageService.uploadFile(newImage);
-                oldCar.setImageName(newImageName);
-                carRepository.save(oldCar);
+                foundCar.setImageName(newImageName);
+                carRepository.save(foundCar);
 
-                return true;
+                isImageUploaded = true;
             }
-
         }
 
-        return false;
+        return isImageUploaded;
     }
 
     @Override
     @CachePut(key = "#id", value = "cars")
-    @Caching(evict = {@CacheEvict(value = "carsList", allEntries = true), @CacheEvict(key = "#id", value = "cars")})
+    @Caching(evict = {
+            @CacheEvict(value = "carsList", allEntries = true),
+            @CacheEvict(key = "#id", value = "cars")
+    })
     public Car updateCarById(Long id, CarDTO carDto) {
-        Optional<Car> foundCar = carRepository.findById(id);
+        Car foundCar = carRepository.findById(id).orElse(null);
 
-        if(foundCar.isPresent()){
+        if (foundCar != null) {
             Car car = getCarFromCarDto(carDto);
-            Car oldCar = foundCar.get();
+            car.setImageName(foundCar.getImageName());
+            car.setId(foundCar.getId());
 
-            car.setImageName(oldCar.getImageName());
-            car.setId(oldCar.getId());
-
-            return carRepository.save(car);
+            foundCar = carRepository.save(car);
         }
 
-        return null;
+        return foundCar;
     }
 
     private Car getCarFromCarDto(CarDTO carDto) {

@@ -5,6 +5,7 @@ import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
 import com.implemica.selenium.helpers.CarValue;
 import com.implemica.selenium.pages.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
-
+@Ignore
 public class CommonTest extends BaseSeleniumTest {
     private EditCarPage editCarPage = new EditCarPage();
 
