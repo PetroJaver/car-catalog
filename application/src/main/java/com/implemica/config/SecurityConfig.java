@@ -18,22 +18,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfig{
     @Autowired
     private JwtConfigurer jwtConfigurer;
 
     @Bean
     @SneakyThrows
     protected SecurityFilterChain filterChain(HttpSecurity http) {
-        http.headers().frameOptions().disable()
-            .and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests().antMatchers("/**")
-            .permitAll()
-            .and()
-            .apply(jwtConfigurer);
+        http.cors().and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**")
+                .permitAll()
+                .and()
+                .apply(jwtConfigurer)
+                .and()
+                .headers().frameOptions().disable();
 
         return http.build();
     }
