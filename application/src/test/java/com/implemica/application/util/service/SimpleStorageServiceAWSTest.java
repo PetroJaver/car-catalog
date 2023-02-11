@@ -1,37 +1,34 @@
 package com.implemica.application.util.service;
 
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
-import com.implemica.model.service.StorageService;
+
 import static org.junit.Assert.*;
+
+import com.implemica.model.service.SimpleStorageServiceAWS;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.verification.NoMoreInteractions;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 
-public class StorageServiceTest {
+public class SimpleStorageServiceAWSTest {
     @Mock
     AmazonS3 s3Client;
 
     @InjectMocks
-    StorageService storageService;
+    SimpleStorageServiceAWS storageService;
 
     @Value("${application.bucket.name}")
     private String bucketName;

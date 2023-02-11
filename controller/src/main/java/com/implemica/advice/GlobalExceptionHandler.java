@@ -1,29 +1,32 @@
 package com.implemica.advice;
 
-import com.implemica.security.JwtAuthenticationException;
+import com.implemica.controller.CarsController;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class contains global exception handlers.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
+     * Handles {@link MethodArgumentNotValidException} thrown in all controllers of the application, and return client
+     * error code 400 with response body.
      *
-     * @param ex
-     * @return
+     * @param ex whose message will be in response body.
+     * @return response body.
+     * @see HttpStatus
      */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

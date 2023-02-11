@@ -1,12 +1,18 @@
 package com.implemica.model.enums;
 
+import lombok.AllArgsConstructor;
+
+/**
+ * Enum of the most common car transmission types.
+ */
+@AllArgsConstructor
 public enum CarTransmissionType {
     MANUAL("Manual"),
     AUTOMATIC("Automatic");
 
-    public final String stringValue;
 
-    CarTransmissionType(String stringValue) {
-        this.stringValue = stringValue;
-    }
+    /**
+     * Real name of transmission type car.
+     */
+    public final String stringValue;
 }

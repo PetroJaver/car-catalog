@@ -11,7 +11,6 @@ import lombok.Getter;
 public class AuthorizationResponse {
     @ApiModelProperty(value = "Email address admin who logged in.", name = "email", example = "admin")
     String username;
-    @ApiModelProperty(value = "JWT token to confirm authorization on the endpoint.",
-            name = "token", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2NzAzMjAwNDMsImV4cCI6MTY3MDMyMzY0M30.AriLxRSb1htNjTZLCeZ5eKx_O8RANtaVeL1ust7EUXY")
+    @ApiModelProperty(value = "JWT token to confirm authorization on the endpoint.", name = "token", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2NzAzMjAwNDMsImV4cCI6MTY3MDMyMzY0M30.AriLxRSb1htNjTZLCeZ5eKx_O8RANtaVeL1ust7EUXY")
     String token;
 }

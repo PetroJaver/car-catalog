@@ -1,18 +1,19 @@
 package com.implemica.model.enums;
 
+import lombok.AllArgsConstructor;
+
+/**
+ * Enum primary permissions for a User.
+ */
+@AllArgsConstructor
 public enum Permission {
-    CARS_READ("cars:read"),
-    CARS_DELETE("cars:delete"),
-    CARS_UPDATE("cars:update"),
-    CARS_CREATE("cars:create");
+    READ("read"),
+    DELETE("delete"),
+    UPDATE("update"),
+    CREATE("create");
 
-    private final String permission;
-
-    Permission(String permission){
-        this.permission = permission;
-    }
-
-    public String getPermission(){
-        return this.permission;
-    }
+    /**
+     * String representation of permission.
+     */
+    public final String permission;
 }

@@ -9,12 +9,17 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+/**
+ * Verifies that the field that this annotation annotated is assigned the real enum name specified in the {@link #enumClass}.
+ */
+@Target(FIELD)
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = ValueOfEnumValidator.class)
-public @interface ValueOfEnum
-{
+public @interface ValueOfEnum {
+    /**
+     * Enum used for validation of annotated field.
+     */
     Class<? extends Enum<?>> enumClass();
 
     String message() default "";

@@ -1,5 +1,12 @@
 package com.implemica.model.enums;
 
+import lombok.AllArgsConstructor;
+
+
+/**
+ * Enum of the most common car brands.
+ */
+@AllArgsConstructor
 public enum CarBrand {
     AUDI("Audi"), ACURA("Acura"), ALFA("Alfa"), ROMEO("Romeo"),
     ASTON_MARTIN("Aston Martin"), BENTLEY("Bentley"), BYD("BYD"), BMW("BMW"),
@@ -22,9 +29,8 @@ public enum CarBrand {
     VOLKSWAGEN("Volkswagen"), TAGAZ("Tagaz"),
     GENESIS("Genesis");
 
+    /**
+     * Real name of brand car.
+     */
     public final String stringValue;
-
-    CarBrand(String stringValue) {
-        this.stringValue = stringValue;
-    }
 }
