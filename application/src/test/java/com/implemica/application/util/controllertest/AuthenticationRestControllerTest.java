@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AuthenticationRestControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
     private AuthenticationManager authenticationManager;
@@ -80,7 +80,7 @@ public class AuthenticationRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"notExistAdmin\",\"password\":\"test\"}"))
                 .andExpect(status().isForbidden())
-                .andExpect(content().string("Invalid email/password combination"));
+                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
 
         verify(userRepository, times(1)).findByUsername(eq("notexistadmin"));
         verifyNoMoreInteractions(userRepository);
@@ -100,7 +100,7 @@ public class AuthenticationRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"test\"}"))
                 .andExpect(status().isForbidden())
-                .andExpect(content().string("Invalid email/password combination"));
+                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verifyNoMoreInteractions(authenticationManager);

@@ -1,6 +1,8 @@
 package com.implemica.config;
 
 import com.implemica.security.JwtConfigurer;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,41 +18,29 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig{
-    private final JwtConfigurer jwtConfigurer;
-
-    public SecurityConfig(JwtConfigurer jwtConfigurer) {
-        this.jwtConfigurer = jwtConfigurer;
-    }
-
-    private static final String[] AUTH_WHITELIST = {
-            "/authenticate",
-            "/swagger-resources/**",
-            "/swagger-ui/**",
-            "/v3/api-docs",
-            "/webjars/**",
-            "/h2-console/**"
-    };
+public class SecurityConfig {
+    @Autowired
+    private JwtConfigurer jwtConfigurer;
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http    .cors().and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(AUTH_WHITELIST)
-                .permitAll()
-                .and()
-                .apply(jwtConfigurer);
-        http.headers().frameOptions().disable();
+    @SneakyThrows
+    protected SecurityFilterChain filterChain(HttpSecurity http) {
+        http.headers().frameOptions().disable()
+            .and()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests().antMatchers("/**")
+            .permitAll()
+            .and()
+            .apply(jwtConfigurer);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
+    @SneakyThrows
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

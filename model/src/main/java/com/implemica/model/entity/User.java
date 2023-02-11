@@ -6,6 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * User entity in database.
+ */
 @Entity
 @Getter
 @AllArgsConstructor

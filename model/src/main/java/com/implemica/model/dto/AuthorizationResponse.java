@@ -2,10 +2,10 @@ package com.implemica.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Builder
+@AllArgsConstructor
 @Getter
 @ApiModel(description = "Used to return a jwt token upon successful admin authorization.")
 public class AuthorizationResponse {
