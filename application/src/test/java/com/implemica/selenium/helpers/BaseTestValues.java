@@ -123,6 +123,6 @@ public interface BaseTestValues {
     String MESSAGE_SUCCESSFULLY_CAR_ADD = "Car successful added!";
     String TITLE_SUCCESSFULLY_CAR_ADD = "Success";
     String ADD_CAR_PAGE_DEFAULT_CAR_IMAGE_PATH = "https://cars-peter-s.implemica.com/assets/add-image.png";
-    String DEFAULT_CAR_IMAGE_SRC = "https://s3.amazonaws.com/cars-storage-peter-s.implemica.com/defaultImageCar.png";
+    String DEFAULT_CAR_IMAGE_SRC = "https://cars-peter-s.implemica.com/defaultImageCar.png";
     String IMAGE_NAME_INVALID = new File("./src/test/resources/files/invalidImageFile.txt").getAbsolutePath();
 }

@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,6 +24,12 @@ import java.util.UUID;
 public class SimpleStorageServiceAWS implements StorageService {
     @Value("${application.bucket.name}")
     private String bucketName;
+
+    @Value("#{ new Integer(\"${application.storage-service.max-height}\")}")
+    private Integer maxImageHeight;
+
+    @Value("#{ new Integer('${application.storage-service.max-width}')}")
+    private Integer maxImageWidth;
 
     @Value("${application.default.image}")
     private String defaultImageName;
@@ -56,6 +62,7 @@ public class SimpleStorageServiceAWS implements StorageService {
     /**
      * Converts {@link MultipartFile} to {@link File}, and upload in the S3 bucket.
      * If the file is not uploaded for some reason, it will return the {@link #defaultImageName}.
+     *
      * @param multipartFile will be converted and upload in the S3 bucket.
      * @return the name of the uploaded file in the S3 bucket.
      */
@@ -63,11 +70,11 @@ public class SimpleStorageServiceAWS implements StorageService {
         String fileName = String.format("%s.%s", UUID.randomUUID(), multipartFile.getOriginalFilename());
         File file = convertMultiPartFileToFile(multipartFile);
 
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+        try (InputStream inputStream = reduceImageSize(file)) {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setCacheControl(metaDataForImages);
 
-            s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileInputStream, metadata)
+            s3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
             fileName = defaultImageName;
@@ -78,6 +85,39 @@ public class SimpleStorageServiceAWS implements StorageService {
         }
 
         return fileName;
+    }
+
+    private FileInputStream reduceImageSize(File file) throws IOException {
+        BufferedImage image = ImageIO.read(file);
+
+        int startingHeight = image.getHeight();
+        int startingWidth = image.getWidth();
+        int finalHeight = startingHeight;
+        int finalWidth = startingWidth;
+
+        if (finalHeight > maxImageHeight) {
+            finalWidth = (int) ((double) maxImageHeight / finalHeight * finalWidth);
+            finalHeight = maxImageHeight;
+        }
+
+        if (finalWidth > maxImageWidth) {
+            finalHeight = (int) ((double) maxImageWidth / finalWidth * finalHeight);
+            finalWidth = maxImageWidth;
+        }
+
+        if((finalHeight!=startingHeight)||(finalWidth!=startingWidth)) {
+            BufferedImage bufferedImageOutput = new BufferedImage(finalWidth, finalHeight, image.getType());
+
+            Graphics2D g2d = bufferedImageOutput.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.drawImage(image, 0, 0, finalWidth, finalHeight, null);
+            g2d.dispose();
+
+            String formatName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            ImageIO.write(bufferedImageOutput, formatName, file);
+        }
+
+        return new FileInputStream(file);
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {

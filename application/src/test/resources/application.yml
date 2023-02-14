@@ -1,5 +1,8 @@
 application:
   storage-service:
+    max-height: 400
+    max-width: 700
+
     meta-data:
       image: max-age=2592000, must-revalidate
 
