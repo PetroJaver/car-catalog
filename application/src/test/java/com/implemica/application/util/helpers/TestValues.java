@@ -2,13 +2,9 @@ package com.implemica.application.util.helpers;
 
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
-import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import static com.implemica.model.enums.CarBodyType.*;

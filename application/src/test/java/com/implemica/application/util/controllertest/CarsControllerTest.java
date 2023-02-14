@@ -2,7 +2,6 @@ package com.implemica.application.util.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.implemica.model.service.CarService;
-import com.implemica.model.service.CarServiceImpl;
 import com.implemica.security.JwtAuthenticationException;
 import com.implemica.security.JwtTokenProvider;
 import org.junit.Before;
