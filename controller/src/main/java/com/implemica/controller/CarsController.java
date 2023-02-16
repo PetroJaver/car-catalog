@@ -57,7 +57,7 @@ public class CarsController {
     public ResponseEntity<List<Car>> getAll() {
         List<Car> cars = carService.findAll();
 
-        return cars == null ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(cars, HttpStatus.OK);
+        return cars.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(cars, HttpStatus.OK);
     }
 
     @GetMapping(value = "{id}")
@@ -110,7 +110,7 @@ public class CarsController {
             @PathVariable(name = "id") Long id) {
         boolean deleted = carService.deleteCarById(id);
 
-        return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PreAuthorize("hasAuthority('update')")

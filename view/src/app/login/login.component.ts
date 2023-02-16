@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit,AfterViewInit {
           progressAnimation: 'increasing'
         })
       }, error => {
-        if (error.status === 403) {
+        if (error.status === 401) {
           this.toast.error("Invalid password or username!", "Wrong", {
             progressBar: true,
             timeOut: 2000,

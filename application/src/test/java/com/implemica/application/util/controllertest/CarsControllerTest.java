@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static com.implemica.application.util.helpers.TestValues.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
@@ -49,7 +51,7 @@ public class CarsControllerTest {
     private CacheManager cacheManager;
 
     @Before
-    public void before(){
+    public void before() {
         jwtToken = jwtTokenProvider.createToken("admin", "ADMIN");
         cacheManager.getCache("cars").clear();
         cacheManager.getCache("carsList").clear();
@@ -68,7 +70,7 @@ public class CarsControllerTest {
 
     @Test
     public void getAllCarsStatusNoContent() throws Exception {
-        when(carService.findAll()).thenReturn(null);
+        when(carService.findAll()).thenReturn(List.of());
 
         mockMvc.perform(get("/cars")).andExpect(status().isNoContent());
 
@@ -211,7 +213,7 @@ public class CarsControllerTest {
         when(carService.deleteCarById(1L)).thenReturn(false);
 
         mockMvc.perform(delete("/cars/1").header("Authorization", jwtToken))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
 
         verify(carService, times(1)).deleteCarById(1L);
         verifyNoMoreInteractions(carService);
@@ -219,28 +221,22 @@ public class CarsControllerTest {
 
     @Test
     public void createCarWithoutAuthorization() throws Exception {
-        boolean testIsFail = true;
+        mockMvc.perform(post("/cars/")
+                .accept(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(EXAMPLE_CAR_DTO))
+                .contentType(APPLICATION_JSON)
+                .header("Authorization", "noValidToken"))
+                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
 
-        try {
-            mockMvc.perform(post("/cars/")
-                            .accept(APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsBytes(EXAMPLE_CAR_DTO))
-                            .contentType(APPLICATION_JSON)
-                            .header("Authorization", "noValidToken"));
-        } catch (JwtAuthenticationException e) {
-            testIsFail = false;
-        }
-
-        assertFalse(testIsFail);
         verifyNoInteractions(carService);
     }
 
     @Test
-    public void uploadImageCarByIdStatusOk() throws Exception{
+    public void uploadImageCarByIdStatusOk() throws Exception {
         MockMultipartFile image = new MockMultipartFile("image", NOT_DEFAULT_IMAGE_PATH,
                 MediaType.APPLICATION_PDF_VALUE, MULTIPART_FILE.getBytes());
 
-        when(carService.uploadImageCarById(eq(1L),any(MultipartFile.class))).thenReturn(true);
+        when(carService.uploadImageCarById(eq(1L), any(MultipartFile.class))).thenReturn(true);
 
         mockMvc.perform(multipart("/cars/1/uploadImage/")
                         .file(image)
@@ -253,7 +249,7 @@ public class CarsControllerTest {
     }
 
     @Test
-    public void uploadImageCarByIdStatusBadRequest() throws Exception{
+    public void uploadImageCarByIdStatusBadRequest() throws Exception {
         mockMvc.perform(multipart("/cars/1/uploadImage/")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwtToken))

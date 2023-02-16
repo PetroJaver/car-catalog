@@ -68,8 +68,9 @@ export class AlbumCarComponent implements OnInit{
     this.cars = [];
     this.carService.getAll().subscribe(data => {
       this.cars = data;
-      if (this.cars === null) {
-        this.noCars = true;
+    },error => {
+      if (error.status === 204){
+        this.noCars = true
       }
     })
   }

@@ -6,23 +6,21 @@ import com.implemica.model.entity.User;
 import com.implemica.model.repository.UserRepository;
 import com.implemica.security.JwtTokenProvider;
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -59,21 +57,5 @@ public class AuthenticationRestController {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse(body.getUsername(),token);
 
         return new ResponseEntity<>(authorizationResponse, HttpStatus.OK);
-    }
-
-    /**
-     * Handles {@link AuthenticationException} thrown in {@link AuthenticationRestController},
-     * and returns the client error code 403 "message" - "Invalid email/password combination!"
-     *
-     * @return body of the response.
-     * @see AuthenticationException
-     */
-    @ExceptionHandler(value = AuthenticationException.class)
-    @ResponseStatus(code = HttpStatus.FORBIDDEN)
-    public Map<String, String> handleDataIntegrityViolationException() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Invalid email/password combination!");
-
-        return response;
     }
 }

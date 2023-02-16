@@ -2,7 +2,9 @@ package com.implemica.model.entity;
 
 import com.implemica.model.enums.Role;
 import com.implemica.model.enums.Status;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

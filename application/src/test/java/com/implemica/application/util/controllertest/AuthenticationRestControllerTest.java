@@ -78,7 +78,7 @@ public class AuthenticationRestControllerTest {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"notExistAdmin\",\"password\":\"test\"}"))
-                .andExpect(status().isForbidden())
+                .andExpect(status().isUnauthorized())
                 .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
 
         verify(userRepository, times(1)).findByUsername(eq("notexistadmin"));
@@ -98,7 +98,7 @@ public class AuthenticationRestControllerTest {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"test\"}"))
-                .andExpect(status().isForbidden())
+                .andExpect(status().isUnauthorized())
                 .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));

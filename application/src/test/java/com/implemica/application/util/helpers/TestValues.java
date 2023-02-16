@@ -70,4 +70,15 @@ public interface TestValues {
 
     MultipartFile MULTIPART_FILE = new MockMultipartFile(NOT_DEFAULT_IMAGE_PATH, HelpMethods.readFileToByteArray("src/test/resources/files/testCarImagePorshe911.png"));
 
+    Car FIRST_CAR_FROM_H2 = new Car(1L, DEFAULT_IMAGE_PATH, AUDI, "A8", SPORTCAR, 2020, AUTOMATIC, 3D, SHORT_DESCRIPTION, DESCRIPTION, List.of("ABS", "Automatic headlights", "Cruise control", "Electronic immobilizer", "Heated steering wheel"));
+
+    Car SECOND_CAR_FROM_H2 = new Car(2L, DEFAULT_IMAGE_PATH, BMW, "X6", SUV, 2022, AUTOMATIC, 5.5D, SHORT_DESCRIPTION, DESCRIPTION, List.of("Airbag", "Automatic parking system", "Door closers", "Fog lights", "Heated windshield"));
+
+    Car THIRD_CAR_FROM_H2 = new Car(3L, DEFAULT_IMAGE_PATH, MERCEDES, "S-class", COUPE, 2005, MANUAL, 2.5D, SHORT_DESCRIPTION, DESCRIPTION, List.of("Automatic braking system", "Climate control", "ESP", "Front seat ventilation", "Rear View Camera"));
+
+    CarDTO FIRST_POST_CAR_DTO_FOR_H2 = new CarDTO(PORSCHE.name(), "911", SUV.name(), 2022, AUTOMATIC.name(), 9D,SHORT_DESCRIPTION,  DESCRIPTION, List.of("Automatic braking system", "Climate control", "ESP", "Front seat ventilation", "Rear View Camera"));
+
+    Car FIRST_POST_CAR_FOR_H2 = new Car(null, DEFAULT_IMAGE_PATH, PORSCHE, "911", SUV, 2022, AUTOMATIC, 9D, SHORT_DESCRIPTION,  DESCRIPTION, List.of("Automatic braking system", "Climate control", "ESP", "Front seat ventilation", "Rear View Camera"));
+
+    List<Car> CAR_LIST_H2 = List.of(THIRD_CAR_FROM_H2, SECOND_CAR_FROM_H2, FIRST_CAR_FROM_H2);
 }

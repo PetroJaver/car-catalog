@@ -1,8 +1,10 @@
 package com.implemica.advice;
 
+import com.implemica.controller.AuthenticationRestController;
 import com.implemica.controller.CarsController;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,5 +40,21 @@ public class GlobalExceptionHandler {
         });
 
         return errors;
+    }
+
+    /**
+     * Handles {@link AuthenticationException} thrown in {@link AuthenticationRestController},
+     * and returns the client error code 403 "message" - "Invalid email/password combination!"
+     *
+     * @return body of the response.
+     * @see AuthenticationException
+     */
+    @ExceptionHandler(value = AuthenticationException.class)
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public Map<String, String> handleAuthenticationException() {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Invalid email/password combination!");
+
+        return response;
     }
 }
