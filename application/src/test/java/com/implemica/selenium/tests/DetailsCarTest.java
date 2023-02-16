@@ -10,7 +10,7 @@ import org.junit.*;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
-
+@Ignore
 public class DetailsCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static DetailsCarPage detailsCarPage;

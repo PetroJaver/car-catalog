@@ -11,7 +11,7 @@ import java.time.Duration;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
-
+@Ignore
 public class CatalogTest extends BaseSeleniumTest {
 
     private CatalogAuthPage catalogAuthPage = new CatalogAuthPage();

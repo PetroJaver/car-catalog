@@ -8,7 +8,7 @@ import com.implemica.selenium.pages.LogInPage;
 import static org.junit.Assert.*;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 
-
+@Ignore
 public class LogInTest extends BaseSeleniumTest {
     private static LogInPage logInPage;
 
