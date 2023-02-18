@@ -15,6 +15,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./car-details.component.css']
 })
 export class CarDetailsComponent {
+  isCarUploaded: boolean = false;
 
   car: Car;
 
@@ -64,6 +65,7 @@ export class CarDetailsComponent {
   ngOnInit(): void {
     this.carService.get(this.id).subscribe((data) => {
       this.car = data;
+      this.isCarUploaded = true;
       console.log(data)
       this.titleService.setTitle(`Details ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`)}, error => {
       if(error.status===404){
