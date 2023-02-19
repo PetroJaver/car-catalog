@@ -26,7 +26,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
 
   car: Car;
 
-  title:string;
+  title:string = 'Edit';
 
   id: number;
 
@@ -76,7 +76,7 @@ export class EditCarComponent implements OnInit,AfterViewInit {
       this.car = data;
       let brand:string;
       // @ts-ignore
-      this.title = `Edit ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`
+      this.title += ` ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`
       this.titleService.setTitle(`Edit ${this.getValueBrandByStringKey(this.car.brand)} ${this.car.model}`);
       this.onReset();
     }, error => {
