@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -22,21 +21,39 @@ import java.util.UUID;
  */
 @Service
 public class SimpleStorageServiceAWS implements StorageService {
+    /**
+     * The name of the AWS S3 bucket.
+     */
     @Value("${application.bucket.name}")
     private String bucketName;
 
+    /**
+     * The maximum height of an image that can be uploaded to the S3 bucket.
+     */
     @Value("#{ new Integer(\"${application.storage-service.max-height}\")}")
     private Integer maxImageHeight;
 
+    /**
+     * The maximum width of an image that can be uploaded to the S3 bucket.
+     */
     @Value("#{ new Integer('${application.storage-service.max-width}')}")
     private Integer maxImageWidth;
 
+    /**
+     * The name of the default image that will be used if the uploaded file is not saved for some reason.
+     */
     @Value("${application.default.image}")
     private String defaultImageName;
 
+    /**
+     * The metadata for images that will be uploaded to the S3 bucket.
+     */
     @Value("${application.storage-service.meta-data.image}")
     private String metaDataForImages;
 
+    /**
+     * The AWS S3 client that is used to interact with the S3 bucket.
+     */
     @Autowired
     private AmazonS3 s3Client;
 
@@ -68,9 +85,8 @@ public class SimpleStorageServiceAWS implements StorageService {
      */
     public String uploadFile(MultipartFile multipartFile) {
         String fileName = String.format("%s.%s", UUID.randomUUID(), multipartFile.getOriginalFilename());
-        File file = convertMultiPartFileToFile(multipartFile);
 
-        try (InputStream inputStream = reduceImageSize(file)) {
+        try (InputStream inputStream = reduceImageSize(multipartFile)) {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setCacheControl(metaDataForImages);
 
@@ -80,15 +96,20 @@ public class SimpleStorageServiceAWS implements StorageService {
             fileName = defaultImageName;
         }
 
-        if (file != null) {
-            file.delete();
-        }
-
         return fileName;
     }
 
-    private FileInputStream reduceImageSize(File file) throws IOException {
-        BufferedImage image = ImageIO.read(file);
+    /**
+     * This method reduces the size of an image if its height or width exceeds the maximum defined in the
+     * application properties file. It returns a FileInputStream of the reduced image.
+     *
+     * @param multipartFile The file to be reduced in size.
+     * @return A FileInputStream of the reduced image.
+     * @throws IOException If the image cannot be read or written.
+     */
+    private InputStream reduceImageSize(MultipartFile multipartFile) throws IOException {
+        String fileName = multipartFile.getOriginalFilename();
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(multipartFile.getBytes()));
 
         int startingHeight = image.getHeight();
         int startingWidth = image.getWidth();
@@ -105,30 +126,21 @@ public class SimpleStorageServiceAWS implements StorageService {
             finalWidth = maxImageWidth;
         }
 
-        if((finalHeight!=startingHeight)||(finalWidth!=startingWidth)) {
-            BufferedImage bufferedImageOutput = new BufferedImage(finalWidth, finalHeight, image.getType());
+        if ((finalHeight != startingHeight) || (finalWidth != startingWidth)) {
+            BufferedImage resizedImage = new BufferedImage(finalWidth, finalHeight, image.getType());
 
-            Graphics2D g2d = bufferedImageOutput.createGraphics();
+            Graphics2D g2d = resizedImage.createGraphics();
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.drawImage(image, 0, 0, finalWidth, finalHeight, null);
             g2d.dispose();
-
-            String formatName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-            ImageIO.write(bufferedImageOutput, formatName, file);
+            image = resizedImage;
         }
 
-        return new FileInputStream(file);
-    }
+        String formatName = fileName.substring(fileName.lastIndexOf('.') + 1);
 
-    private File convertMultiPartFileToFile(MultipartFile file) {
-        File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, formatName, outputStream);
 
-        try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
-            fos.write(file.getBytes());
-        } catch (IOException e) {
-            convertedFile = null;
-        }
-
-        return convertedFile;
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 }
