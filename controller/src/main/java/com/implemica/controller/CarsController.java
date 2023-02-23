@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +23,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the controller for handling REST API requests related to cars.
+ */
 @RequestMapping(value = "/cars", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Car", description = "Operations with car")
 @RestController
 public class CarsController {
+    /**
+     * Service layer for handling car operations.
+     */
     @Autowired
     private CarService carService;
 
+    /**
+     * Create a car in the database.
+     * For a successful operation, you need a jwt token, which must be passed in the header using the key "Authorization".
+     *
+     * @param carDTO the car data to create the car.
+     * @return A {@link ResponseEntity} containing the created car and {@code HttpStatus.OK} if successful car created.
+     * @throws IllegalArgumentException        if the car data is invalid.
+     * @throws DataIntegrityViolationException car with the same fields as 'brand', 'model', 'bodyType', 'year',
+     *                                         'transmissionType', 'engineSize' already exist.
+     * @throws AuthenticationException         if the request lacks a valid JWT token.
+     * @see Car
+     * @see CarDTO
+     * @see HttpStatus
+     */
     @PostMapping
     @PreAuthorize("hasAuthority('create')")
     @Operation(summary = "Create a Car in database.",
@@ -47,9 +68,19 @@ public class CarsController {
         return new ResponseEntity<>(car, HttpStatus.CREATED);
     }
 
+    /**
+     * Get a list of all cars in the database.
+     * You don't need to send any headers, and you don't need to authorize the request.
+     *
+     * @return A {@link ResponseEntity} containing a list of {@link Car} objects and {@code HttpStatus.OK} if successful list of cars found,
+     * or {@code HttpStatus.NO_CONTENT} if there are no cars in the database.
+     * @see Car
+     * @see CarDTO
+     * @see HttpStatus
+     */
     @GetMapping
     @Operation(summary = "Get list of Cars in the database.",
-            description = "Use this api endpoint to get the list of cars in the database, you don't need to send any headers and you don't need to authenticate the request.",
+            description = "Use this api endpoint to get the list of cars in the database, you don't need to send any headers, and you don't need to authorize the request.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful operation. API returns a list of cars from the database."),
                     @ApiResponse(responseCode = "204", description = "The operation is successful. But the list of cars in the database is empty.")
@@ -60,9 +91,21 @@ public class CarsController {
         return cars.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(cars, HttpStatus.OK);
     }
 
+    /**
+     * Get Car by identifier in the database.
+     * You don't need to send any headers, and you don't need to authorize the request.
+     *
+     * @param id the unique identifier of the car.
+     * @return A {@link ResponseEntity} containing the retrieved {@link Car} object and
+     * {@code HttpStatus.OK} if the car successful found in the database,
+     * or {@code HttpStatus.NOT_FOUND} if the car is not found in the database.
+     * @see Car
+     * @see CarDTO
+     * @see HttpStatus
+     */
     @GetMapping(value = "{id}")
     @Operation(summary = "Get Car by identifier in the database.",
-            description = "Use this api endpoint to get the car by identifier in the database, you don't need to send any headers and you don't need to authenticate the request.Also send the model following validation in json format.",
+            description = "Use this api endpoint to get the car by identifier in the database, you don't need to send any headers and you don't need to authorize the request.Also send the model following validation in json format.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful operation. API return car by identifier from the database."),
                     @ApiResponse(responseCode = "404", description = "Failed operation. Car by identifier not found.")
@@ -75,6 +118,21 @@ public class CarsController {
         return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Update a car in the database by identifier.
+     * For a successful operation, you need a jwt token, which must be passed in the header using the key "Authorization".
+     *
+     * @param id     the unique identifier of the car to be updated.
+     * @param carDTO the car data to update the car.
+     * @return A {@link ResponseEntity} containing the updated car and {@code HttpStatus.OK} if successful car updated,
+     * or {@code HttpStatus.NOT_FOUND} if the car in the database is not found.
+     * @throws IllegalArgumentException        if the car data is invalid.
+     * @throws DataIntegrityViolationException car with the same fields as 'brand', 'model', 'bodyType', 'year', 'transmissionType', 'engineSize' already exist.
+     * @throws AuthenticationException         if the request lacks a valid JWT token.
+     * @see Car
+     * @see CarDTO
+     * @see HttpStatus
+     */
     @PutMapping(value = "{id}")
     @PreAuthorize("hasAuthority('update')")
     @Operation(summary = "Update Car by identifier in the database.",
@@ -90,12 +148,21 @@ public class CarsController {
             @ApiParam(name = "id", value = "The unique identifier of the car by which the car will be updated.", required = true, example = "1")
             @PathVariable Long id,
             @Parameter(name = "body", description = "To successfully receive a response from the api, you should send the body according to the example, follow the CarDTO validation.")
-            @Valid @RequestBody CarDTO carDto) {
-        Car car = carService.updateCarById(id, carDto);
+            @Valid @RequestBody CarDTO carDTO) {
+        Car car = carService.updateCarById(id, carDTO);
 
         return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Delete a car by identifier from the database.
+     * For a successful operation, you need a JWT token, which must be passed in the header using the key "Authorization".
+     *
+     * @param id the unique identifier of the car to be deleted.
+     * @return A {@link ResponseEntity} with {@code HttpStatus.OK} if successful car deleted,
+     * or {@code HttpStatus.NOT_FOUND} if the car in the database is not found.
+     * @throws AuthenticationException if the request lacks a valid JWT token.
+     */
     @DeleteMapping(value = "{id}")
     @PreAuthorize("hasAuthority('delete')")
     @Operation(summary = "Delete Car by identifier in the database.",
@@ -113,6 +180,19 @@ public class CarsController {
         return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Upload car image by car identifier in database.
+     * For a successful operation, you need a jwt token, which must be passed in the header using the key "Authorization".
+     *
+     * @param id    the unique identifier of the car, by which the image will be uploaded.
+     * @param image the new image of the car that will be changed for the car whose identifier was specified. Must not be null.
+     * @return A {@link ResponseEntity} {@code HttpStatus.OK} if successful car image updated,
+     * or {@code HttpStatus.NOT_FOUND} if the car in the database is not found.
+     * @throws AuthenticationException if the request lacks a valid JWT token.
+     * @see Car
+     * @see CarDTO
+     * @see HttpStatus
+     */
     @PreAuthorize("hasAuthority('update')")
     @PostMapping(value = "{id}/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.ALL_VALUE)
     @Operation(summary = "Upload car image by car identifier in database.",

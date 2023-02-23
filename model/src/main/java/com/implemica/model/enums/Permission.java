@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
  * Enum primary permissions for a User.
  */
 @AllArgsConstructor
-public enum Permission {
+public enum  Permission {
     READ("read"),
     DELETE("delete"),
     UPDATE("update"),

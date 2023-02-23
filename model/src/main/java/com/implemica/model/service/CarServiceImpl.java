@@ -16,8 +16,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Serviсe layer that works with the car table in the database, to perform the main operations with the {@link Car}.
@@ -72,7 +72,7 @@ public class CarServiceImpl implements CarService {
     })
     public boolean deleteCarById(Long id) {
         Car foundCar = carRepository.findById(id).orElse(null);
-        boolean isCarDeleted = false;
+        boolean carDeleted = false;
 
         if (foundCar != null) {
             String imageName = foundCar.getImageName();
@@ -80,11 +80,11 @@ public class CarServiceImpl implements CarService {
             if (storageService.deleteFile(imageName)) {
                 carRepository.deleteById(id);
 
-                isCarDeleted = true;
+                carDeleted = true;
             }
         }
 
-        return isCarDeleted;
+        return carDeleted;
     }
 
     /**
@@ -101,8 +101,8 @@ public class CarServiceImpl implements CarService {
 
         if (foundCar != null) {
             List<String> optionsList = foundCar.getOptionsList();
+            Collections.sort(optionsList);
 
-            optionsList = optionsList.stream().sorted(String::compareTo).collect(Collectors.toList());
             foundCar.setOptionsList(optionsList);
         }
 
@@ -135,7 +135,7 @@ public class CarServiceImpl implements CarService {
     })
     public boolean uploadImageCarById(Long id, MultipartFile image) {
         Car foundCar = carRepository.findById(id).orElse(null);
-        boolean isImageUploaded = false;
+        boolean imageUploaded = false;
 
         if (foundCar != null) {
             String foundCarImageName = foundCar.getImageName();
@@ -145,11 +145,11 @@ public class CarServiceImpl implements CarService {
                 foundCar.setImageName(newImageName);
                 carRepository.save(foundCar);
 
-                isImageUploaded = true;
+                imageUploaded = true;
             }
         }
 
-        return isImageUploaded;
+        return imageUploaded;
     }
 
     /**
@@ -157,7 +157,7 @@ public class CarServiceImpl implements CarService {
      * Returns the {@link Car} object that was updated.
      *
      * @param carDto will be updated in the table of cars.
-     * @param id {@link Car} from the car table will be updated.
+     * @param id     {@link Car} from the car table will be updated.
      * @return updated {@link Car}.
      * @throws DataIntegrityViolationException if {@link Car} object already exist table of the database.
      * @see CarDTO
@@ -183,6 +183,13 @@ public class CarServiceImpl implements CarService {
         return foundCar;
     }
 
+    /**
+     * This method maps a {@link CarDTO} to a {@link Car} entity.
+     *
+     * @param carDto the car DTO to be mapped.
+     * @return a {@link Car} entity that was created from the provided {@link CarDTO} data.
+     * @throws IllegalArgumentException if the provided {@link CarDTO} has null or invalid data.
+     */
     private Car getCarFromCarDto(CarDTO carDto) {
         Car car = new Car();
 

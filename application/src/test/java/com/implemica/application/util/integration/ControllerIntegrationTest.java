@@ -130,13 +130,6 @@ public class ControllerIntegrationTest {
     }
 
     @Test
-    public void createCarForbidden() throws Exception{
-        mockMvc.perform(post("/cars")
-                .content(objectMapper.writeValueAsString(FIRST_POST_CAR_DTO_FOR_H2))
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isForbidden());
-    }
-
-    @Test
     public void createCarUnauthorized() throws Exception{
         MvcResult result = mockMvc.perform(post("/cars")
                 .content(objectMapper.writeValueAsString(FIRST_POST_CAR_DTO_FOR_H2))

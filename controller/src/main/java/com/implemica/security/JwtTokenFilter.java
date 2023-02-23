@@ -2,7 +2,6 @@ package com.implemica.security;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
+    /**
+     * The JWT token provider that this filter uses to validate JWT tokens.
+     */
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
@@ -29,9 +31,9 @@ public class JwtTokenFilter extends GenericFilterBean {
      * the chain due to a client request for a resource at the end of the chain. The FilterChain passed in to this method
      * allows the Filter to pass on the request and response to the next entity in the chain.
      *
-     * @param servletRequest the ServletRequest object contains the client's request.
+     * @param servletRequest  the ServletRequest object contains the client's request.
      * @param servletResponse the ServletResponse object contains the filter's response.
-     * @param filterChain the FilterChain for invoking the next filter or the resource.
+     * @param filterChain     the FilterChain for invoking the next filter or the resource.
      * @see JwtAuthenticationException
      * @see ServletRequest
      * @see ServletResponse
@@ -43,7 +45,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
 
         try {
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+            if (jwtTokenProvider.validateToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 if (authentication != null) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,7 +54,6 @@ public class JwtTokenFilter extends GenericFilterBean {
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) servletResponse).setStatus(e.getHttpStatus().value());
-            //throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.UNAUTHORIZED);
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

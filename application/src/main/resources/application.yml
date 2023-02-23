@@ -4,18 +4,20 @@ application:
     max-width: 700
     meta-data.image: max-age=2592000, must-revalidate
   default.image: defaultImageCar.png
-  security.jwt:
+  security:
+    jwt:
       header: Authorization
-      secret: implemica
+      secret: aW1wbGVtaWNh
       expiration: 86400
+    bcrypt.strength.factor: 12
   bucket.name: cars-storage-peter-s.implemica.com
 spring:
   mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER
   servlet.multipart:
-      enabled: true
-      file-size-threshold: 2MB
-      max-file-size: 5MB
-      max-request-size: 10MB
+    enabled: true
+    file-size-threshold: 2MB
+    max-file-size: 5MB
+    max-request-size: 10MB
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://cars-trainee.czqg66wvelzk.us-east-1.rds.amazonaws.com:5432/peter.s_cars
@@ -27,6 +29,6 @@ spring:
     hibernate.ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 logging.file:
-    name: log.txt
-    path: /
+  name: log.txt
+  path: /
 server.port: 8090

@@ -11,42 +11,47 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 
 /**
- * Performs primary commands with JWT token.
+ * The JwtTokenProvider class provides functionality to create, validate and extract information from JWT tokens.
+ * It includes methods to encode a user's information and role into a token,
+ * as well as methods to authenticate the user based on the token and extract the user's username from the token.
  */
 @Component
 public class JwtTokenProvider {
-
+    /**
+     * An instance of UserDetailsService to load user details by username.
+     */
     @Autowired
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
+    /**
+     * The secret key used to sign and verify the JWT token.
+     */
     @Value("${application.security.jwt.secret}")
     private String secretKey;
-    @Value("${application.security.jwt.header}")
-    private String authorizationHeader;
-    @Value("${application.security.jwt.expiration}")
-    private long validityInMilliseconds;
 
     /**
-     * After initialization is complete, the secret key is encoded in base64.
+     * The header key used to extract the JWT token from the request headers.
      */
-    @PostConstruct
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
+    @Value("${application.security.jwt.header}")
+    private String authorizationHeader;
+
+    /**
+     * The lifetime of the JWT token in milliseconds.
+     */
+    @Value("${application.security.jwt.expiration}")
+    private long validityInMilliseconds;
 
     /**
      * Creates a token that stores information about the user (name and role),
      * the encryption algorithm, and the lifetime of the token.
      *
      * @param username user's username which login in the system.
-     * @param role user's role which login in the system.
+     * @param role     user's role which login in the system.
      * @return the generated token as a string based on username and role.
      */
     public String createToken(String username, String role) {
@@ -82,6 +87,7 @@ public class JwtTokenProvider {
 
     /**
      * Authenticates the username contained in the token. And gives the rights to the user.
+     *
      * @param token JWT token.
      * @return the rights available to the user based on the provided token.
      */
@@ -93,6 +99,7 @@ public class JwtTokenProvider {
 
     /**
      * Extracts username from JWT token.
+     *
      * @param token JWT token.
      * @return username content in JWT token.
      */

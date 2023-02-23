@@ -14,14 +14,17 @@ import org.springframework.stereotype.Service;
  */
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
+    /**
+     * The UserRepository used to find admin users in the database.
+     */
     @Autowired
     private UserRepository userRepository;
 
     /**
-     * Find user in database, and conver to {@link UserDetails}.
+     * Find user in database, and convert to {@link UserDetails}.
      *
      * @param username the username identifying the user whose data is required.
-     * @return {@link UserDetails}
+     * @return {@link UserDetails} containing user details fetched from the database.
      * @throws {@link UsernameNotFoundException} will be thrown if a user with that {@code username} is not found in the database.
      */
     @Override

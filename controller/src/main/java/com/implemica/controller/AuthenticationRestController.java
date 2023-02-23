@@ -22,19 +22,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
+/**
+ * Controller class for handling authentication-related APIs,
+ * such as logging in an admin user and generating a JWT token for use with other authenticated requests.
+ */
 @RestController
 @Api(tags = "Authentication", description = "Operation with admin")
 public class AuthenticationRestController {
+    /**
+     * The AuthenticationManager used to authenticate admin users.
+     */
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * The UserRepository used to find admin users in the database.
+     */
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * The JwtTokenProvider used to generate and validate JWT tokens for authenticated requests.
+     */
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Endpoint for logging in an admin user and generating a JWT token for use with other authenticated requests.
+     *
+     * @param body The login request body, containing an email and password.
+     * @return A response containing the authenticated user's username and a JWT token for use with other authenticated requests.
+     */
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Logs admin into the system.",
             description = "Use this API login endpoint to access admin functionality.car table To log in, you need an email and password for this, in json format,car table as shown in the example. If the data is correct,car table the server will answer you with a 200 code and in the body of the response car tableyou will receive a jwt token that is needed to authenticate requests for adding, deleting and updating.",
@@ -54,7 +72,7 @@ public class AuthenticationRestController {
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
 
         String token = jwtTokenProvider.createToken(body.getUsername(), user.getRole().name());
-        AuthorizationResponse authorizationResponse = new AuthorizationResponse(body.getUsername(),token);
+        AuthorizationResponse authorizationResponse = new AuthorizationResponse(body.getUsername(), token);
 
         return new ResponseEntity<>(authorizationResponse, HttpStatus.OK);
     }

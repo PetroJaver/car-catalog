@@ -8,7 +8,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
- * Custom authentication configuration.
+ * JwtConfigurer is a custom authentication configuration class that extends SecurityConfigurerAdapter
+ * to configure the HttpSecurity with a JwtTokenFilter.
  *
  * @see SecurityConfigurerAdapter
  * @see DefaultSecurityFilterChain
@@ -16,9 +17,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+    /**
+     * The JwtTokenFilter used to authenticate requests with JWT tokens.
+     */
     @Autowired
     private JwtTokenFilter jwtTokenFilter;
 
+    /**
+     * Configures the HttpSecurity to add the JwtTokenFilter before the UsernamePasswordAuthenticationFilter.
+     *
+     * @param httpSecurity the HttpSecurity to configure.
+     */
     @Override
     public void configure(HttpSecurity httpSecurity) {
         httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

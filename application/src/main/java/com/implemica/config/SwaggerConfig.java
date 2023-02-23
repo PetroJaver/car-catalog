@@ -14,8 +14,17 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A configuration class for Swagger documentation of Car catalog API. This class provides methods to generate
+ * Swagger documentation for the API, including API information, security configuration, and endpoint selection.
+ */
 @Configuration
 public class SwaggerConfig {
+    /**
+     * Generates API information, including the API title, version, contact information, and description.
+     *
+     * @return an {@code ApiInfo} object containing the API information
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .description("With this api you can work with the car catalog server. " +
@@ -27,10 +36,16 @@ public class SwaggerConfig {
                         "To read cars from the catalog no authorization is needed, and to add and edit is necessary.")
                 .title("Car catalog")
                 .version("1.0")
-                .contact(new Contact("Petro Sliusarenko","","petslu23@gmail.com"))
+                .contact(new Contact("Petro Sliusarenko", "", "petslu23@gmail.com"))
                 .build();
     }
 
+    /**
+     * Generates a Swagger {@code Docket} object, which is the primary interface for configuring Swagger.
+     * This method configures the API information, security, and endpoint selection for Swagger.
+     *
+     * @return a {@code Docket} object for configuring Swagger documentation
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -44,14 +59,29 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * Configures an {@code ApiKey} object for Swagger security.
+     *
+     * @return an {@code ApiKey} object for Swagger security
+     */
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");
     }
 
+    /**
+     * Configures a {@code SecurityContext} object for Swagger security.
+     *
+     * @return a {@code SecurityContext} object for Swagger security
+     */
     private SecurityContext securityContext() {
         return SecurityContext.builder().securityReferences(defaultAuth()).build();
     }
 
+    /**
+     * Configures a list of {@code SecurityReference} objects for Swagger security.
+     *
+     * @return a list of {@code SecurityReference} objects for Swagger security
+     */
     private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
