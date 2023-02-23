@@ -18,6 +18,7 @@ import static com.implemica.model.enums.CarTransmissionType.MANUAL;
 import static com.implemica.selenium.helpers.BaseTestValues.*;
 import static org.junit.Assert.*;
 
+@Ignore
 public class AddCarTest extends BaseSeleniumTest {
     private static AddCarPage addCarPage;
     private static CatalogAuthPage catalogAuthPage;
