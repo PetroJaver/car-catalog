@@ -277,8 +277,8 @@ export class EditCarComponent implements OnInit,AfterViewInit {
           });
           this.location.back();
         },error => {
-          if(error.status==404){
-            this.toast.error("Car fail update!", "Fail", {
+          if(error.status==404||400){
+            this.toast.error("Car image fail update!", "Fail", {
               progressBar: true,
               timeOut: 5000,
               progressAnimation: 'increasing'

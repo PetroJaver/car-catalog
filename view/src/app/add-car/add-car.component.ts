@@ -236,14 +236,15 @@ export class AddCarComponent implements OnInit,AfterViewInit {
           });
           this.location.back();
         },error => {
-          if(error.status==404){
-            this.toast.error("Car fail added!", "Fail", {
+          if(error.status==404||error.status==400){
+            this.toast.error("Car image fail save!", "Fail", {
               progressBar: true,
               timeOut: 5000,
               progressAnimation: 'increasing'
             })
             this.router.navigate(['/'])
           }
+
         })
       }else{
         this.toast.success("Car successful added!", "Success", {

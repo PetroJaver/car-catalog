@@ -190,8 +190,8 @@ public class CarsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * Upload car image by car identifier in database.
+     /**
+     * Upload car image by car identifier in storage.
      * For a successful operation, you need a jwt token, which must be passed in the header using the key "Authorization".
      *
      * @param id    the unique identifier of the car, by which the image will be uploaded.
@@ -211,6 +211,7 @@ public class CarsController {
     @Operation(summary = "Upload car image by car identifier in database.",
             description = "Use this API endpoint to upload the car image by identifier. For a successful operation, a jwt token is required, which must be passed in the header using the \"Authorization\" key.",
             responses = {
+                    @ApiResponse(responseCode = "400", description = "Failed operation. The image of the car by identifier hasn't been changed."),
                     @ApiResponse(responseCode = "200", description = "Successful operation. The image of the car by identifier has been changed."),
                     @ApiResponse(responseCode = "401", description = "You did not pass the token in the header, or the token has expired, or the token is not valid."),
                     @ApiResponse(responseCode = "404", description = "Failed operation. Car by identifier not found.")
