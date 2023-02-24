@@ -2,6 +2,9 @@ package com.implemica.controller;
 
 import com.implemica.model.dto.CarDTO;
 import com.implemica.model.entity.Car;
+import com.implemica.model.exceptions.CarNotFoundException;
+import com.implemica.model.exceptions.DeleteFileException;
+import com.implemica.model.exceptions.StorageServiceException;
 import com.implemica.model.service.CarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -99,10 +102,12 @@ public class CarsController {
      * @return A {@link ResponseEntity} containing the retrieved {@link Car} object and
      * {@code HttpStatus.OK} if the car successful found in the database,
      * or {@code HttpStatus.NOT_FOUND} if the car is not found in the database.
+     * @throws CarNotFoundException if the car in the database is not found.
      * @see Car
      * @see CarDTO
      * @see HttpStatus
      */
+
     @GetMapping(value = "{id}")
     @Operation(summary = "Get Car by identifier in the database.",
             description = "Use this api endpoint to get the car by identifier in the database, you don't need to send any headers and you don't need to authorize the request.Also send the model following validation in json format.",
@@ -112,7 +117,7 @@ public class CarsController {
             })
     public ResponseEntity<Car> get(
             @ApiParam(name = "id", value = "The unique identifier of the car by which the car will be returned.", required = true, example = "1")
-            @PathVariable Long id) {
+            @PathVariable Long id) throws CarNotFoundException {
         Car car = carService.findCarById(id);
 
         return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -129,10 +134,12 @@ public class CarsController {
      * @throws IllegalArgumentException        if the car data is invalid.
      * @throws DataIntegrityViolationException car with the same fields as 'brand', 'model', 'bodyType', 'year', 'transmissionType', 'engineSize' already exist.
      * @throws AuthenticationException         if the request lacks a valid JWT token.
+     * @throws CarNotFoundException            if the car in the database is not found.
      * @see Car
      * @see CarDTO
      * @see HttpStatus
      */
+
     @PutMapping(value = "{id}")
     @PreAuthorize("hasAuthority('update')")
     @Operation(summary = "Update Car by identifier in the database.",
@@ -148,10 +155,10 @@ public class CarsController {
             @ApiParam(name = "id", value = "The unique identifier of the car by which the car will be updated.", required = true, example = "1")
             @PathVariable Long id,
             @Parameter(name = "body", description = "To successfully receive a response from the api, you should send the body according to the example, follow the CarDTO validation.")
-            @Valid @RequestBody CarDTO carDTO) {
+            @Valid @RequestBody CarDTO carDTO) throws CarNotFoundException {
         Car car = carService.updateCarById(id, carDTO);
 
-        return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     /**
@@ -162,7 +169,10 @@ public class CarsController {
      * @return A {@link ResponseEntity} with {@code HttpStatus.OK} if successful car deleted,
      * or {@code HttpStatus.NOT_FOUND} if the car in the database is not found.
      * @throws AuthenticationException if the request lacks a valid JWT token.
+     * @throws CarNotFoundException    if the car in the database is not found.
+     * @throws DeleteFileException     if delete image from storage fail.
      */
+
     @DeleteMapping(value = "{id}")
     @PreAuthorize("hasAuthority('delete')")
     @Operation(summary = "Delete Car by identifier in the database.",
@@ -174,10 +184,10 @@ public class CarsController {
             })
     public ResponseEntity<Void> delete(
             @ApiParam(name = "id", value = "The unique identifier of the car by which the car will be delete.", required = true, example = "1")
-            @PathVariable(name = "id") Long id) {
-        boolean deleted = carService.deleteCarById(id);
+            @PathVariable(name = "id") Long id) throws CarNotFoundException, DeleteFileException {
+        carService.deleteCarById(id);
 
-        return deleted ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -189,10 +199,13 @@ public class CarsController {
      * @return A {@link ResponseEntity} {@code HttpStatus.OK} if successful car image updated,
      * or {@code HttpStatus.NOT_FOUND} if the car in the database is not found.
      * @throws AuthenticationException if the request lacks a valid JWT token.
+     * @throws CarNotFoundException    if the car in the database is not found.
+     * @throws StorageServiceException if upload or delete image to storage fail.
      * @see Car
      * @see CarDTO
      * @see HttpStatus
      */
+
     @PreAuthorize("hasAuthority('update')")
     @PostMapping(value = "{id}/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.ALL_VALUE)
     @Operation(summary = "Upload car image by car identifier in database.",
@@ -206,10 +219,10 @@ public class CarsController {
             @ApiParam(name = "id", value = "The unique identifier of the car, by which the image will be uploaded.", required = true, example = "1")
             @PathVariable Long id,
             @Parameter(name = "image", description = "The new image of the car that will be changed for the car whose identifier was specified.")
-            @RequestPart MultipartFile image) {
-        boolean imageUploaded = carService.uploadImageCarById(id, image);
+            @RequestPart MultipartFile image) throws CarNotFoundException, StorageServiceException {
+        carService.uploadImageCarById(id, image);
 
-        return imageUploaded ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -226,6 +239,38 @@ public class CarsController {
     public Map<String, String> handleDataIntegrityViolationException() {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Car already exist!");
+
+        return response;
+    }
+
+    /**
+     * Handles exceptions to type {@link CarNotFoundException}, sets HTTP response status to 404 NOT FOUND,
+     * and returns a Map containing a message field that describes the exception.
+     *
+     * @param ex {@link CarNotFoundException} object that needs to be handled.
+     * @return Map containing a message field that describes the exception.
+     */
+    @ExceptionHandler(value = CarNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public Map<String, String> handleCarNotFoundException(CarNotFoundException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+
+        return response;
+    }
+
+    /**
+     * Handles exceptions to type {@link StorageServiceException}, sets HTTP response status to 400 BAD REQUEST,
+     * and returns a Map containing a message field that describes the exception.
+     *
+     * @param ex {@link CarNotFoundException} object that needs to be handled.
+     * @return Map containing a message field that describes the exception.
+     */
+    @ExceptionHandler(value = StorageServiceException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleCarNotFoundException(StorageServiceException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", ex.getMessage());
 
         return response;
     }

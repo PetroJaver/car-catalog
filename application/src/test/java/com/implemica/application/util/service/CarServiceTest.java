@@ -1,6 +1,8 @@
 package com.implemica.application.util.service;
 
 import com.implemica.model.entity.Car;
+import com.implemica.model.exceptions.CarNotFoundException;
+import com.implemica.model.exceptions.DeleteFileException;
 import com.implemica.model.repository.CarRepository;
 import com.implemica.model.service.CarServiceImpl;
 import com.implemica.model.service.StorageService;
@@ -11,9 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.implemica.application.util.helpers.TestValues.*;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -47,23 +52,20 @@ public class CarServiceTest {
     }
 
     @Test
-    public void deleteExistCarWithDefaultImage() {
+    public void deleteExistCarWithDefaultImage() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
-        when(storageService.deleteFile(DEFAULT_IMAGE_PATH)).thenReturn(true);
-        assertTrue(carService.deleteCarById(1L));
+        carService.deleteCarById(1L);
 
         verify(carRepository, times(1)).findById(1L);
-        verify(storageService, times(1)).deleteFile(DEFAULT_IMAGE_PATH);
         verify(carRepository, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(storageService);
+        verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
 
     @Test
-    public void deleteExistCarWithNotDefaultImage() {
+    public void deleteExistCarWithNotDefaultImage() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME));
-        when(storageService.deleteFile(NOT_DEFAULT_IMAGE_PATH)).thenReturn(true);
-        assertTrue(carService.deleteCarById(1L));
+        carService.deleteCarById(1L);
 
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).deleteById(1L);
@@ -73,19 +75,20 @@ public class CarServiceTest {
     }
 
     @Test
-    public void deleteCarNotExistCar() {
+    public void deleteCarNotExistCar() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertFalse(carService.deleteCarById(1L));
+        assertThrows("Car not found in database", CarNotFoundException.class, () -> carService.deleteCarById(1L));
 
-        verify(carRepository,times(1)).findById(1L);
+        verify(carRepository, times(1)).findById(1L);
         verifyNoInteractions(storageService);
         verifyNoMoreInteractions(carRepository);
     }
 
     @Test
-    public void findCarByIdExistCar() {
-        when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
+    public void findCarByIdExistCar() throws Exception {
+        Optional<Car> returnedCar = Optional.of(cloneCar(EXAMPLE_CAR));
+        when(carRepository.findById(1L)).thenReturn(returnedCar);
         Car foundCar = carService.findCarById(1L);
 
         assertEquals(EXAMPLE_CAR, foundCar);
@@ -99,8 +102,7 @@ public class CarServiceTest {
     public void findCarByIdNotExistCar() {
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Car foundCar = carService.findCarById(1L);
-        assertNull(foundCar);
+        assertThrows("Car not found in database", CarNotFoundException.class, () -> carService.findCarById(1L));
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
@@ -108,11 +110,11 @@ public class CarServiceTest {
     }
 
     @Test
-    public void updateCarExistCar() {
+    public void updateCarExistCar() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR));
         when(carRepository.save(EXAMPLE_CAR)).thenReturn(EXAMPLE_CAR);
 
-        assertEquals(carService.updateCarById(1L, EXAMPLE_CAR_DTO),EXAMPLE_CAR);
+        assertEquals(carService.updateCarById(1L, EXAMPLE_CAR_DTO), EXAMPLE_CAR);
 
         verify(carRepository, times(1)).findById(1L);
         verify(carRepository, times(1)).save(EXAMPLE_CAR);
@@ -121,10 +123,10 @@ public class CarServiceTest {
     }
 
     @Test
-    public void updateCarNotExist() {
+    public void updateCarNotExist() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertNull(carService.updateCarById(1L, EXAMPLE_CAR_DTO));
+        assertThrows("Car not found in database", CarNotFoundException.class, () -> carService.updateCarById(1L, EXAMPLE_CAR_DTO));
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
@@ -135,7 +137,7 @@ public class CarServiceTest {
     public void findAllNotEmpty() {
         when(carRepository.findAllByOrderByIdDesc()).thenReturn(CAR_LIST);
 
-        assertEquals(CAR_LIST,carService.findAll());
+        assertEquals(CAR_LIST, carService.findAll());
 
         verify(carRepository, times(1)).findAllByOrderByIdDesc();
         verifyNoMoreInteractions(carRepository);
@@ -154,47 +156,34 @@ public class CarServiceTest {
     }
 
     @Test
-    public void uploadImageExistCarByIdWithDefaultImage() {
-        Car car = new Car(EXAMPLE_CAR.getId(),
-                EXAMPLE_CAR.getImageName(),
-                EXAMPLE_CAR.getBrand(),
-                EXAMPLE_CAR.getModel(),
-                EXAMPLE_CAR.getBodyType(),
-                EXAMPLE_CAR.getYear(),
-                EXAMPLE_CAR.getTransmissionType(),
-                EXAMPLE_CAR.getEngineSize(),
-                EXAMPLE_CAR.getShortDescription(),
-                EXAMPLE_CAR.getDescription(),
-                EXAMPLE_CAR.getOptionsList());
+    public void uploadImageExistCarByIdWithDefaultImage() throws Exception {
+        Car car = cloneCar(EXAMPLE_CAR);
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
         when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
                 .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
-        when(storageService.deleteFile(DEFAULT_IMAGE_PATH)).thenReturn(true);
         when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
 
-        assertTrue(carService.uploadImageCarById(1L, MULTIPART_FILE));
+        carService.uploadImageCarById(1L, MULTIPART_FILE);
 
         verify(carRepository, times(1)).findById(1L);
-        verify(carRepository,times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
-        verify(storageService, times(1)).deleteFile(DEFAULT_IMAGE_PATH);
+        verify(carRepository, times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
         verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
         verifyNoMoreInteractions(carRepository);
         verifyNoMoreInteractions(storageService);
     }
 
     @Test
-    public void uploadImageExistCarByIdWithNotDefaultImage() {
+    public void uploadImageExistCarByIdWithNotDefaultImage() throws Exception {
         when(carRepository.findById(1L)).thenReturn(Optional.of(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME));
         when(carRepository.save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME))
                 .thenReturn(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
-        when(storageService.deleteFile(MULTIPART_FILE.getName())).thenReturn(true);
         when(storageService.uploadFile(MULTIPART_FILE)).thenReturn(NOT_DEFAULT_IMAGE_PATH);
 
-        assertTrue(carService.uploadImageCarById(1L, MULTIPART_FILE));
+        carService.uploadImageCarById(1L, MULTIPART_FILE);
 
         verify(carRepository, times(1)).findById(1L);
-        verify(carRepository,times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
+        verify(carRepository, times(1)).save(EXAMPLE_CAR_WITH_NOT_DEFAULT_IMAGE_NAME);
         verify(storageService, times(1)).uploadFile(MULTIPART_FILE);
         verify(storageService, times(1)).deleteFile(MULTIPART_FILE.getName());
         verifyNoMoreInteractions(carRepository);
@@ -205,10 +194,28 @@ public class CarServiceTest {
     public void uploadImageNotExistCarById() {
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertFalse(carService.uploadImageCarById(1L, MULTIPART_FILE));
+        assertThrows("Car not found in database", CarNotFoundException.class, () -> carService.uploadImageCarById(1L, MULTIPART_FILE));
 
         verify(carRepository, times(1)).findById(1L);
         verifyNoMoreInteractions(carRepository);
         verifyNoInteractions(storageService);
+    }
+
+    private Car cloneCar(Car car) {
+        List<String> cloneOptionsList = new ArrayList<>(car.getOptionsList());
+
+        Car carClone = new Car(car.getId(),
+                car.getImageName(),
+                car.getBrand(),
+                car.getModel(),
+                car.getBodyType(),
+                car.getYear(),
+                car.getTransmissionType(),
+                car.getEngineSize(),
+                car.getShortDescription(),
+                car.getDescription(),
+                cloneOptionsList);
+
+        return carClone;
     }
 }

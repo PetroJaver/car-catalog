@@ -3,6 +3,8 @@ package com.implemica.application.util.service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.implemica.model.exceptions.DeleteFileException;
+import com.implemica.model.exceptions.UploadFileException;
 import com.implemica.model.service.SimpleStorageServiceAWS;
 import com.implemica.model.service.StorageService;
 import org.junit.Test;
@@ -14,13 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -57,16 +56,16 @@ public class SimpleStorageServiceAWSTest {
     public void deleteFileNotExist() {
         doThrow(new AmazonServiceException("")).when(s3Client).deleteObject(bucketName, fileName);
 
-        assertFalse(storageService.deleteFile(fileName));
+        assertThrows("File was not deleted from AWS S3 storage, something is wrong with AmazonS3.", DeleteFileException.class, () -> storageService.deleteFile(fileName));
 
         verify(s3Client, times(1)).deleteObject(bucketName, fileName);
         verifyNoMoreInteractions(s3Client);
     }
 
     @Test
-    public void deleteFileExist() {
+    public void deleteFileExist() throws Exception {
         doNothing().when(s3Client).deleteObject(bucketName, fileName);
-        assertTrue(storageService.deleteFile(fileName));
+        storageService.deleteFile(fileName);
 
         verify(s3Client, times(1)).deleteObject(bucketName, fileName);
         verifyNoMoreInteractions(s3Client);
@@ -93,58 +92,9 @@ public class SimpleStorageServiceAWSTest {
                 new FileInputStream("./src/test/resources/files/testCarImagePorshe911.png"));
         when(s3Client.putObject(any())).thenThrow(AmazonServiceException.class);
 
-        assertTrue(storageService.uploadFile(file) == defaultImage);
+        assertThrows("File wasn't uploaded to AWS S3 storage, something is wrong with AmazonS3", UploadFileException.class, () -> storageService.uploadFile(file));
 
         verify(s3Client, times(1)).putObject(any());
         verifyNoMoreInteractions(s3Client);
-    }
-
-    @Test
-    public void convertMultipartFileReturnNull() {
-        MultipartFile file = new MultipartFile() {
-            @Override
-            public String getName() {
-                return "file";
-            }
-
-            @Override
-            public String getOriginalFilename() {
-                return "file";
-            }
-
-            @Override
-            public String getContentType() {
-                return null;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public long getSize() {
-                return 0;
-            }
-
-            @Override
-            public byte[] getBytes() throws IOException {
-                throw new IOException();
-            }
-
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return null;
-            }
-
-            @Override
-            public void transferTo(File dest) throws IOException, IllegalStateException {
-
-            }
-        };
-
-        assertTrue(storageService.uploadFile(file) == defaultImage);
-
-        verifyNoInteractions(s3Client);
     }
 }

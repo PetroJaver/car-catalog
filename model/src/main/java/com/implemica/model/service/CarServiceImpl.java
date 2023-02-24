@@ -5,7 +5,11 @@ import com.implemica.model.entity.Car;
 import com.implemica.model.enums.CarBodyType;
 import com.implemica.model.enums.CarBrand;
 import com.implemica.model.enums.CarTransmissionType;
+import com.implemica.model.exceptions.CarNotFoundException;
+import com.implemica.model.exceptions.DeleteFileException;
+import com.implemica.model.exceptions.StorageServiceException;
 import com.implemica.model.repository.CarRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Serviсe layer that works with the car table in the database, to perform the main operations with the {@link Car}.
+ * This class represents an implementation of the {@link CarService} interface, which provides a set of methods
+ * for managing car entities in the database.
  *
  * @see Car
  * @see CarRepository
@@ -30,12 +36,21 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CarServiceImpl implements CarService {
+    /**
+     * The storage service used for handling car images in the S3 bucket.
+     */
     @Autowired
     private StorageService storageService;
 
+    /**
+     * The car repository used for accessing and modifying car objects in the database.
+     */
     @Autowired
     private CarRepository carRepository;
 
+    /**
+     * The default image path for a car image in case an image is not uploaded.
+     */
     @Value("${application.default.image}")
     private String defaultImagePath;
 
@@ -43,7 +58,7 @@ public class CarServiceImpl implements CarService {
      * Gets the {@link CarDTO} parameter the car object that will be saved in the car table of the database.
      * Returns the {@link Car} object that was saved.
      *
-     * @param carDto will be saved in the table of cars.
+     * @param carDTO will be saved in the table of cars.
      * @return saved {@link Car}.
      * @throws DataIntegrityViolationException if {@link Car} object already exist table of the database.
      * @see CarDTO
@@ -51,8 +66,8 @@ public class CarServiceImpl implements CarService {
      */
     @Override
     @CacheEvict(value = "carsList", allEntries = true)
-    public Car saveCar(CarDTO carDto) {
-        Car car = getCarFromCarDto(carDto);
+    public Car saveCar(CarDTO carDTO) {
+        Car car = getCarFromCarDto(carDTO);
         car.setImageName(defaultImagePath);
 
         return carRepository.save(car);
@@ -60,10 +75,10 @@ public class CarServiceImpl implements CarService {
 
     /**
      * Gets the {@code id} parameter the car object that will be deleted in the car table of the database.
-     * Returns {@code true} if car will be deleted successful, otherwise {@code false}.
      *
      * @param id {@link Car} will be deleted.
-     * @return false, if {@link Car} by id not found in the {@code Car} table.
+     * @throws CarNotFoundException if car was not found in the database.
+     * @throws DeleteFileException  if car image was not deleted from storage.
      * @see Car
      */
     @Override
@@ -71,21 +86,13 @@ public class CarServiceImpl implements CarService {
             @CacheEvict(value = "carsList", allEntries = true),
             @CacheEvict(key = "#id", value = "cars")
     })
-    public boolean deleteCarById(Long id) {
-        Car foundCar = carRepository.findById(id).orElse(null);
-        boolean carDeleted = false;
+    public void deleteCarById(Long id) throws CarNotFoundException, DeleteFileException {
+        String imageName = carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException("Car not found in database"))
+                .getImageName();
 
-        if (foundCar != null) {
-            String imageName = foundCar.getImageName();
-
-            if (storageService.deleteFile(imageName)) {
-                carRepository.deleteById(id);
-
-                carDeleted = true;
-            }
-        }
-
-        return carDeleted;
+        deleteCarImage(imageName);
+        carRepository.deleteById(id);
     }
 
     /**
@@ -93,19 +100,14 @@ public class CarServiceImpl implements CarService {
      *
      * @param id {@link Car} will be found.
      * @return the {@link Car} object that was found.
+     * @throws CarNotFoundException if {@link Car} not found in table of the database.
      * @see Car
      */
     @Override
     @Cacheable(key = "#id", value = "cars", unless = "#result == null")
-    public Car findCarById(Long id) {
-        Car foundCar = carRepository.findById(id).orElse(null);
-
-        if (foundCar != null) {
-            List<String> optionsList = foundCar.getOptionsList();
-            Collections.sort(optionsList);
-
-            foundCar.setOptionsList(optionsList);
-        }
+    public Car findCarById(Long id) throws CarNotFoundException {
+        Car foundCar = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found in database"));
+        Collections.sort(foundCar.getOptionsList());
 
         return foundCar;
     }
@@ -126,7 +128,9 @@ public class CarServiceImpl implements CarService {
      *
      * @param image will be saved in storage for {@link Car}.
      * @param id    {@link Car} imageName from the car table will be updated.
-     * @return false, if {@link Car} by id not found in the {@code Car} table.
+     * @throws CarNotFoundException    if {@link Car} not found in table of the database.
+     * @throws StorageServiceException if the old car image has not been removed from the storage,
+     *                                 or the new car image has not been uploaded to the storage.
      * @see MultipartFile
      */
     @Override
@@ -134,33 +138,25 @@ public class CarServiceImpl implements CarService {
             @CacheEvict(value = "carsList", allEntries = true),
             @CacheEvict(key = "#id", value = "cars")
     })
-    public boolean uploadImageCarById(Long id, MultipartFile image) {
-        Car foundCar = carRepository.findById(id).orElse(null);
-        boolean imageUploaded = false;
+    public void uploadImageCarById(Long id, MultipartFile image) throws CarNotFoundException, StorageServiceException {
+        Car foundCar = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found in database"));
+        String imageName = foundCar.getImageName();
 
-        if (foundCar != null) {
-            String foundCarImageName = foundCar.getImageName();
+        deleteCarImage(imageName);
+        foundCar.setImageName(storageService.uploadFile(image));
 
-            if (storageService.deleteFile(foundCarImageName)) {
-                String newImageName = storageService.uploadFile(image);
-                foundCar.setImageName(newImageName);
-                carRepository.save(foundCar);
-
-                imageUploaded = true;
-            }
-        }
-
-        return imageUploaded;
+        carRepository.save(foundCar);
     }
 
     /**
      * Gets the {@link CarDTO} parameter the car object that will be updated by {@code id} in the car table of the database.
      * Returns the {@link Car} object that was updated.
      *
-     * @param carDto will be updated in the table of cars.
+     * @param carDTO will be updated in the table of cars.
      * @param id     {@link Car} from the car table will be updated.
      * @return updated {@link Car}.
      * @throws DataIntegrityViolationException if {@link Car} object already exist table of the database.
+     * @throws CarNotFoundException            if {@link Car} not found in table of the database.
      * @see CarDTO
      * @see Car
      */
@@ -170,40 +166,42 @@ public class CarServiceImpl implements CarService {
             @CacheEvict(value = "carsList", allEntries = true),
             @CacheEvict(key = "#id", value = "cars")
     })
-    public Car updateCarById(Long id, CarDTO carDto) {
-        Car foundCar = carRepository.findById(id).orElse(null);
+    public Car updateCarById(Long id, CarDTO carDTO) throws CarNotFoundException {
+        Car foundCar = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found in database"));
 
-        if (foundCar != null) {
-            Car car = getCarFromCarDto(carDto);
-            car.setImageName(foundCar.getImageName());
-            car.setId(foundCar.getId());
+        Car car = getCarFromCarDto(carDTO);
+        car.setImageName(foundCar.getImageName());
+        car.setId(foundCar.getId());
 
-            foundCar = carRepository.save(car);
-        }
-
-        return foundCar;
+        return carRepository.save(car);
     }
 
     /**
      * This method maps a {@link CarDTO} to a {@link Car} entity.
      *
-     * @param carDto the car DTO to be mapped.
+     * @param carDTO the car DTO to be mapped.
      * @return a {@link Car} entity that was created from the provided {@link CarDTO} data.
      * @throws IllegalArgumentException if the provided {@link CarDTO} has null or invalid data.
      */
-    private Car getCarFromCarDto(CarDTO carDto) {
+    private Car getCarFromCarDto(CarDTO carDTO) {
         Car car = new Car();
 
-        car.setBrand(CarBrand.valueOf(carDto.getBrand()));
-        car.setBodyType(CarBodyType.valueOf(carDto.getBodyType()));
-        car.setYear(carDto.getYear());
-        car.setTransmissionType(CarTransmissionType.valueOf(carDto.getTransmissionType()));
-        car.setEngineSize(carDto.getEngineSize());
-        car.setOptionsList(carDto.getOptionsList());
-        car.setModel(carDto.getModel());
-        car.setDescription(carDto.getDescription());
-        car.setShortDescription(carDto.getShortDescription());
+        car.setBrand(CarBrand.valueOf(carDTO.getBrand()));
+        car.setBodyType(CarBodyType.valueOf(carDTO.getBodyType()));
+        car.setYear(carDTO.getYear());
+        car.setTransmissionType(CarTransmissionType.valueOf(carDTO.getTransmissionType()));
+        car.setEngineSize(carDTO.getEngineSize());
+        car.setOptionsList(carDTO.getOptionsList());
+        car.setModel(carDTO.getModel());
+        car.setDescription(carDTO.getDescription());
+        car.setShortDescription(carDTO.getShortDescription());
 
         return car;
+    }
+
+    private void deleteCarImage(String imageName) throws DeleteFileException {
+        if (!imageName.equals(defaultImagePath)) {
+            storageService.deleteFile(imageName);
+        }
     }
 }

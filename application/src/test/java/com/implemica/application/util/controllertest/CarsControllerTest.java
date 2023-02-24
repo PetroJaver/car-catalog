@@ -1,6 +1,7 @@
 package com.implemica.application.util.controllertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.implemica.model.exceptions.CarNotFoundException;
 import com.implemica.model.service.CarService;
 import com.implemica.security.JwtAuthenticationException;
 import com.implemica.security.JwtTokenProvider;
@@ -169,7 +170,7 @@ public class CarsControllerTest {
 
     @Test
     public void updateCarStatusNotFound() throws Exception {
-        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenReturn(null);
+        when(carService.updateCarById(eq(1L), eq(EXAMPLE_CAR_DTO))).thenThrow(new CarNotFoundException("File was not deleted from AWS S3 storage, something is wrong with AmazonS3."));
 
         mockMvc.perform(put("/cars/1")
                         .accept(APPLICATION_JSON)
@@ -199,8 +200,6 @@ public class CarsControllerTest {
 
     @Test
     public void deleteCarSuccessfulShouldReturnHttpStatus200() throws Exception {
-        when(carService.deleteCarById(1L)).thenReturn(true);
-
         mockMvc.perform(delete("/cars/1").header("Authorization", jwtToken))
                 .andExpect(status().isOk());
 
@@ -210,7 +209,7 @@ public class CarsControllerTest {
 
     @Test
     public void deleteCarBadRequest() throws Exception {
-        when(carService.deleteCarById(1L)).thenReturn(false);
+        doThrow(new CarNotFoundException("File was not deleted from AWS S3 storage, something is wrong with AmazonS3.")).when(carService).deleteCarById(1L);
 
         mockMvc.perform(delete("/cars/1").header("Authorization", jwtToken))
                 .andExpect(status().isNotFound());
@@ -235,8 +234,6 @@ public class CarsControllerTest {
     public void uploadImageCarByIdStatusOk() throws Exception {
         MockMultipartFile image = new MockMultipartFile("image", NOT_DEFAULT_IMAGE_PATH,
                 MediaType.APPLICATION_PDF_VALUE, MULTIPART_FILE.getBytes());
-
-        when(carService.uploadImageCarById(eq(1L), any(MultipartFile.class))).thenReturn(true);
 
         mockMvc.perform(multipart("/cars/1/uploadImage/")
                         .file(image)

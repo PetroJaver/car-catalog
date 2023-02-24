@@ -1,5 +1,7 @@
 package com.implemica.model.service;
 
+import com.implemica.model.exceptions.DeleteFileException;
+import com.implemica.model.exceptions.UploadFileException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -11,10 +13,10 @@ public interface StorageService {
     /**
      * Presents a contract method that must upload {@code multipartFile} in the storage.
      */
-    String uploadFile(MultipartFile multipartFile);
+    String uploadFile(MultipartFile multipartFile) throws UploadFileException;
 
     /**
      * Presents a contract method that must delete {@code multipartFile} from the storage.
      */
-    boolean deleteFile(String fileName);
+    void deleteFile(String fileName) throws DeleteFileException;
 }

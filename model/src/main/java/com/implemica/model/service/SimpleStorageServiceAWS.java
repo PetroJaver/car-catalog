@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.implemica.model.exceptions.DeleteFileException;
+import com.implemica.model.exceptions.UploadFileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,12 +42,6 @@ public class SimpleStorageServiceAWS implements StorageService {
     private Integer maxImageWidth;
 
     /**
-     * The name of the default image that will be used if the uploaded file is not saved for some reason.
-     */
-    @Value("${application.default.image}")
-    private String defaultImageName;
-
-    /**
      * The metadata for images that will be uploaded to the S3 bucket.
      */
     @Value("${application.storage-service.meta-data.image}")
@@ -58,32 +54,27 @@ public class SimpleStorageServiceAWS implements StorageService {
     private AmazonS3 s3Client;
 
     /**
-     * Delete the file from the AWS S3 Bucket. If {@code fileName} equals {@link #defaultImageName} file will be not
-     * deleted, and method return {@code true}.
+     * Deletes a file from the AWS S3 bucket.
      *
-     * @param fileName which will be removed from S3 Bucket.
-     * @return false, if file can not delete.
+     * @param fileName The name of the file to be deleted.
+     * @throws DeleteFileException if the file was not deleted or if there is an issue with AmazonS3.
      */
-    public boolean deleteFile(String fileName) {
-        if (!fileName.equals(defaultImageName)) {
-            try {
-                s3Client.deleteObject(bucketName, fileName);
-            } catch (SdkClientException e) {
-                return false;
-            }
+    public void deleteFile(String fileName) throws DeleteFileException {
+        try {
+            s3Client.deleteObject(bucketName, fileName);
+        } catch (SdkClientException e) {
+            throw new DeleteFileException("File was not deleted from AWS S3 storage, something is wrong with AmazonS3.", e);
         }
-
-        return true;
     }
 
     /**
-     * Converts {@link MultipartFile} to {@link File}, and upload in the S3 bucket.
-     * If the file is not uploaded for some reason, it will return the {@link #defaultImageName}.
+     * Uploads a file to the AWS S3 bucket.
      *
-     * @param multipartFile will be converted and upload in the S3 bucket.
-     * @return the name of the uploaded file in the S3 bucket.
+     * @param multipartFile The file to be uploaded.
+     * @return The name of the file that was uploaded.
+     * @throws UploadFileException if the file was not uploaded or if there is an issue with AmazonS3.
      */
-    public String uploadFile(MultipartFile multipartFile) {
+    public String uploadFile(MultipartFile multipartFile) throws UploadFileException {
         String fileName = String.format("%s.%s", UUID.randomUUID(), multipartFile.getOriginalFilename());
 
         try (InputStream inputStream = reduceImageSize(multipartFile)) {
@@ -92,20 +83,21 @@ public class SimpleStorageServiceAWS implements StorageService {
 
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (Exception e) {
-            fileName = defaultImageName;
+        } catch (SdkClientException e) {
+            throw new UploadFileException("File wasn't uploaded to AWS S3 storage, something is wrong with AmazonS3", e);
+        } catch (IOException e) {
+            throw new UploadFileException("File not read", e);
         }
 
         return fileName;
     }
 
     /**
-     * This method reduces the size of an image if its height or width exceeds the maximum defined in the
-     * application properties file. It returns a FileInputStream of the reduced image.
+     * Reduces the size of an image to fit within the maximum height and width for images.
      *
-     * @param multipartFile The file to be reduced in size.
-     * @return A FileInputStream of the reduced image.
-     * @throws IOException If the image cannot be read or written.
+     * @param multipartFile the image to be resized.
+     * @return An {@link InputStream} of the resized image.
+     * @throws IOException if the multipartFile cannot be read or written.
      */
     private InputStream reduceImageSize(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
