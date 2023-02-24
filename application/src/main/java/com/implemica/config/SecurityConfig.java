@@ -48,10 +48,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .permitAll()
-                .and()
                 .apply(jwtConfigurer)
                 .and()
                 .headers().frameOptions().disable();
