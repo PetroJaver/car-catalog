@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * Configuration class for Spring Security. Enables web security and global method security with pre-post annotations.
  */
-@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
@@ -44,13 +42,10 @@ public class SecurityConfig {
     @Bean
     @SneakyThrows
     protected SecurityFilterChain filterChain(HttpSecurity http) {
-        http.cors().and()
-                .csrf().disable()
+        http    .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .apply(jwtConfigurer)
-                .and()
-                .headers().frameOptions().disable();
+                .apply(jwtConfigurer);
 
         return http.build();
     }
