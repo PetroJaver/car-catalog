@@ -225,7 +225,7 @@ public class CarsControllerTest {
                 .content(objectMapper.writeValueAsBytes(EXAMPLE_CAR_DTO))
                 .contentType(APPLICATION_JSON)
                 .header("Authorization", "noValidToken"))
-                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
+                .andExpect(content().json("{\"message\":\"An Authentication object was not found in the SecurityContext\"}"));
 
         verifyNoInteractions(carService);
     }

@@ -79,7 +79,7 @@ public class AuthenticationRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"notExistAdmin\",\"password\":\"test\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
+                .andExpect(content().json("{\"message\":\"User doesn't exists\"}"));
 
         verify(userRepository, times(1)).findByUsername(eq("notexistadmin"));
         verifyNoMoreInteractions(userRepository);
@@ -99,7 +99,7 @@ public class AuthenticationRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"test\"}"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(content().json("{\"message\":\"Invalid email/password combination!\"}"));
+                .andExpect(content().json("{\"message\":\"Not Authenticated\"}"));
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verifyNoMoreInteractions(authenticationManager);

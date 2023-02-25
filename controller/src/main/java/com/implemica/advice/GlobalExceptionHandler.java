@@ -49,9 +49,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = AuthenticationException.class)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public Map<String, String> handleAuthenticationException() {
+    public Map<String, String> handleAuthenticationException(AuthenticationException e) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Invalid email/password combination!");
+        response.put("message", e.getMessage());
 
         return response;
     }

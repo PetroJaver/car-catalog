@@ -88,7 +88,7 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isUnauthorized()).andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        assertEquals("{\"message\":\"Invalid email/password combination!\"}", responseBody);
+        assertEquals("{\"message\":\"Bad credentials\"}", responseBody);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isUnauthorized()).andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        assertEquals("{\"message\":\"Invalid email/password combination!\"}", responseBody);
+        assertEquals("{\"message\":\"An Authentication object was not found in the SecurityContext\"}", responseBody);
     }
 
     @Test
@@ -148,7 +148,7 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isUnauthorized()).andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        assertEquals("{\"message\":\"Invalid email/password combination!\"}", responseBody);
+        assertEquals("{\"message\":\"An Authentication object was not found in the SecurityContext\"}", responseBody);
     }
 
     @Test
@@ -159,7 +159,7 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isUnauthorized()).andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        assertEquals("{\"message\":\"Invalid email/password combination!\"}", responseBody);
+        assertEquals("{\"message\":\"An Authentication object was not found in the SecurityContext\"}", responseBody);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class ControllerIntegrationTest {
                 .andExpect(status().isUnauthorized()).andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        assertEquals("{\"message\":\"Invalid email/password combination!\"}", responseBody);
+        assertEquals("{\"message\":\"An Authentication object was not found in the SecurityContext\"}", responseBody);
     }
 
     @Test

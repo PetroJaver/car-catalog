@@ -21,8 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(req).pipe(catchError(error => {
-      console.log(error)
-      if (error.status === 401) {
+      if (error.status === 401&&error.error.message=="An Authentication object was not found in the SecurityContext") {
         this.auth.logout()
         this.router.navigate(['/login'])
         this.toast.error("Authorization time out!", "Unauthorized!", {
