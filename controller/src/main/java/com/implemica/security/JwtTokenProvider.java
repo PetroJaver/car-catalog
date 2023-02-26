@@ -72,13 +72,11 @@ public class JwtTokenProvider {
      * Verifies that JWT token is correct and has not expired.
      *
      * @param token the string representing the JWT token.
-     * @return false, if JWT token expired.
      * @throws {@link JwtAuthenticationException} thrown if the JWT token is incorrect.
      */
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return !claimsJws.getBody().getExpiration().before(new Date());
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.UNAUTHORIZED);
         }
