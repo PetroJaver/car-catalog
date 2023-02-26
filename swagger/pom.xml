@@ -118,5 +118,9 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <finalName>
+            car-catalog-swagger
+        </finalName>
     </build>
 </project>

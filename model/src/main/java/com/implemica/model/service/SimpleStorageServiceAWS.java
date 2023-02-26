@@ -118,6 +118,7 @@ public class SimpleStorageServiceAWS implements StorageService {
             finalWidth = maxImageWidth;
         }
 
+        //check if the multipart file size has changed
         if ((finalHeight != startingHeight) || (finalWidth != startingWidth)) {
             BufferedImage resizedImage = new BufferedImage(finalWidth, finalHeight, image.getType());
 
